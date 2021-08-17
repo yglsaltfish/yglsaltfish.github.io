@@ -244,28 +244,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1>1. 前言</h1><p>学长发了一个链接，点进去看了一下好像有点意思。正好之前单推vtuber（DD）的时候学了点相关知识。就玩一下。</p><p>url : <a target="_blank" rel="noopener" href="https://www.hackthebox.eu/invite">https://www.hackthebox.eu/invite</a></p><h1>2. 过程</h1><h2 id="1-碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。">(1)  碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。</h2><p><img src="1.png" alt></p><h2 id="2-进入网站之后发现一个函数，在控制台命令里面试一下">(2) 进入网站之后发现一个函数，在控制台命令里面试一下</h2><a id="more"></a>
-
-
-
-
+        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h1><p>学长发了一个链接，点进去看了一下好像有点意思。正好之前单推vtuber（DD）的时候学了点相关知识。就玩一下。</p><p>url : <a target="_blank" rel="noopener" href="https://www.hackthebox.eu/invite">https://www.hackthebox.eu/invite</a></p><h1 id="2-过程"><a href="#2-过程" class="headerlink" title="2. 过程"></a>2. 过程</h1><h2 id="1-碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。"><a href="#1-碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。" class="headerlink" title="(1)  碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。"></a>(1)  碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。</h2><p><img src="1.png" alt></p><h2 id="2-进入网站之后发现一个函数，在控制台命令里面试一下"><a href="#2-进入网站之后发现一个函数，在控制台命令里面试一下" class="headerlink" title="(2) 进入网站之后发现一个函数，在控制台命令里面试一下"></a>(2) 进入网站之后发现一个函数，在控制台命令里面试一下</h2><a id="more"></a>
 
 
 <p><img src="2.png" alt></p>
-<h2 id="3-试一下果然试出了端倪">(3)试一下果然试出了端倪</h2>
-<p><img src="3.png" alt></p>
-<h2 id="4-发现是构建post请求的，那直接用curl">(4)发现是构建post请求的，那直接用curl</h2>
-<p><img src="4.png" alt></p>
-<h2 id="5-发现base64解码，这里我多试了一下发现有其他解码方式">(5) 发现base64解码，这里我多试了一下发现有其他解码方式</h2>
-<p><img src="5.png" alt="image"></p>
-<h2 id="6-解码完成之后发现是这个">(6) 解码完成之后发现是这个</h2>
-<p><img src="6.png" alt></p>
-<h2 id="7-那就再构建一次post">(7) 那就再构建一次post</h2>
-<p><img src="7.png" alt></p>
-<h2 id="8-那就再解码一次，这次终于找到了">(8) 那就再解码一次，这次终于找到了</h2>
-<p><img src="8.png" alt></p>
-<h1>3. 心得</h1>
-<p>寻找线索的时候要冷静。 /狗头</p>
+<h2 id="3-试一下果然试出了端倪"><a href="#3-试一下果然试出了端倪" class="headerlink" title="(3)试一下果然试出了端倪"></a>(3)试一下果然试出了端倪</h2><p><img src="3.png" alt></p>
+<h2 id="4-发现是构建post请求的，那直接用curl"><a href="#4-发现是构建post请求的，那直接用curl" class="headerlink" title="(4)发现是构建post请求的，那直接用curl"></a>(4)发现是构建post请求的，那直接用curl</h2><p><img src="4.png" alt></p>
+<h2 id="5-发现base64解码，这里我多试了一下发现有其他解码方式"><a href="#5-发现base64解码，这里我多试了一下发现有其他解码方式" class="headerlink" title="(5) 发现base64解码，这里我多试了一下发现有其他解码方式"></a>(5) 发现base64解码，这里我多试了一下发现有其他解码方式</h2><p><img src="5.png" alt="image"></p>
+<h2 id="6-解码完成之后发现是这个"><a href="#6-解码完成之后发现是这个" class="headerlink" title="(6) 解码完成之后发现是这个"></a>(6) 解码完成之后发现是这个</h2><p><img src="6.png" alt></p>
+<h2 id="7-那就再构建一次post"><a href="#7-那就再构建一次post" class="headerlink" title="(7) 那就再构建一次post"></a>(7) 那就再构建一次post</h2><p><img src="7.png" alt></p>
+<h2 id="8-那就再解码一次，这次终于找到了"><a href="#8-那就再解码一次，这次终于找到了" class="headerlink" title="(8) 那就再解码一次，这次终于找到了"></a>(8) 那就再解码一次，这次终于找到了</h2><p><img src="8.png" alt></p>
+<h1 id="3-心得"><a href="#3-心得" class="headerlink" title="3. 心得"></a>3. 心得</h1><p>寻找线索的时候要冷静。 /狗头</p>
 <p><img src="9.png" alt></p>
 
     </div>
@@ -332,7 +321,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">2. 过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%A2%B0%E5%88%B0%E7%BD%91%E9%A1%B5%EF%BC%8C%E5%85%88%E6%A3%80%E6%9F%A5%E4%B8%80%E4%B8%8B%E3%80%82%E5%8F%91%E7%8E%B0%E4%B8%80%E4%B8%AAapi%EF%BC%8C%E6%8C%BA%E6%98%BE%E7%9C%BC%E5%B0%B1%E7%82%B9%E8%BF%9B%E5%8E%BB%E5%BA%B7%E5%BA%B7%E3%80%82"><span class="nav-text">(1)  碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%BF%9B%E5%85%A5%E7%BD%91%E7%AB%99%E4%B9%8B%E5%90%8E%E5%8F%91%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%EF%BC%8C%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%91%BD%E4%BB%A4%E9%87%8C%E9%9D%A2%E8%AF%95%E4%B8%80%E4%B8%8B"><span class="nav-text">(2) 进入网站之后发现一个函数，在控制台命令里面试一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%AF%95%E4%B8%80%E4%B8%8B%E6%9E%9C%E7%84%B6%E8%AF%95%E5%87%BA%E4%BA%86%E7%AB%AF%E5%80%AA"><span class="nav-text">(3)试一下果然试出了端倪</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%8F%91%E7%8E%B0%E6%98%AF%E6%9E%84%E5%BB%BApost%E8%AF%B7%E6%B1%82%E7%9A%84%EF%BC%8C%E9%82%A3%E7%9B%B4%E6%8E%A5%E7%94%A8curl"><span class="nav-text">(4)发现是构建post请求的，那直接用curl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%8F%91%E7%8E%B0base64%E8%A7%A3%E7%A0%81%EF%BC%8C%E8%BF%99%E9%87%8C%E6%88%91%E5%A4%9A%E8%AF%95%E4%BA%86%E4%B8%80%E4%B8%8B%E5%8F%91%E7%8E%B0%E6%9C%89%E5%85%B6%E4%BB%96%E8%A7%A3%E7%A0%81%E6%96%B9%E5%BC%8F"><span class="nav-text">(5) 发现base64解码，这里我多试了一下发现有其他解码方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%A7%A3%E7%A0%81%E5%AE%8C%E6%88%90%E4%B9%8B%E5%90%8E%E5%8F%91%E7%8E%B0%E6%98%AF%E8%BF%99%E4%B8%AA"><span class="nav-text">(6) 解码完成之后发现是这个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%82%A3%E5%B0%B1%E5%86%8D%E6%9E%84%E5%BB%BA%E4%B8%80%E6%AC%A1post"><span class="nav-text">(7) 那就再构建一次post</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E9%82%A3%E5%B0%B1%E5%86%8D%E8%A7%A3%E7%A0%81%E4%B8%80%E6%AC%A1%EF%BC%8C%E8%BF%99%E6%AC%A1%E7%BB%88%E4%BA%8E%E6%89%BE%E5%88%B0%E4%BA%86"><span class="nav-text">(8) 那就再解码一次，这次终于找到了</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">3. 心得</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%BF%87%E7%A8%8B"><span class="nav-text">2. 过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%A2%B0%E5%88%B0%E7%BD%91%E9%A1%B5%EF%BC%8C%E5%85%88%E6%A3%80%E6%9F%A5%E4%B8%80%E4%B8%8B%E3%80%82%E5%8F%91%E7%8E%B0%E4%B8%80%E4%B8%AAapi%EF%BC%8C%E6%8C%BA%E6%98%BE%E7%9C%BC%E5%B0%B1%E7%82%B9%E8%BF%9B%E5%8E%BB%E5%BA%B7%E5%BA%B7%E3%80%82"><span class="nav-text">(1)  碰到网页，先检查一下。发现一个api，挺显眼就点进去康康。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%BF%9B%E5%85%A5%E7%BD%91%E7%AB%99%E4%B9%8B%E5%90%8E%E5%8F%91%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%EF%BC%8C%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%91%BD%E4%BB%A4%E9%87%8C%E9%9D%A2%E8%AF%95%E4%B8%80%E4%B8%8B"><span class="nav-text">(2) 进入网站之后发现一个函数，在控制台命令里面试一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%AF%95%E4%B8%80%E4%B8%8B%E6%9E%9C%E7%84%B6%E8%AF%95%E5%87%BA%E4%BA%86%E7%AB%AF%E5%80%AA"><span class="nav-text">(3)试一下果然试出了端倪</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%8F%91%E7%8E%B0%E6%98%AF%E6%9E%84%E5%BB%BApost%E8%AF%B7%E6%B1%82%E7%9A%84%EF%BC%8C%E9%82%A3%E7%9B%B4%E6%8E%A5%E7%94%A8curl"><span class="nav-text">(4)发现是构建post请求的，那直接用curl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%8F%91%E7%8E%B0base64%E8%A7%A3%E7%A0%81%EF%BC%8C%E8%BF%99%E9%87%8C%E6%88%91%E5%A4%9A%E8%AF%95%E4%BA%86%E4%B8%80%E4%B8%8B%E5%8F%91%E7%8E%B0%E6%9C%89%E5%85%B6%E4%BB%96%E8%A7%A3%E7%A0%81%E6%96%B9%E5%BC%8F"><span class="nav-text">(5) 发现base64解码，这里我多试了一下发现有其他解码方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%A7%A3%E7%A0%81%E5%AE%8C%E6%88%90%E4%B9%8B%E5%90%8E%E5%8F%91%E7%8E%B0%E6%98%AF%E8%BF%99%E4%B8%AA"><span class="nav-text">(6) 解码完成之后发现是这个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%82%A3%E5%B0%B1%E5%86%8D%E6%9E%84%E5%BB%BA%E4%B8%80%E6%AC%A1post"><span class="nav-text">(7) 那就再构建一次post</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E9%82%A3%E5%B0%B1%E5%86%8D%E8%A7%A3%E7%A0%81%E4%B8%80%E6%AC%A1%EF%BC%8C%E8%BF%99%E6%AC%A1%E7%BB%88%E4%BA%8E%E6%89%BE%E5%88%B0%E4%BA%86"><span class="nav-text">(8) 那就再解码一次，这次终于找到了</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%BF%83%E5%BE%97"><span class="nav-text">3. 心得</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
