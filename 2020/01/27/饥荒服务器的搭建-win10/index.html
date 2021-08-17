@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -252,7 +252,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1>1. 原因</h1><p>​		过年闲来无事和朋友打饥荒(Don’t Starve Together Dedicated 以下简称DST)的时候发现异常卡顿，排除掉搭建服务器主机配置的问题，只有可能是网络的问题。引用大神 PaintDream 的<a href="https://www.zhihu.com/question/29937042/answer/118687356" target="_blank" rel="noopener">回答</a>：</p><blockquote>
+        <h1>1. 原因</h1><p>​		过年闲来无事和朋友打饥荒(Don’t Starve Together Dedicated 以下简称DST)的时候发现异常卡顿，排除掉搭建服务器主机配置的问题，只有可能是网络的问题。引用大神 PaintDream 的<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/29937042/answer/118687356">回答</a>：</p><blockquote>
 <p>饥荒的联机版使用自制的RPC来完成通信，这个机制基本上就是一层简单的封装，没有针对网络传输做优化。所有的数据包必须由运行在服务器端的模拟器上顺序执行，这大大放大了网络延迟对游戏的影响。<br>
 另外，由于模拟器本身优化不足，在地图较大或者MOD较多的时候，服务器可能因CPU单核计算能力不足而卡顿，导致所有客户端都变卡。</p>
 </blockquote><a id="more"></a>
@@ -324,7 +324,7 @@
 <h1>3. 遇到的问题</h1>
 <h2 id="1-联机mod失效">(1). 联机mod失效</h2>
 <p>​		我在server_log.txt 中 ，发现了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[00:00:20]: [Warning] Could not confirm port 10999 is open <span class="keyword">in</span> the firewall. </span><br><span class="line">[00:00:20]: [Shard] Shard server mode disabled by configuration file</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-378160973	</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-684098549	</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-553665029	</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-786556008</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[00:00:20]: [Warning] Could not confirm port 10999 is open <span class="keyword">in</span> the firewall. </span><br><span class="line">[00:00:20]: [Shard] Shard server mode disabled by configuration file</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-378160973	</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-684098549	</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-553665029	</span><br><span class="line">[00:00:20]: Could not load mod_config_data/modconfiguration_workshop-786556008	</span><br></pre></td></tr></table></figure>
 <p>​		大概率是端口冲突，打开之前复制的存档位置，打开master 文件夹，打开server.ini 文件，更改server_port 的数值即可。</p>
 <p>​</p>
 
@@ -392,7 +392,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">1. 原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">2. 步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-下载软件"><span class="nav-text">(1). 下载软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-复制mod"><span class="nav-text">(2). 复制mod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-找到存档"><span class="nav-text">(3). 找到存档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-寻找服务器令牌"><span class="nav-text">(4). 寻找服务器令牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-启动快捷方式"><span class="nav-text">(5). 启动快捷方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-开始"><span class="nav-text">(6).  开始</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">3. 遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-联机mod失效"><span class="nav-text">(1). 联机mod失效</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">1. 原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">2. 步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%8B%E8%BD%BD%E8%BD%AF%E4%BB%B6"><span class="nav-text">(1). 下载软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%A4%8D%E5%88%B6mod"><span class="nav-text">(2). 复制mod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%89%BE%E5%88%B0%E5%AD%98%E6%A1%A3"><span class="nav-text">(3). 找到存档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AF%BB%E6%89%BE%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%A4%E7%89%8C"><span class="nav-text">(4). 寻找服务器令牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%90%AF%E5%8A%A8%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F"><span class="nav-text">(5). 启动快捷方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%BC%80%E5%A7%8B"><span class="nav-text">(6).  开始</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">3. 遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%81%94%E6%9C%BAmod%E5%A4%B1%E6%95%88"><span class="nav-text">(1). 联机mod失效</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -461,7 +461,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">attpower</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0

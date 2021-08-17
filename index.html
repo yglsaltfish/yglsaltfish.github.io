@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -232,8 +232,7 @@
 <li>php字符串解析特性<br>
 PHP会将查询字符串（在URL或正文中）转换为内部关联数组<code>$_GET</code><br>
 或关联数组<code>$_POST</code>,例如会将</li>
-</ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如&#96;&#96;&#96;&#x2F;?%20news[id%00&#x3D;42</span><br></pre></td></tr></table></figure><p>会转换为<code>Array([news_id] =&gt; 42)</code>。<br>
-如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：<code>/news.php?%20news[id%00=42&quot;+AND+1=0–</code>这句话的意思就是<code>$_GET[&quot;news_id&quot;]=42&quot;+AND+1=0-</code></p>
+</ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如```/?%20news[id%00=42```</span><br><span class="line">会转换为```Array([news_id] =&gt; 42)```。</span><br><span class="line">如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：```/news.php?%20news[id%00=42&quot;+AND+1=0–```这句话的意思就是```$_GET[&quot;news_id&quot;]=42&quot;+AND+1=0-```</span><br><span class="line"></span><br><span class="line">    |User_Input|Decode_PHP|variable name|</span><br><span class="line">    |-|-|-|</span><br><span class="line">    %20foo_bar%00|foo_bar|foo_bar|</span><br><span class="line">    foo%20bar%00|foo bar|foo bar|</span><br><span class="line">    foo%5bbar|foo[bar|foo_bar</span><br><span class="line">2. 使用chr()函数绕过匹配</span><br><span class="line"></span><br><span class="line">num=file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103))</span><br><span class="line"></span><br><span class="line">### 题目</span><br><span class="line">打开题目，F12查看源代码</span><br><span class="line">```html</span><br><span class="line">&lt;!--I&#x27;ve set up WAF to ensure security.--&gt;</span><br><span class="line">    $(&#x27;#calc&#x27;).submit(function()&#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url:&quot;calc.php?num=&quot;+encodeURIComponent($(&quot;#content&quot;).val()),</span><br><span class="line">            type:&#x27;GET&#x27;,</span><br><span class="line">            success:function(data)&#123;</span><br><span class="line">                $(&quot;#result&quot;).html(`&lt;div class=&quot;alert alert-success&quot;&gt;</span><br><span class="line">            &lt;strong&gt;答案:&lt;/strong&gt;$&#123;data&#125;</span><br><span class="line">            &lt;/div&gt;`);</span><br><span class="line">            &#125;,</span><br><span class="line">            error:function()&#123;</span><br><span class="line">                alert(&quot;这啥?算不来!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        return false;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/#more" rel="contents">
@@ -482,19 +481,19 @@ PHP会将查询字符串（在URL或正文中）转换为内部关联数组<code
 <tbody>
 <tr>
 <td style="text-align:center">1514C</td>
-<td style="text-align:center"><a href="https://codeforces.com/contest/1514/problem/C" target="_blank" rel="noopener">Codeforces</a></td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1514/problem/C">Codeforces</a></td>
 <td style="text-align:center">给定一个序列从$1 \sim n$，求出一个最长子序列，这个子序列的乘积 $\pmod n$为1。</td>
 <td style="text-align:center">数论</td>
 <td style="text-align:center">理解 $gcd(p % n,n)=gcd(p,n)  \neq 1$ 即可</td>
-<td style="text-align:center"><a href="https://codeforces.com/contest/1514/submission/115107931" target="_blank" rel="noopener">链接</a></td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1514/submission/115107931">链接</a></td>
 </tr>
 <tr>
 <td style="text-align:center">1512G</td>
-<td style="text-align:center"><a href="https://codeforces.com/problemset/problem/1512/G" target="_blank" rel="noopener">Codeforces</a></td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/1512/G">Codeforces</a></td>
 <td style="text-align:center">定义一个式子$d(n)=\sum\limits_{kn}{k}$输入一个范围为$1\leq c \leq {10}^7$的数字，输出$d©$的值。</td>
 <td style="text-align:center">数论</td>
 <td style="text-align:center">用筛法，将所有$\leq 10^7$的算出来，查表即可;算法复杂度$O(nlogn)$</td>
-<td style="text-align:center"><a href="https://codeforces.com/contest/1512/submission/115398043" target="_blank" rel="noopener">链接</a></td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1512/submission/115398043">链接</a></td>
 </tr>
 </tbody>
 </table>
@@ -926,7 +925,7 @@ PHP会将查询字符串（在URL或正文中）转换为内部关联数组<code
 
       
           <h1>Codeforces Round #636 (Div. 3)</h1><p>前言:<br>
-打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。</p><h2 id="A-Candies"><a href="https://codeforces.com/contest/1343/problem/A" target="_blank" rel="noopener">A. Candies</a></h2><ul>
+打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。</p><h2 id="A-Candies"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/A">A. Candies</a></h2><ul>
 <li>题意：<br>
 给定$x,k,n$均为正整数，且满足$x+2x+4x+…+2^{k-1}x=n$,$k&gt;1$,输出任意一个满足上述式子的$x$的值</li>
 <li>题解&amp;代码:<br>
@@ -1145,7 +1144,7 @@ PHP会将查询字符串（在URL或正文中）转换为内部关联数组<code
   </span>
   <span class="author" itemprop="copyrightHolder">attpower</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
