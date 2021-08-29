@@ -47,27 +47,27 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="attpower的小站">
-<meta property="og:url" content="https://yglsaltfish.github.io/archives/index.html">
+<meta property="og:url" content="https://yglsaltfish.github.io/page/3/index.html">
 <meta property="og:site_name" content="attpower的小站">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="attpower">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://yglsaltfish.github.io/archives/">
+<link rel="canonical" href="https://yglsaltfish.github.io/page/3/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
+    isHome: true,
     isPost: false,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | attpower的小站</title>
+  <title>attpower的小站</title>
   
 
 
@@ -173,233 +173,95 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+        
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 21 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2019/11/16/YGLtemplate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="attpower">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="attpower的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/16/YGLtemplate/" class="post-title-link" itemprop="url">YGLtemplate</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-16 17:21:48" itemprop="dateCreated datePublished" datetime="2019-11-16T17:21:48+08:00">2019-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-04 17:10:47" itemprop="dateModified" datetime="2021-06-04T17:10:47+08:00">2021-06-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" itemprop="url" rel="index">
+                    <span itemprop="name">算法竞赛</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2021</h1>
+          <h3 id="最大公约数-最小公倍数">1. 最大公约数 最小公倍数</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ll <span class="title">gcd</span><span class="params">(ll a,ll b)</span></span>&#123;<span class="keyword">return</span> b==<span class="number">0</span>?a:<span class="built_in">gcd</span>(b,a%b);&#125;</span><br><span class="line"><span class="function">ll <span class="title">lcm</span><span class="params">(lla ,ll b)</span></span>&#123;<span class="keyword">return</span> <span class="built_in">min</span>(a,b)*<span class="built_in">gcd</span>(a,b);&#125;</span><br></pre></td></tr></table></figure><h3 id="筛法">2. 筛法</h3><h4 id="线性素数筛">2.1线性素数筛</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//count 为素数个数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetPrime</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> n, cnt;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; check;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; prime;</span><br><span class="line">    <span class="built_in">GetPrime</span>(<span class="keyword">int</span> x) : <span class="built_in">n</span>(x), <span class="built_in">cnt</span>(<span class="number">0</span>), <span class="built_in">check</span>(vector&lt;<span class="keyword">int</span>&gt;(x + <span class="number">10</span>, <span class="number">0</span>)) &#123; prime.<span class="built_in">clear</span>(); &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Go</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!check[i])</span><br><span class="line">                prime.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; (<span class="keyword">int</span>)prime.<span class="built_in">size</span>() &amp;&amp; i * prime[j] &lt;= n;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                check[i * prime[j]] = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span> (i % prime[j] == <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/16/YGLtemplate/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-29T21:30:06+08:00"
-              content="2021-08-29">
-          08-29
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/" itemprop="url">
-            <span itemprop="name">neuq 2021 招新赛web</span>
-          </a>
-      </h2>
-
-    </header>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
+  
+  
+  
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-17T11:03:53+08:00"
-              content="2021-08-17">
-          08-17
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/" itemprop="url">
-            <span itemprop="name">BUUCTF WEB [RoarCTF 2019]Easy Calc</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-17T09:18:21+08:00"
-              content="2021-08-17">
-          08-17
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/08/17/web-%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E/" itemprop="url">
-            <span itemprop="name">CTF-Web 常见漏洞</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-15T20:42:28+08:00"
-              content="2021-08-15">
-          08-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/08/15/Sqli-lab-%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" itemprop="url">
-            <span itemprop="name">Sqli-lab 刷题记录</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-05-05T22:38:57+08:00"
-              content="2021-05-05">
-          05-05
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/05/05/%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE%E8%AE%B0%E5%BD%95/" itemprop="url">
-            <span itemprop="name">有趣的题目记录</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-03-24T16:51:33+08:00"
-              content="2021-03-24">
-          03-24
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/03/24/%E8%80%83%E7%A0%94%E7%BB%8F%E9%AA%8C/" itemprop="url">
-            <span itemprop="name">考研经验</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-05-03T11:15:12+08:00"
-              content="2020-05-03">
-          05-03
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/05/03/AtCoder-ABC-165/" itemprop="url">
-            <span itemprop="name">AtCoder ABC 165</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-05-02T17:21:49+08:00"
-              content="2020-05-02">
-          05-02
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/05/02/Codeforces-Round-638-Div-2/" itemprop="url">
-            <span itemprop="name">Codeforces Round #638 (Div. 2)</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-27T10:19:45+08:00"
-              content="2020-04-27">
-          04-27
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/04/27/AtCoder-ABC-164/" itemprop="url">
-            <span itemprop="name">AtCoder ABC 164</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-22T16:15:41+08:00"
-              content="2020-04-22">
-          04-22
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/04/22/Codeforces-Round-636-Div-3/" itemprop="url">
-            <span itemprop="name">Codeforces Round #636 (Div. 3)</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-
-    </div>
   </div>
-  
-  
-  
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
   </nav>
 
 

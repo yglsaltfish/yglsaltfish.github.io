@@ -178,6 +178,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="attpower">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="attpower的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/" class="post-title-link" itemprop="url">neuq 2021 招新赛web</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-29 21:30:06 / 修改时间：22:46:10" itemprop="dateCreated datePublished" datetime="2021-08-29T21:30:06+08:00">2021-08-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Result">Result</h2><p>9道WEB题目做出了6道，外加一道misc白给题。第一次打CTF，感觉和ACM不一样，36H的时间有点长。大佬们都太强了orz。</p><h2 id="easy-eval">easy_eval</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">&quot;/system|flag/&quot;</span> , <span class="variable">$_GET</span>[<span class="string">&quot;id&quot;</span>]))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;no system or flag!!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&quot;id&quot;</span>]);</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -967,97 +1044,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2020/04/20/AtCoder-ABC-163/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="attpower">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="attpower的小站">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/20/AtCoder-ABC-163/" class="post-title-link" itemprop="url">AtCoder ABC 163</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-20 16:11:08" itemprop="dateCreated datePublished" datetime="2020-04-20T16:11:08+08:00">2020-04-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-03 11:17:07" itemprop="dateModified" datetime="2020-05-03T11:17:07+08:00">2020-05-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" itemprop="url" rel="index">
-                    <span itemprop="name">算法竞赛</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="atcoder-abc-163-df">AtCoder ABC 163 (D~F)</h1><h2 id="d.sum-of-large-numbers">D.Sum of Large Numbers</h2><ul>
-<li>题意： 给定两个数，<span class="math inline">\(N,K\)</span> ，有<span class="math inline">\(N+1\)</span>个数，分别是<span class="math inline">\(10^{100}+1,10^{100}+2....,10^{100}+N\)</span>,问至少取K个数，取得的数字之和不同的个数是多少。</li>
-<li>题解: 可以发现，取不同个数的数字是不同的，所以只要知道在<span class="math inline">\({0,1,2,...,N} , N+1\)</span>个数中,取x个数，这x个数表示的范围是多少。可以发现<span class="math inline">\(1+2+...+x \leq sum\leq(n-x)+(n-x+1)+...+n\)</span>所以，知道了这些，就可以枚举<span class="math inline">\(k\)</span>到<span class="math inline">\(n\)</span>，就能得出答案了。 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">int</span> n, k;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; k;</span><br><span class="line">    ll lsum = <span class="number">0</span>, rsum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        lsum += i;</span><br><span class="line">        rsum += n  - i;</span><br><span class="line">    &#125;</span><br><span class="line">    ll sum = <span class="number">0</span>;</span><br><span class="line">    sum = (sum + rsum - lsum + <span class="number">1</span>) % mod;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; n + <span class="number">1</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        lsum += i, rsum += n - i;</span><br><span class="line">      <span class="comment">//  cout &lt;&lt; lsum &lt;&lt; &quot; &quot; &lt;&lt; rsum &lt;&lt; &quot; &quot; &lt;&lt; rsum - lsum &lt;&lt; &quot;\n&quot;;</span></span><br><span class="line">        sum = (sum + rsum - lsum + <span class="number">1</span>) % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; sum &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/20/AtCoder-ABC-163/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1103,7 +1094,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
