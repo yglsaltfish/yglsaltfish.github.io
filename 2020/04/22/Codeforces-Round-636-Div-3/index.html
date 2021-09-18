@@ -16,181 +16,181 @@
 <meta property="og:description" content="Codeforces Round #636 (Div. 3) 前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## A. Candies * 题意： 给定\(x,k,n\)均为正整数，且满足\(x+2x+4x+....+2^{k-1}x&#x3D;n\),\(k&gt;1\),输出任意一个满足上述式子的\(x\)的值 * 题解&amp;代码: 按题意">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-22T08:15:41.000Z">
-<meta property="article:modified_time" content="2020-05-03T03:17:23.798Z">
+<meta property="article:modified_time" content="2021-09-18T04:18:06.568Z">
 <meta property="article:author" content="ATT_POWER">
 <meta property="article:tag" content="Codeforces">
-<meta name="twitter:card" content="summary"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="ATT_POWER"><img width="96" loading="lazy" src="/king.png" alt="ATT_POWER"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">ATT_POWER</a></div><span class="site-name">ATT_POWER的博客</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">22</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">10</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#codeforces-round-636-div.-3"><span class="toc-text">Codeforces Round #636 (Div. 3)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#b.-balanced-array"><span class="toc-text">B. Balanced Array</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c.-alternating-subsequence"><span class="toc-text">C. Alternating Subsequence</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#d.-constant-palindrome-sum"><span class="toc-text">D. Constant Palindrome Sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#e.-weights-distributing"><span class="toc-text">E. Weights Distributing</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="ATT_POWER"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="ATT_POWER的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Codeforces Round #636 (Div. 3)</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-04-22 16:15:41" itemprop="dateCreated datePublished" datetime="2020-04-22T16:15:41+08:00">2020-04-22</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2020-05-03 11:17:23" itemprop="dateModified" datetime="2020-05-03T11:17:23+08:00">2020-05-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.3k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">6m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">算法竞赛</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Codeforces/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Codeforces</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><h1 id="codeforces-round-636-div.-3">Codeforces Round #636 (Div. 3)</h1>
-<p>前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/A">A. Candies</a> * 题意： 给定<span class="math inline">\(x,k,n\)</span>均为正整数，且满足<span class="math inline">\(x+2x+4x+....+2^{k-1}x=n\)</span>,<span class="math inline">\(k&gt;1\)</span>,输出任意一个满足上述式子的<span class="math inline">\(x\)</span>的值 * 题解&amp;代码: 按题意模拟即可 <pre class="language-c++" data-language="c++"><code class="language-c++">void solve()
-&#123;
-    int N;
-    cin &gt;&gt; N;
-    int cnt &#x3D; 0;
-    int tmp &#x3D; 3;
-    while (1)
-    &#123;
-        if(N%tmp&#x3D;&#x3D;0)
-        &#123;
-            cout &lt;&lt; N &#x2F; tmp &lt;&lt; &quot;\n&quot;;
-            return;
-        &#125;
-        tmp &lt;&lt;&#x3D; 1;
-        tmp++;
-    &#125;
-&#125;</code></pre></p>
+<meta name="twitter:card" content="summary"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="ATT_POWER"><img width="96" loading="lazy" src="/king.png" alt="ATT_POWER"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">ATT_POWER</a></div><span class="site-name">ATT_POWER的博客</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">22</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">10</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#codeforces-round-636-div.-3"><span class="toc-text">Codeforces Round #636 (Div. 3)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#b.-balanced-array"><span class="toc-text">B. Balanced Array</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c.-alternating-subsequence"><span class="toc-text">C. Alternating Subsequence</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#d.-constant-palindrome-sum"><span class="toc-text">D. Constant Palindrome Sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#e.-weights-distributing"><span class="toc-text">E. Weights Distributing</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="ATT_POWER"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="ATT_POWER的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Codeforces Round #636 (Div. 3)</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-04-22 16:15:41" itemprop="dateCreated datePublished" datetime="2020-04-22T16:15:41+08:00">2020-04-22</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-09-18 12:18:06" itemprop="dateModified" datetime="2021-09-18T12:18:06+08:00">2021-09-18</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">6m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">算法竞赛</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Codeforces/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Codeforces</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><h1 id="codeforces-round-636-div.-3">Codeforces Round #636 (Div. 3)</h1>
+<p>前言: 打到D题的时候卡住了，不应该想线段树这么复杂的做法的，虽然有人用线段树过了QAQ，还是太菜了。 ## <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/A">A. Candies</a> * 题意： 给定<span class="math inline">\(x,k,n\)</span>均为正整数，且满足<span class="math inline">\(x+2x+4x+....+2^{k-1}x=n\)</span>,<span class="math inline">\(k&gt;1\)</span>,输出任意一个满足上述式子的<span class="math inline">\(x\)</span>的值 * 题解&amp;代码: 按题意模拟即可 <pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> N<span class="token punctuation">;</span>
+    cin <span class="token operator">>></span> N<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> tmp <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>N<span class="token operator">%</span>tmp<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            cout <span class="token operator">&lt;&lt;</span> N <span class="token operator">/</span> tmp <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        tmp <span class="token operator">&lt;&lt;=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        tmp<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></p>
 <h2 id="b.-balanced-array"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/B">B. Balanced Array</a></h2>
 <ul>
 <li>题意: 给定一个偶数<span class="math inline">\(n\)</span> , 输出 <span class="math inline">\(2n\)</span> 个数，前<span class="math inline">\(n\)</span>个数为偶数，后<span class="math inline">\(n\)</span>个数为奇数，要求偶数的和==奇数的和。如果存在就输出，不存在就输出"NO"。</li>
-<li>题解&amp;代码 可以通过奇偶性质判断，当<span class="math inline">\(\frac{n}{2}\)</span>为奇数时，奇数的和为奇数，则无法满足要求。为偶数时按题意模拟即可. <pre class="language-c++" data-language="c++"><code class="language-c++">void solve()
-&#123;
-    int N;
-    cin &gt;&gt; N;
-    if(N&#x2F;2&amp;1)
-    &#123;
-        cout &lt;&lt; &quot;NO\n&quot;;
-        return;
-    &#125;
-    cout &lt;&lt; &quot;YES\n&quot;;
-    ll sum &#x3D; 0;
-    ll tmp &#x3D; 0;
-    for (int i &#x3D; 1; i &lt;&#x3D; N &#x2F; 2;i++)
-    &#123;
-        tmp+&#x3D;2;
-        cout &lt;&lt; tmp &lt;&lt; &quot; &quot;;
-        sum +&#x3D; tmp;
-    &#125;
-    tmp &#x3D; -1;
-    for (int i &#x3D; 1; i &lt; N &#x2F; 2;i++)
-    &#123;
-        tmp +&#x3D; 2;
-        cout &lt;&lt; tmp &lt;&lt; &quot; &quot;;
-        sum -&#x3D; tmp;
-    &#125;
-    cout &lt;&lt; sum &lt;&lt; &quot;\n&quot;;
-&#125;</code></pre></li>
+<li>题解&amp;代码 可以通过奇偶性质判断，当<span class="math inline">\(\frac{n}{2}\)</span>为奇数时，奇数的和为奇数，则无法满足要求。为偶数时按题意模拟即可. <pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> N<span class="token punctuation">;</span>
+    cin <span class="token operator">>></span> N<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>N<span class="token operator">/</span><span class="token number">2</span><span class="token operator">&amp;</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"NO\n"</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"YES\n"</span><span class="token punctuation">;</span>
+    ll sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    ll tmp <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        tmp<span class="token operator">+=</span><span class="token number">2</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> tmp <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+        sum <span class="token operator">+=</span> tmp<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    tmp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        tmp <span class="token operator">+=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> tmp <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+        sum <span class="token operator">-=</span> tmp<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    cout <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre></li>
 </ul>
 <h2 id="c.-alternating-subsequence"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/C">C. Alternating Subsequence</a></h2>
 <ul>
 <li><p>题意: 给定一个包含<span class="math inline">\(n\)</span>个数的序列，让你求出最长的子序列，其中子序列种的相邻两个数必须不同号，输出子序列的和。如果相同长度，则输出最大子序列的和。</p></li>
 <li><p>题解&amp;代码 划分区间，每个区间取最大值即可。</p></li>
 </ul>
-<pre class="language-c++" data-language="c++"><code class="language-c++">ll a[maxn];
-void solve()
-&#123;
-    int N;
-    cin &gt;&gt; N;
-    for (int i &#x3D; 1; i &lt;&#x3D; N;i++)
-        cin &gt;&gt; a[i];
-    ll sum &#x3D; 0;
-    ll tmp &#x3D; a[1];
-    ll lst &#x3D; a[1];
-    for (int i &#x3D; 2; i &lt;&#x3D; N + 1; i++)
-    &#123;
-        if(lst*a[i]&lt;0|| i&#x3D;&#x3D;N+1)
-        &#123;
-            sum +&#x3D; tmp;
-            lst &#x3D; a[i];
-            tmp &#x3D; a[i];
-        &#125;
-        tmp &#x3D; max(tmp, a[i]);
-    &#125;
-    cout &lt;&lt; sum &lt;&lt; &quot;\n&quot;;
-&#125;</code></pre>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp">ll a<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> N<span class="token punctuation">;</span>
+    cin <span class="token operator">>></span> N<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+        cin <span class="token operator">>></span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    ll sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    ll tmp <span class="token operator">=</span> a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    ll lst <span class="token operator">=</span> a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> N <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>lst<span class="token operator">*</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">&lt;</span><span class="token number">0</span><span class="token operator">||</span> i<span class="token operator">==</span>N<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            sum <span class="token operator">+=</span> tmp<span class="token punctuation">;</span>
+            lst <span class="token operator">=</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            tmp <span class="token operator">=</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        tmp <span class="token operator">=</span> <span class="token function">max</span><span class="token punctuation">(</span>tmp<span class="token punctuation">,</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    cout <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
 <h2 id="d.-constant-palindrome-sum"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/D">D. Constant Palindrome Sum</a></h2>
 <ul>
 <li><p>题意: 给定偶数<span class="math inline">\(n\)</span>, 正整数<span class="math inline">\(k\)</span>，和包含<span class="math inline">\(2n\)</span>个数的数组<span class="math inline">\(a[2n]\)</span>, 可以将数组中的数改变为<span class="math inline">\([1:k]\)</span> 这个范围的任意数使得<span class="math inline">\(a[i]+a[n-i+1]\)</span> 之和全部相等，改变数字的最小次数是多少。</p></li>
 <li><p>题解&amp;代码: 用线段树或者差分都能做。我比赛的时候线段树写崩了。。。QAQ，这里讲差分的做法。 <span class="math inline">\(a[i]+a[n-i+1]\)</span> 改变一个数字所能达到的最大范围是 <span class="math inline">\([min(a[i],a[n-i+1])+1,max(a[i],a[n-i+1])+k]\)</span>,那么我们只要把这个区间的数+1，然后就可以发现没有+1的区间需要改变两次才能成功。那么我们只要枚举<span class="math inline">\([1:2k]\)</span>，更新答案即可。</p></li>
 </ul>
-<pre class="language-c++" data-language="c++"><code class="language-c++">
-int pref[maxn];
-int a[maxn];
-int vis[maxn];
-void solve()
-&#123;
-    int n, k;
-    cin &gt;&gt; n &gt;&gt; k;
-    fill(vis, vis + 2 * k + 1, 0);
-    fill(pref, pref + 2 * k + 1, 0);
-    for (int i &#x3D; 1; i &lt;&#x3D; n;i++)
-        cin &gt;&gt; a[i];
-    for (int i &#x3D; 1; i &lt;&#x3D; n &#x2F; 2;i++)
-    &#123;
-        int tmp &#x3D; a[i] + a[n - i + 1];
-        vis[tmp]++;
-    &#125;
-    for (int i &#x3D; 1; i &lt;&#x3D; n &#x2F; 2; i++)
-    &#123;
-        int l &#x3D; 1 + a[i], r &#x3D; k + a[i];
-        int tl &#x3D; 1 + a[n - i + 1], tr &#x3D; k + a[n - i + 1];
-        int mn &#x3D; min(l, tl), mx &#x3D; max(r, tr);
-        pref[mn]++, pref[mx+1]--;
-    &#125;
-    for (int i &#x3D; 1; i &lt;&#x3D; k * 2+1;i++)
-        pref[i] +&#x3D; pref[i - 1];
-    int ans &#x3D; inf;
-    for (int i &#x3D; 2; i &lt;&#x3D; 2 * k;i++)
-    &#123;
-        ans &#x3D; min(ans, pref[i] - vis[i] + (n &#x2F; 2 - pref[i]) * 2);
-    &#125;
-    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
-&#125;</code></pre>
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">int</span> pref<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> a<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> vis<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> n<span class="token punctuation">,</span> k<span class="token punctuation">;</span>
+    cin <span class="token operator">>></span> n <span class="token operator">>></span> k<span class="token punctuation">;</span>
+    <span class="token function">fill</span><span class="token punctuation">(</span>vis<span class="token punctuation">,</span> vis <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">*</span> k <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fill</span><span class="token punctuation">(</span>pref<span class="token punctuation">,</span> pref <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">*</span> k <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+        cin <span class="token operator">>></span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> tmp <span class="token operator">=</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> a<span class="token punctuation">[</span>n <span class="token operator">-</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        vis<span class="token punctuation">[</span>tmp<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> l <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">+</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> r <span class="token operator">=</span> k <span class="token operator">+</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> tl <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">+</span> a<span class="token punctuation">[</span>n <span class="token operator">-</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tr <span class="token operator">=</span> k <span class="token operator">+</span> a<span class="token punctuation">[</span>n <span class="token operator">-</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> mn <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>l<span class="token punctuation">,</span> tl<span class="token punctuation">)</span><span class="token punctuation">,</span> mx <span class="token operator">=</span> <span class="token function">max</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> tr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pref<span class="token punctuation">[</span>mn<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">,</span> pref<span class="token punctuation">[</span>mx<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> k <span class="token operator">*</span> <span class="token number">2</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+        pref<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> pref<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> ans <span class="token operator">=</span> inf<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> <span class="token number">2</span> <span class="token operator">*</span> k<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        ans <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> pref<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> vis<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token punctuation">(</span>n <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> pref<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    cout <span class="token operator">&lt;&lt;</span> ans <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
 <h2 id="e.-weights-distributing"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1343/problem/E">E. Weights Distributing</a></h2>
 <ul>
 <li><p>题意： 给定<span class="math inline">\(n\)</span> 个点，<span class="math inline">\(m\)</span>条边，<span class="math inline">\(m\)</span>个边的权值，点<span class="math inline">\(a,b,c\)</span>,让你求出如何分配权值，使得<span class="math inline">\(a-&gt;b,b-&gt;c\)</span>这条路径的权值和最小，输出这个权值和。</p></li>
 <li><p>题解&amp;代码: 考虑中间点<span class="math inline">\(x\)</span>,那么只要求出<span class="math inline">\(a-&gt;x,x-&gt;b,b-&gt;x,c-&gt;x\)</span>之和即可，使用三次bfs求出<span class="math inline">\(a,b,c\)</span>到各点的距离，之后枚举点即可。</p></li>
 </ul>
-<pre class="language-c++" data-language="c++"><code class="language-c++">const int maxn &#x3D; 5e5 + 10;
-const int inf &#x3D; 0x7ffffff;
-int n, m, a, b, c;
-int p[maxn];
-vector&lt;int&gt; G[maxn];
-int vis[maxn];
-int pre[maxn];
-void bfs(int rt, vector&lt;int&gt; &amp;vec)
-&#123;
-    queue&lt;int&gt; que;
-    que.push(rt), vec[rt] &#x3D; 0;
-    int tp;
-    while (!que.empty())
-    &#123;
-        tp &#x3D; que.front(), que.pop();
-        for (int i : G[tp])
-        &#123;
-            if (vec[i]&#x3D;&#x3D;inf)
-            &#123;
-                vec[i] &#x3D; vec[tp] + 1;
-                que.push(i);
-            &#125;
-        &#125;
-    &#125;
-&#125;
-ll pref[maxn];
-void solve()
-&#123;
-    cin &gt;&gt; n &gt;&gt; m &gt;&gt; a &gt;&gt; b &gt;&gt; c;
-    fill(pref, pref + m + 1, 0);
-    for (int i &#x3D; 0; i &lt;&#x3D; n;i++)
-        G[i].clear();
-    for (int i &#x3D; 1; i &lt;&#x3D; m; i++)
-        cin &gt;&gt; p[i];
-    int u, v;
-    for (int i &#x3D; 1; i &lt;&#x3D; m; i++)
-    &#123;
-        cin &gt;&gt; u &gt;&gt; v;
-        G[u].push_back(v), G[v].push_back(u);
-    &#125;
-    vector&lt;int&gt; path1(n + 1,inf), path2(n + 1,inf), path3(n + 1,inf);
-    bfs(a, path1), bfs(b, path2), bfs(c, path3);
-    sort(p + 1, p + m + 1);
-    for (int i &#x3D; 1; i &lt;&#x3D; m;i++)
-        pref[i] &#x3D; pref[i - 1] + (ll)p[i];
-    ll ans &#x3D; 1e18;
-    for (int i &#x3D; 1; i &lt;&#x3D; n;i++)
-    &#123;
-        if(path1[i] + path2[i] + path3[i]&gt;m)
-            continue;
-        ans &#x3D; min(ans, pref[path2[i]] + pref[path1[i] + path2[i] + path3[i]]);
-    &#125;
+<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> maxn <span class="token operator">=</span> <span class="token number">5e5</span> <span class="token operator">+</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> inf <span class="token operator">=</span> <span class="token number">0x7ffffff</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> n<span class="token punctuation">,</span> m<span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">;</span>
+<span class="token keyword">int</span> p<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> G<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> vis<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> pre<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">bfs</span><span class="token punctuation">(</span><span class="token keyword">int</span> rt<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>vec<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    queue<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> que<span class="token punctuation">;</span>
+    que<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>rt<span class="token punctuation">)</span><span class="token punctuation">,</span> vec<span class="token punctuation">[</span>rt<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> tp<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>que<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        tp <span class="token operator">=</span> que<span class="token punctuation">.</span><span class="token function">front</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> que<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">:</span> G<span class="token punctuation">[</span>tp<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>vec<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">==</span>inf<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                vec<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> vec<span class="token punctuation">[</span>tp<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                que<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+ll pref<span class="token punctuation">[</span>maxn<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">solve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    cin <span class="token operator">>></span> n <span class="token operator">>></span> m <span class="token operator">>></span> a <span class="token operator">>></span> b <span class="token operator">>></span> c<span class="token punctuation">;</span>
+    <span class="token function">fill</span><span class="token punctuation">(</span>pref<span class="token punctuation">,</span> pref <span class="token operator">+</span> m <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+        G<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        cin <span class="token operator">>></span> p<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> u<span class="token punctuation">,</span> v<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cin <span class="token operator">>></span> u <span class="token operator">>></span> v<span class="token punctuation">;</span>
+        G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">,</span> G<span class="token punctuation">[</span>v<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">path1</span><span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span>inf<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">path2</span><span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span>inf<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">path3</span><span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span>inf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">bfs</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> path1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">bfs</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> path2<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">bfs</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> path3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sort</span><span class="token punctuation">(</span>p <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> p <span class="token operator">+</span> m <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> m<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+        pref<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> pref<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token punctuation">(</span>ll<span class="token punctuation">)</span>p<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    ll ans <span class="token operator">=</span> <span class="token number">1e18</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>path1<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> path2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> path3<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">></span>m<span class="token punctuation">)</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        ans <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> pref<span class="token punctuation">[</span>path2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">+</span> pref<span class="token punctuation">[</span>path1<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> path2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> path3<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
         
-    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
-&#125;</code></pre>
+    cout <span class="token operator">&lt;&lt;</span> ans <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
 </div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>ATT_POWER</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/" title="Codeforces Round #636 (Div. 3)">https://yglsaltfish.github.io/2020/04/22/Codeforces-Round-636-Div-3/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2020/04/27/AtCoder-ABC-164/" rel="prev" title="AtCoder ABC 164"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">AtCoder ABC 164</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2020/04/20/AtCoder-ABC-163/" rel="next" title="AtCoder ABC 163"><span class="post-nav-text">AtCoder ABC 163</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> ATT_POWER</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.6.2</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body></html>
