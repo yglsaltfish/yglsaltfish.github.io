@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="ATT_POWER"><meta name="copyright" content="ATT_POWER"><meta name="generator" content="Hexo 5.4.0"><meta name="theme" content="hexo-theme-yun"><title>基于python的ping实现 | ATT_POWER的博客</title><meta name="robots" content="noindex"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.25/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  Yun.utils.renderKatex();
+});</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","title":"ATTPOWER的博客","version":"1.6.2","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="前置知识 ping需要实现的内容 首先用命令行使用ping命令，发现存在回复 正在 Ping 114.114.114.114 具有 32 字节的数据: 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;12ms TTL&#x3D;91 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13ms TTL&#x3D;86 来自 114.114.114.114 的回复: 字节&#x3D;32 时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于python的ping实现">
+<meta property="og:url" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="ATT_POWER的博客">
+<meta property="og:description" content="前置知识 ping需要实现的内容 首先用命令行使用ping命令，发现存在回复 正在 Ping 114.114.114.114 具有 32 字节的数据: 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;12ms TTL&#x3D;91 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13ms TTL&#x3D;86 来自 114.114.114.114 的回复: 字节&#x3D;32 时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/IP_format.png">
+<meta property="og:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/ICMP_Encapsulation.png">
+<meta property="og:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/ICMP_format.png">
+<meta property="article:published_time" content="2021-10-02T02:57:55.000Z">
+<meta property="article:modified_time" content="2021-10-02T09:23:03.299Z">
+<meta property="article:author" content="ATT_POWER">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/IP_format.png"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="ATT_POWER"><img width="96" loading="lazy" src="/king.png" alt="ATT_POWER"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">ATT_POWER</a></div><span class="site-name">ATT_POWER的博客</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">23</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">6</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">10</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ping%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">ping需要实现的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ip%E5%8C%85%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8C%E8%A7%A3%E5%8C%85"><span class="toc-text">IP包的封装和解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#icmp%E5%8C%85%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8C%E8%A7%A3%E5%8C%85"><span class="toc-text">ICMP包的封装和解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E5%BA%93%E7%9A%84%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-text">使用的库的官方文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="ATT_POWER"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="ATT_POWER的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">基于python的ping实现</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2021-10-02 10:57:55" itemprop="dateCreated datePublished" datetime="2021-10-02T10:57:55+08:00">2021-10-02</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.6k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">7m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/python/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">python</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><h1 id="前置知识">前置知识</h1>
+<h2 id="ping需要实现的内容">ping需要实现的内容</h2>
+<p>首先用命令行使用ping命令，发现存在回复</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">正在 Ping <span class="token number">114.114</span>.114.114 具有 <span class="token number">32</span> 字节的数据:
+来自 <span class="token number">114.114</span>.114.114 的回复: 字节<span class="token operator">=</span><span class="token number">32</span> 时间<span class="token operator">=</span>12ms <span class="token assign-left variable">TTL</span><span class="token operator">=</span><span class="token number">91</span>
+来自 <span class="token number">114.114</span>.114.114 的回复: 字节<span class="token operator">=</span><span class="token number">32</span> 时间<span class="token operator">=</span>13ms <span class="token assign-left variable">TTL</span><span class="token operator">=</span><span class="token number">86</span>
+来自 <span class="token number">114.114</span>.114.114 的回复: 字节<span class="token operator">=</span><span class="token number">32</span> 时间<span class="token operator">=</span>13ms <span class="token assign-left variable">TTL</span><span class="token operator">=</span><span class="token number">86</span>
+来自 <span class="token number">114.114</span>.114.114 的回复: 字节<span class="token operator">=</span><span class="token number">32</span> 时间<span class="token operator">=</span>12ms <span class="token assign-left variable">TTL</span><span class="token operator">=</span><span class="token number">84</span>
+
+<span class="token number">114.114</span>.114.114 的 Ping 统计信息:
+    数据包: 已发送 <span class="token operator">=</span> <span class="token number">4</span>，已接收 <span class="token operator">=</span> <span class="token number">4</span>，丢失 <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">(</span><span class="token number">0</span>% 丢失<span class="token punctuation">)</span>，
+往返行程的估计时间<span class="token punctuation">(</span>以毫秒为单位<span class="token punctuation">)</span>:
+    最短 <span class="token operator">=</span> 12ms，最长 <span class="token operator">=</span> 13ms，平均 <span class="token operator">=</span> 12ms</code></pre>
+<p>观察得到，需要获得的信息为往返行程的统计时间，丢包率以及TTL。所以需要实现的东西为ICMP包的封装和解包，IP包的封装和解包，IP包的接受与发送即可。</p>
+<h2 id="ip包的封装和解包">IP包的封装和解包</h2>
+<p>python存在有套接字库，可以便捷的实现IP包的封装，需要注意的是，由于TTL值存在与IP包中，在解包过程中需要获得该信息，下图为IP包的的格式，ICMP在IP包的数据部分。 <img src="IP_format.png" alt="IP_format" / loading="lazy"><em>IP包头的格式</em></p>
+<h2 id="icmp包的封装和解包">ICMP包的封装和解包</h2>
+<p>下图为ICMP包的封装和报文格式。从表格和图就可以看出，要实现的PING协议的ICMP协议需要的各种参数。 <img src="ICMP_Encapsulation.png" alt="ICMP_Encapsulation" / loading="lazy"><em>ICMP的封装</em> <img src="ICMP_format.png" alt="ICMP_format" / loading="lazy"><em>ICMP的报文格式</em></p>
+<table>
+<thead>
+<tr class="header">
+<th>类型</th>
+<th>ICMP报文意义</th>
+<th>类型</th>
+<th>ICMP报文意义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>回送应答</td>
+<td>12</td>
+<td>数据报参数错</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>目的地不可达</td>
+<td>13</td>
+<td>时间戳请求</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>源站抑制(Source Quench)</td>
+<td>14</td>
+<td>时间戳应答</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>重定向(改变路由)</td>
+<td>15</td>
+<td>信息请求(已过时）</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>回送请求</td>
+<td>16</td>
+<td>信息应答(已过时)</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>路由器通告(advertisement)</td>
+<td>17</td>
+<td>地址掩码(Address Mask)请求</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>路由器恳求(solicitation)</td>
+<td>18</td>
+<td>地址掩码(Address Mask)应答</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>数据报超时</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="使用的库的官方文档">使用的库的官方文档</h2>
+<p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/struct.html">struct库</a>：将字节串解读为打包的二进制数据</p>
+<p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/socket.html">socket库</a>：底层网络接口</p>
+<p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/select.html">select</a>库：等待 I/O 完成</p>
+<h2 id="实现">实现</h2>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># encoding:utf-8</span>
+<span class="token comment"># author:YGL</span>
+
+<span class="token keyword">import</span> time
+<span class="token keyword">import</span> struct
+<span class="token keyword">import</span> socket
+<span class="token keyword">import</span> select
+<span class="token keyword">import</span> sys
+
+<span class="token keyword">class</span> <span class="token class-name">PING</span><span class="token punctuation">:</span>
+    IP_HEADER_LENGTH <span class="token operator">=</span> <span class="token number">20</span>
+
+    <span class="token keyword">def</span> <span class="token function">chesksum</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+        m <span class="token operator">=</span> n <span class="token operator">%</span> <span class="token number">2</span>
+        <span class="token builtin">sum</span> <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span> m<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token builtin">sum</span> <span class="token operator">+=</span> <span class="token punctuation">(</span>data<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>
+                <span class="token punctuation">(</span>data<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">8</span>
+            <span class="token punctuation">)</span>  <span class="token comment">#传入data以每两个字节（十六进制）通过ord转十进制，第一字节在低位，第二个字节在高位</span>
+        <span class="token keyword">if</span> m<span class="token punctuation">:</span>
+            <span class="token builtin">sum</span> <span class="token operator">+=</span> <span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token comment">#将高于16位与低16位相加</span>
+        <span class="token builtin">sum</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token builtin">sum</span> <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token builtin">sum</span> <span class="token operator">&amp;</span> <span class="token number">0xffff</span><span class="token punctuation">)</span>
+        <span class="token builtin">sum</span> <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token builtin">sum</span> <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span>  <span class="token comment">#如果还有高于16位，将继续与低16位相加</span>
+        answer <span class="token operator">=</span> <span class="token operator">~</span><span class="token builtin">sum</span> <span class="token operator">&amp;</span> <span class="token number">0xffff</span>
+        <span class="token comment">#  主机字节序转网络字节序列（参考小端序转大端序）</span>
+        answer <span class="token operator">=</span> answer <span class="token operator">>></span> <span class="token number">8</span> <span class="token operator">|</span> <span class="token punctuation">(</span>answer <span class="token operator">&lt;&lt;</span> <span class="token number">8</span> <span class="token operator">&amp;</span> <span class="token number">0xff00</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> answer
+
+    <span class="token keyword">def</span> <span class="token function">request_ping</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> data_type<span class="token punctuation">,</span> data_code<span class="token punctuation">,</span> data_checksum<span class="token punctuation">,</span> data_ID<span class="token punctuation">,</span>
+                     data_Sequence<span class="token punctuation">,</span> payload_body<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment">#  把字节打包成二进制数据</span>
+        imcp_packet <span class="token operator">=</span> struct<span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token string">'>BBHHH32s'</span><span class="token punctuation">,</span> data_type<span class="token punctuation">,</span> data_code<span class="token punctuation">,</span>
+                                  data_checksum<span class="token punctuation">,</span> data_ID<span class="token punctuation">,</span> data_Sequence<span class="token punctuation">,</span>
+                                  payload_body<span class="token punctuation">)</span>
+        icmp_chesksum <span class="token operator">=</span> self<span class="token punctuation">.</span>chesksum<span class="token punctuation">(</span>imcp_packet<span class="token punctuation">)</span>  <span class="token comment">#获取校验和</span>
+        <span class="token comment">#  把校验和传入，再次打包</span>
+        imcp_packet <span class="token operator">=</span> struct<span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token string">'>BBHHH32s'</span><span class="token punctuation">,</span> data_type<span class="token punctuation">,</span> data_code<span class="token punctuation">,</span>
+                                  icmp_chesksum<span class="token punctuation">,</span> data_ID<span class="token punctuation">,</span> data_Sequence<span class="token punctuation">,</span>
+                                  payload_body<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> imcp_packet
+
+    <span class="token keyword">def</span> <span class="token function">raw_socket</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> dst_addr<span class="token punctuation">,</span> imcp_packet<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">'''
+        连接套接字,并将数据发送到套接字
+        '''</span>
+        <span class="token comment">#实例化一个socket对象，ipv4，原套接字，分配协议端口</span>
+        rawsocket <span class="token operator">=</span> socket<span class="token punctuation">.</span>socket<span class="token punctuation">(</span>socket<span class="token punctuation">.</span>AF_INET<span class="token punctuation">,</span> socket<span class="token punctuation">.</span>SOCK_RAW<span class="token punctuation">,</span>
+                                  socket<span class="token punctuation">.</span>getprotobyname<span class="token punctuation">(</span><span class="token string">"icmp"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token comment">#记录当前请求时间</span>
+        send_request_ping_time <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment">#发送数据到网络</span>
+        rawsocket<span class="token punctuation">.</span>sendto<span class="token punctuation">(</span>imcp_packet<span class="token punctuation">,</span> <span class="token punctuation">(</span>dst_addr<span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token comment">#返回数据</span>
+        <span class="token keyword">return</span> send_request_ping_time<span class="token punctuation">,</span> rawsocket<span class="token punctuation">,</span> dst_addr
+
+    <span class="token keyword">def</span> <span class="token function">reply_ping</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>
+                   send_request_ping_time<span class="token punctuation">,</span>
+                   rawsocket<span class="token punctuation">,</span>
+                   data_Sequence<span class="token punctuation">,</span>
+                   timeout<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            <span class="token comment">#开始时间</span>
+            started_select <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment">#实例化select对象，可读rawsocket，可写为空，可执行为空，超时时间</span>
+            what_ready <span class="token operator">=</span> select<span class="token punctuation">.</span>select<span class="token punctuation">(</span><span class="token punctuation">[</span>rawsocket<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> timeout<span class="token punctuation">)</span>
+            <span class="token comment">#等待时间</span>
+            wait_for_time <span class="token operator">=</span> <span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> started_select<span class="token punctuation">)</span>
+            <span class="token comment">#没有返回可读的内容，判断超时</span>
+            <span class="token keyword">if</span> what_ready<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">:</span>  <span class="token comment"># Timeout</span>
+                <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
+            <span class="token comment">#记录接收时间</span>
+            time_received <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment">#设置接收的包的字节为1024</span>
+            received_packet<span class="token punctuation">,</span> addr <span class="token operator">=</span> rawsocket<span class="token punctuation">.</span>recvfrom<span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">)</span>
+            <span class="token comment">#获取接收包的icmp头</span>
+            icmpHeader <span class="token operator">=</span> received_packet<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">:</span><span class="token number">28</span><span class="token punctuation">]</span>
+            <span class="token comment">#反转编码</span>
+            <span class="token builtin">type</span><span class="token punctuation">,</span> code<span class="token punctuation">,</span> checksum<span class="token punctuation">,</span> packet_id<span class="token punctuation">,</span> sequence <span class="token operator">=</span> struct<span class="token punctuation">.</span>unpack<span class="token punctuation">(</span>
+                <span class="token string">">BBHHH"</span><span class="token punctuation">,</span> icmpHeader<span class="token punctuation">)</span>
+
+            ttl <span class="token operator">=</span> self<span class="token punctuation">.</span>parse_ip_header<span class="token punctuation">(</span>received_packet<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+            <span class="token keyword">if</span> <span class="token builtin">type</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> sequence <span class="token operator">==</span> data_Sequence<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> time_received <span class="token operator">-</span> send_request_ping_time<span class="token punctuation">,</span> ttl
+
+            <span class="token comment">#数据包的超时时间判断</span>
+            timeout <span class="token operator">=</span> timeout <span class="token operator">-</span> wait_for_time
+            <span class="token keyword">if</span> timeout <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> ttl
+
+    <span class="token keyword">def</span> <span class="token function">parse_ip_header</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> ip_header<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        IP报文格式
+        1. 4位IP-version 4位IP头长度 8位服务类型 16位报文总长度
+        2. 16位标识符 3位标记位 13位片偏移 暂时不关注此行
+        3. 8位TTL 8位协议 16位头部校验和
+        4. 32位源IP地址
+        5. 32位目的IP地址
+        :param ip_header:
+        :return:
+        """</span>
+        line1 <span class="token operator">=</span> struct<span class="token punctuation">.</span>unpack<span class="token punctuation">(</span><span class="token string">'>BBH'</span><span class="token punctuation">,</span> ip_header<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># 先按照8位、8位、16位解析</span>
+        ip_version <span class="token operator">=</span> line1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">>></span> <span class="token number">4</span>  <span class="token comment"># 通过右移4位获取高四位</span>
+        <span class="token comment"># 报文头部长度的单位是32位 即四个字节</span>
+        iph_length <span class="token operator">=</span> <span class="token punctuation">(</span>line1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">15</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">4</span>  <span class="token comment"># 与1111与运算获取低四位</span>
+        packet_length <span class="token operator">=</span> line1<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+        line3 <span class="token operator">=</span> struct<span class="token punctuation">.</span>unpack<span class="token punctuation">(</span><span class="token string">'>BBH'</span><span class="token punctuation">,</span> ip_header<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token number">12</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        TTL <span class="token operator">=</span> line3<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        protocol <span class="token operator">=</span> line3<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+        iph_checksum <span class="token operator">=</span> line3<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+        line4 <span class="token operator">=</span> struct<span class="token punctuation">.</span>unpack<span class="token punctuation">(</span><span class="token string">'>4s'</span><span class="token punctuation">,</span> ip_header<span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">:</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        src_ip <span class="token operator">=</span> socket<span class="token punctuation">.</span>inet_ntoa<span class="token punctuation">(</span>line4<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        line5 <span class="token operator">=</span> struct<span class="token punctuation">.</span>unpack<span class="token punctuation">(</span><span class="token string">'>4s'</span><span class="token punctuation">,</span> ip_header<span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">:</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        dst_ip <span class="token operator">=</span> socket<span class="token punctuation">.</span>inet_ntoa<span class="token punctuation">(</span>line5<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">'ip_version'</span><span class="token punctuation">:</span> ip_version<span class="token punctuation">,</span>
+            <span class="token string">'iph_length'</span><span class="token punctuation">:</span> iph_length<span class="token punctuation">,</span>
+            <span class="token string">'packet_length'</span><span class="token punctuation">:</span> packet_length<span class="token punctuation">,</span>
+            <span class="token string">'TTL'</span><span class="token punctuation">:</span> TTL<span class="token punctuation">,</span>
+            <span class="token string">'protocol'</span><span class="token punctuation">:</span> protocol<span class="token punctuation">,</span>
+            <span class="token string">'iph_checksum'</span><span class="token punctuation">:</span> iph_checksum<span class="token punctuation">,</span>
+            <span class="token string">'src_ip'</span><span class="token punctuation">:</span> src_ip<span class="token punctuation">,</span>
+            <span class="token string">'dst_ip'</span><span class="token punctuation">:</span> dst_ip
+        <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">def</span> <span class="token function">ping</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> host<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        send<span class="token punctuation">,</span> accept<span class="token punctuation">,</span> lost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+        sumtime<span class="token punctuation">,</span> shorttime<span class="token punctuation">,</span> longtime<span class="token punctuation">,</span> avgtime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+        <span class="token comment">#icmp数据包的构建</span>
+        data_type <span class="token operator">=</span> <span class="token number">8</span>  <span class="token comment"># ICMP Echo Request</span>
+        data_code <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment"># must be zero</span>
+        data_checksum <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment"># "...with value 0 substituted for this field..."</span>
+        data_ID <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment">#Identifier</span>
+        data_Sequence <span class="token operator">=</span> <span class="token number">1</span>  <span class="token comment">#Sequence number</span>
+        payload_body <span class="token operator">=</span> <span class="token string">b'abcdefghijklmnopqrstuvwabcdefghi'</span>  <span class="token comment">#data</span>
+
+        <span class="token comment"># 将主机名转ipv4地址格式，返回以ipv4地址格式的字符串，如果主机名称是ipv4地址，则它将保持不变</span>
+        dst_addr <span class="token operator">=</span> socket<span class="token punctuation">.</span>gethostbyname<span class="token punctuation">(</span>host<span class="token punctuation">)</span>
+
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n正在 Ping &#123;0&#125; [&#123;1&#125;] 具有 32 字节的数据:"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> dst_addr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            send <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
+            <span class="token comment">#请求ping数据包的二进制转换</span>
+            icmp_packet <span class="token operator">=</span> self<span class="token punctuation">.</span>request_ping<span class="token punctuation">(</span>data_type<span class="token punctuation">,</span> data_code<span class="token punctuation">,</span>
+                                            data_checksum<span class="token punctuation">,</span> data_ID<span class="token punctuation">,</span>
+                                            data_Sequence <span class="token operator">+</span> i<span class="token punctuation">,</span> payload_body<span class="token punctuation">)</span>
+            <span class="token comment">#连接套接字,并将数据发送到套接字</span>
+            send_request_ping_time<span class="token punctuation">,</span> rawsocket<span class="token punctuation">,</span> addr <span class="token operator">=</span> self<span class="token punctuation">.</span>raw_socket<span class="token punctuation">(</span>
+                dst_addr<span class="token punctuation">,</span> icmp_packet<span class="token punctuation">)</span>
+            <span class="token comment">#数据包传输时间</span>
+            times<span class="token punctuation">,</span> ttl <span class="token operator">=</span> self<span class="token punctuation">.</span>reply_ping<span class="token punctuation">(</span>send_request_ping_time<span class="token punctuation">,</span> rawsocket<span class="token punctuation">,</span>
+                                         data_Sequence <span class="token operator">+</span> i<span class="token punctuation">)</span>
+
+            <span class="token keyword">if</span> times <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"来自 &#123;0&#125; 的回复: 字节 = 32 时间 = &#123;1&#125;ms TTL = &#123;2&#125; "</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>
+                    addr<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>times <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ttl<span class="token punctuation">[</span><span class="token string">'TTL'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                accept <span class="token operator">+=</span> <span class="token number">1</span>
+                return_time <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>times <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+                sumtime <span class="token operator">+=</span> return_time
+                longtime <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>longtime<span class="token punctuation">,</span> return_time<span class="token punctuation">)</span>
+                shorttime <span class="token operator">=</span> <span class="token builtin">min</span><span class="token punctuation">(</span>return_time<span class="token punctuation">,</span> shorttime<span class="token punctuation">)</span>
+                time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.7</span><span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                lost <span class="token operator">+=</span> <span class="token number">1</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"请求超时。"</span><span class="token punctuation">)</span>
+
+            <span class="token keyword">if</span> send <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n&#123;0&#125; 的 Ping 统计信息:"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>dst_addr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>
+                    <span class="token string">"\t数据包：已发送 = &#123;0&#125;,接收 = &#123;1&#125;，丢失 = &#123;2&#125;（&#123;3&#125;%丢失），\n往返行程的估计时间（以毫秒为单位）：\n\t最短 = &#123;4&#125;ms，最长 = &#123;5&#125;ms，平均 = &#123;6&#125;ms"</span>
+                    <span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> accept<span class="token punctuation">,</span> lost<span class="token punctuation">,</span> lost <span class="token operator">/</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">,</span>
+                            shorttime<span class="token punctuation">,</span> longtime<span class="token punctuation">,</span> sumtime <span class="token operator">/</span> send<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>sys<span class="token punctuation">.</span>argv<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">:</span>
+        sys<span class="token punctuation">.</span>exit<span class="token punctuation">(</span><span class="token string">'Usage: ping.py &lt;host>'</span><span class="token punctuation">)</span>
+    T <span class="token operator">=</span> PING<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>ping<span class="token punctuation">(</span>sys<span class="token punctuation">.</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token comment">#i = input("请输入要ping的主机或域名\n")</span>
+    <span class="token comment">#ping(i)</span>
+    <span class="token comment"># host='www.baidu.com'</span>
+    <span class="token comment"># ping(host)</span>
+</code></pre>
+<!-- flag of hidden posts --></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>ATT_POWER</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/" title="基于python的ping实现">https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%AE%9E%E7%8E%B0/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> ATT_POWER</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.6.2</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body></html>
