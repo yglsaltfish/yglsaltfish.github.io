@@ -4,7 +4,7 @@
   <url>
     <loc>https://yglsaltfish.github.io/2022/09/21/Effective-C-%E7%AC%94%E8%AE%B0/</loc>
     
-    <lastmod>2022-09-21</lastmod>
+    <lastmod>2022-09-22</lastmod>
     
   </url>
   
@@ -235,13 +235,6 @@
   </url>
   
   <url>
-    <loc>https://yglsaltfish.github.io/tags/C/</loc>
-    <lastmod>2022-09-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://yglsaltfish.github.io/tags/Kickstart/</loc>
     <lastmod>2022-09-22</lastmod>
     <changefreq>daily</changefreq>
@@ -249,14 +242,14 @@
   </url>
   
   <url>
-    <loc>https://yglsaltfish.github.io/tags/%E6%B8%B8%E6%88%8F/</loc>
+    <loc>https://yglsaltfish.github.io/tags/JAVA/</loc>
     <lastmod>2022-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://yglsaltfish.github.io/tags/JAVA/</loc>
+    <loc>https://yglsaltfish.github.io/tags/%E6%B8%B8%E6%88%8F/</loc>
     <lastmod>2022-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -285,6 +278,13 @@
   
   <url>
     <loc>https://yglsaltfish.github.io/tags/Static-Analysis-Note/</loc>
+    <lastmod>2022-09-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yglsaltfish.github.io/tags/C/</loc>
     <lastmod>2022-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -336,6 +336,13 @@
   
   <url>
     <loc>https://yglsaltfish.github.io/categories/%E6%B8%B8%E6%88%8F/</loc>
+    <lastmod>2022-09-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yglsaltfish.github.io/categories/C/</loc>
     <lastmod>2022-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
