@@ -8,12 +8,12 @@
 });</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
     const Yun = window.Yun || {};
     window.CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","title":"ATTPOWER的博客","version":"1.6.2","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
-  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="PING ping需要实现的内容 首先用命令行使用ping命令，发现存在回复 正在 Ping 114.114.114.114 具有 32 字节的数据: 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;12ms TTL&#x3D;91 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13ms TTL&#x3D;86 来自 114.114.114.114 的回复: 字节&#x3D;32 时">
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="PINGping需要实现的内容首先用命令行使用ping命令，发现存在回复 正在 Ping 114.114.114.114 具有 32 字节的数据: 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;12ms TTL&#x3D;91 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13ms TTL&#x3D;86 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13m">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于python的ping和traceroute实现">
 <meta property="og:url" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%92%8Ctraceroute%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="ATT_POWER的博客">
-<meta property="og:description" content="PING ping需要实现的内容 首先用命令行使用ping命令，发现存在回复 正在 Ping 114.114.114.114 具有 32 字节的数据: 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;12ms TTL&#x3D;91 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13ms TTL&#x3D;86 来自 114.114.114.114 的回复: 字节&#x3D;32 时">
+<meta property="og:description" content="PINGping需要实现的内容首先用命令行使用ping命令，发现存在回复 正在 Ping 114.114.114.114 具有 32 字节的数据: 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;12ms TTL&#x3D;91 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13ms TTL&#x3D;86 来自 114.114.114.114 的回复: 字节&#x3D;32 时间&#x3D;13m">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%92%8Ctraceroute%E5%AE%9E%E7%8E%B0/IP_format.png">
 <meta property="og:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%92%8Ctraceroute%E5%AE%9E%E7%8E%B0/ICMP_Encapsulation.png">
@@ -25,9 +25,7 @@
 <meta property="article:modified_time" content="2021-11-14T09:00:16.250Z">
 <meta property="article:author" content="ATT_POWER">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%92%8Ctraceroute%E5%AE%9E%E7%8E%B0/IP_format.png"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="ATT_POWER"><img width="96" loading="lazy" src="/king.png" alt="ATT_POWER"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">ATT_POWER</a></div><span class="site-name">ATT_POWER的博客</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">26</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ping"><span class="toc-text">PING</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ping%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">ping需要实现的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ip%E5%8C%85%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8C%E8%A7%A3%E5%8C%85"><span class="toc-text">IP包的封装和解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#icmp%E5%8C%85%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8C%E8%A7%A3%E5%8C%85"><span class="toc-text">ICMP包的封装和解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E5%BA%93%E7%9A%84%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-text">使用的库的官方文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="toc-text">代码部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="toc-text">最终结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#traceroute"><span class="toc-text">TRACEROUTE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-text">前置知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E4%BB%A3%E7%A0%81"><span class="toc-text">总代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C-1"><span class="toc-text">最终结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B1%87%E6%80%BB%E4%BB%A3%E7%A0%81"><span class="toc-text">汇总代码</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%92%8Ctraceroute%E5%AE%9E%E7%8E%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="ATT_POWER"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="ATT_POWER的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">基于python的ping和traceroute实现</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2021-10-02 10:57:55" itemprop="dateCreated datePublished" datetime="2021-10-02T10:57:55+08:00">2021-10-02</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-11-14 17:00:16" itemprop="dateModified" datetime="2021-11-14T17:00:16+08:00">2021-11-14</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">3.7k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">17m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/python/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">python</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><h1 id="ping">PING</h1>
-<h2 id="ping需要实现的内容">ping需要实现的内容</h2>
-<p>首先用命令行使用ping命令，发现存在回复</p>
+<meta name="twitter:image" content="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%92%8Ctraceroute%E5%AE%9E%E7%8E%B0/IP_format.png"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="ATT_POWER"><img width="96" loading="lazy" src="/king.png" alt="ATT_POWER"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">ATT_POWER</a></div><span class="site-name">ATT_POWER的博客</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">26</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PING"><span class="toc-text">PING</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ping%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">ping需要实现的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E5%8C%85%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8C%E8%A7%A3%E5%8C%85"><span class="toc-text">IP包的封装和解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP%E5%8C%85%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8C%E8%A7%A3%E5%8C%85"><span class="toc-text">ICMP包的封装和解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E5%BA%93%E7%9A%84%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-text">使用的库的官方文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="toc-text">代码部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C"><span class="toc-text">最终结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TRACEROUTE"><span class="toc-text">TRACEROUTE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-text">前置知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E4%BB%A3%E7%A0%81"><span class="toc-text">总代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C-1"><span class="toc-text">最终结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B1%87%E6%80%BB%E4%BB%A3%E7%A0%81"><span class="toc-text">汇总代码</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/10/02/%E5%9F%BA%E4%BA%8Epython%E7%9A%84ping%E5%92%8Ctraceroute%E5%AE%9E%E7%8E%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="ATT_POWER"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="ATT_POWER的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">基于python的ping和traceroute实现</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2021-10-02 10:57:55" itemprop="dateCreated datePublished" datetime="2021-10-02T10:57:55+08:00">2021-10-02</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-11-14 17:00:16" itemprop="dateModified" datetime="2021-11-14T17:00:16+08:00">2021-11-14</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">3.7k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">17m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/python/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">python</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><h1 id="PING"><a href="#PING" class="headerlink" title="PING"></a>PING</h1><h2 id="ping需要实现的内容"><a href="#ping需要实现的内容" class="headerlink" title="ping需要实现的内容"></a>ping需要实现的内容</h2><p>首先用命令行使用ping命令，发现存在回复</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">正在 Ping <span class="token number">114.114</span>.114.114 具有 <span class="token number">32</span> 字节的数据:
 来自 <span class="token number">114.114</span>.114.114 的回复: 字节<span class="token operator">=</span><span class="token number">32</span> 时间<span class="token operator">=</span>12ms <span class="token assign-left variable">TTL</span><span class="token operator">=</span><span class="token number">91</span>
 来自 <span class="token number">114.114</span>.114.114 的回复: 字节<span class="token operator">=</span><span class="token number">32</span> 时间<span class="token operator">=</span>13ms <span class="token assign-left variable">TTL</span><span class="token operator">=</span><span class="token number">86</span>
@@ -39,13 +37,12 @@
 往返行程的估计时间<span class="token punctuation">(</span>以毫秒为单位<span class="token punctuation">)</span>:
     最短 <span class="token operator">=</span> 12ms，最长 <span class="token operator">=</span> 13ms，平均 <span class="token operator">=</span> 12ms</code></pre>
 <p>观察得到，需要获得的信息为往返行程的统计时间，丢包率以及TTL。所以需要实现的东西为ICMP包的封装和解包，IP包的封装和解包，IP包的接受与发送即可。</p>
-<h2 id="ip包的封装和解包">IP包的封装和解包</h2>
-<p>python存在有套接字库，可以便捷的实现IP包的封装，需要注意的是，由于TTL值存在与IP包中，在解包过程中需要获得该信息，下图为IP包的的格式，ICMP在IP包的数据部分。 <img src="IP_format.png" alt="IP_format" / loading="lazy"><em>IP包头的格式</em></p>
-<h2 id="icmp包的封装和解包">ICMP包的封装和解包</h2>
-<p>下图为ICMP包的封装和报文格式。从表格和图就可以看出，要实现的PING协议的ICMP协议需要的各种参数。 <img src="ICMP_Encapsulation.png" alt="ICMP_Encapsulation" / loading="lazy"><em>ICMP的封装</em> <img src="ICMP_format.png" alt="ICMP_format" / loading="lazy"><em>ICMP的报文格式</em> <img src="PING_format.png" alt="PING_format" / loading="lazy"><em>回送请求和应答的报文格式</em></p>
+<h2 id="IP包的封装和解包"><a href="#IP包的封装和解包" class="headerlink" title="IP包的封装和解包"></a>IP包的封装和解包</h2><p>python存在有套接字库，可以便捷的实现IP包的封装，需要注意的是，由于TTL值存在与IP包中，在解包过程中需要获得该信息，下图为IP包的的格式，ICMP在IP包的数据部分。<br><img src="IP_format.png" alt="IP_format" loading="lazy"><em>IP包头的格式</em></p>
+<h2 id="ICMP包的封装和解包"><a href="#ICMP包的封装和解包" class="headerlink" title="ICMP包的封装和解包"></a>ICMP包的封装和解包</h2><p>下图为ICMP包的封装和报文格式。从表格和图就可以看出，要实现的PING协议的ICMP协议需要的各种参数。<br><img src="ICMP_Encapsulation.png" alt="ICMP_Encapsulation" loading="lazy"><em>ICMP的封装</em><br><img src="ICMP_format.png" alt="ICMP_format" loading="lazy"><em>ICMP的报文格式</em><br><img src="PING_format.png" alt="PING_format" loading="lazy"><em>回送请求和应答的报文格式</em></p>
+<div class="table-container">
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>类型</th>
 <th>ICMP报文意义</th>
 <th>类型</th>
@@ -53,62 +50,60 @@
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>0</td>
 <td>回送应答</td>
 <td>12</td>
 <td>数据报参数错</td>
 </tr>
-<tr class="even">
+<tr>
 <td>3</td>
 <td>目的地不可达</td>
 <td>13</td>
 <td>时间戳请求</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>4</td>
 <td>源站抑制(Source Quench)</td>
 <td>14</td>
 <td>时间戳应答</td>
 </tr>
-<tr class="even">
+<tr>
 <td>5</td>
 <td>重定向(改变路由)</td>
 <td>15</td>
 <td>信息请求(已过时）</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>8</td>
 <td>回送请求</td>
 <td>16</td>
 <td>信息应答(已过时)</td>
 </tr>
-<tr class="even">
+<tr>
 <td>9</td>
 <td>路由器通告(advertisement)</td>
 <td>17</td>
 <td>地址掩码(Address Mask)请求</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>10</td>
 <td>路由器恳求(solicitation)</td>
 <td>18</td>
 <td>地址掩码(Address Mask)应答</td>
 </tr>
-<tr class="even">
+<tr>
 <td>11</td>
 <td>数据报超时</td>
-<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="使用的库的官方文档">使用的库的官方文档</h2>
-<p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/struct.html">struct库</a>：将字节串解读为打包的二进制数据</p>
+</div>
+<h2 id="使用的库的官方文档"><a href="#使用的库的官方文档" class="headerlink" title="使用的库的官方文档"></a>使用的库的官方文档</h2><p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/struct.html">struct库</a>：将字节串解读为打包的二进制数据</p>
 <p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/socket.html">socket库</a>：底层网络接口</p>
 <p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/select.html">select</a>库：等待 I/O 完成</p>
-<h2 id="代码部分">代码部分</h2>
-<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># encoding:utf-8</span>
+<h2 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h2><pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># encoding:utf-8</span>
 <span class="token comment"># author:YGL</span>
 
 <span class="token keyword">import</span> time
@@ -286,13 +281,9 @@
 
 
 </code></pre>
-<h2 id="最终结果">最终结果</h2>
-<p><img src="PING.png" alt="PING" / loading="lazy"><em>代码效果</em></p>
-<h1 id="traceroute">TRACEROUTE</h1>
-<h2 id="前置知识">前置知识</h2>
-<p>因为和 PING 命令差不多 ，只需要更改TTL值即可，所以可以直接移用代码。实验过程需要关闭防火墙。</p>
-<h2 id="总代码">总代码</h2>
-<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">encoding</span><span class="token expression"><span class="token operator">:</span>utf<span class="token operator">-</span><span class="token number">8</span></span></span>
+<h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p><img src="PING.png" alt="PING" loading="lazy"><em>代码效果</em></p>
+<h1 id="TRACEROUTE"><a href="#TRACEROUTE" class="headerlink" title="TRACEROUTE"></a>TRACEROUTE</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>因为和 PING 命令差不多 ，只需要更改TTL值即可，所以可以直接移用代码。实验过程需要关闭防火墙。</p>
+<h2 id="总代码"><a href="#总代码" class="headerlink" title="总代码"></a>总代码</h2><pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">encoding</span><span class="token expression"><span class="token operator">:</span>utf<span class="token operator">-</span><span class="token number">8</span></span></span>
 
 <span class="token keyword">import</span> <span class="token module">time</span>
 <span class="token keyword">import</span> <span class="token keyword">struct</span>
@@ -400,10 +391,8 @@ from typing <span class="token keyword">import</span> <span class="token module"
                         <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">" &#123;&#125;"</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span>ip_head<span class="token punctuation">[</span><span class="token string">'src_ip'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
 </code></pre>
-<h2 id="最终结果-1">最终结果</h2>
-<p><img src="Tracert.png" alt="TRACERT" / loading="lazy"><em>代码效果</em></p>
-<h1 id="汇总代码">汇总代码</h1>
-<pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">encoding</span><span class="token expression"><span class="token operator">:</span>utf<span class="token operator">-</span><span class="token number">8</span></span></span>
+<h2 id="最终结果-1"><a href="#最终结果-1" class="headerlink" title="最终结果"></a>最终结果</h2><p><img src="Tracert.png" alt="TRACERT" loading="lazy"><em>代码效果</em></p>
+<h1 id="汇总代码"><a href="#汇总代码" class="headerlink" title="汇总代码"></a>汇总代码</h1><pre class="language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">encoding</span><span class="token expression"><span class="token operator">:</span>utf<span class="token operator">-</span><span class="token number">8</span></span></span>
 
 <span class="token keyword">import</span> <span class="token module">time</span>
 <span class="token keyword">import</span> <span class="token keyword">struct</span>
