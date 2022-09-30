@@ -1,27 +1,399 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="ATT_POWER"><meta name="copyright" content="ATT_POWER"><meta name="generator" content="Hexo 5.4.0"><meta name="theme" content="hexo-theme-yun"><title>Effective C++ 笔记 | ATT_POWER的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.25/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
-  [".post-card",".post-content img"].forEach((target)=> {
-    ScrollReveal().reveal(target);
-  })
-});
-</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
-  Yun.utils.renderKatex();
-});</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
-    const Yun = window.Yun || {};
-    window.CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","title":"ATTPOWER的博客","version":"1.6.2","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
-  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="本文记录我阅读Effective C++笔记的收获 条款1 将C++看作一个语言联邦 早期的C++只是叫&quot;C with classes&quot;，但发展到今天已经成为一个多重泛型编程语言，有四种次语言：  C 面向对象 C++ ，也就是 C with class template C++ ，也就是C++的泛型编程，template metaprogramming（TMP，模板元编程） STL">
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="C++," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文记录我阅读Effective C++笔记的收获 条款1 将C++看作一个语言联邦 早期的C++只是叫&quot;C with classes&quot;，但发展到今天已经成为一个多重泛型编程语言，有四种次语言：  C 面向对象 C++ ，也就是 C with class template C++ ，也就是C++的泛型编程，template metaprogramming（TMP，模板元编程）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective C++ 笔记">
 <meta property="og:url" content="https://yglsaltfish.github.io/2022/09/21/Effective-C-%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="ATT_POWER的博客">
-<meta property="og:description" content="本文记录我阅读Effective C++笔记的收获 条款1 将C++看作一个语言联邦 早期的C++只是叫&quot;C with classes&quot;，但发展到今天已经成为一个多重泛型编程语言，有四种次语言：  C 面向对象 C++ ，也就是 C with class template C++ ，也就是C++的泛型编程，template metaprogramming（TMP，模板元编程） STL">
+<meta property="og:description" content="本文记录我阅读Effective C++笔记的收获 条款1 将C++看作一个语言联邦 早期的C++只是叫&quot;C with classes&quot;，但发展到今天已经成为一个多重泛型编程语言，有四种次语言：  C 面向对象 C++ ，也就是 C with class template C++ ，也就是C++的泛型编程，template metaprogramming（TMP，模板元编程）">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-21T02:39:07.000Z">
 <meta property="article:modified_time" content="2022-09-29T09:49:35.441Z">
 <meta property="article:author" content="ATT_POWER">
 <meta property="article:tag" content="C++">
-<meta name="twitter:card" content="summary"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="ATT_POWER"><img width="96" loading="lazy" src="/king.png" alt="ATT_POWER"><span class="site-author-status" title="永远相信美好的事情即将发生">😊</span></a><div class="site-author-name"><a href="/about/">ATT_POWER</a></div><span class="site-name">ATT_POWER的博客</span><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">28</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/yglsaltfish" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=481491384" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/ding-ge-shun-jian-47/" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/85419687" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/ATT_POWER" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE1-%E5%B0%86c%E7%9C%8B%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%AD%E8%A8%80%E8%81%94%E9%82%A6"><span class="toc-text">条款1 将C++看作一个语言联邦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE2-%E5%B0%BD%E9%87%8F%E7%94%A8constenuminline-%E6%9B%BF%E6%8D%A2-define"><span class="toc-text">条款2 尽量用const，enum，inline 替换 #define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE3-%E5%A4%9A%E7%94%A8const"><span class="toc-text">条款3 多用const</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE4-%E7%A1%AE%E5%AE%9A%E5%AF%B9%E8%B1%A1%E8%A2%AB%E4%BD%BF%E7%94%A8%E5%89%8D%E5%B7%B2%E7%BB%8F%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">条款4 确定对象被使用前已经被初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE5-%E4%BA%86%E8%A7%A3c%E9%BB%98%E9%BB%98%E7%BC%96%E5%86%99%E5%B9%B6%E8%B0%83%E7%94%A8%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0"><span class="toc-text">条款5 了解C++默默编写并调用哪些函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE6-%E6%98%8E%E7%A1%AE%E6%8B%92%E7%BB%9D%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="toc-text">条款6 明确拒绝不需要的自动生成函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE7-%E4%B8%BA%E5%A4%9A%E6%80%81%E5%9F%BA%E7%B1%BB%E7%94%9F%E6%88%90virtual%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-text">条款7 为多态基类生成virtual析构函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE8-%E5%88%AB%E5%9C%A8%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="toc-text">条款8 别在析构函数中抛出异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE9-%E4%B8%8D%E8%A6%81%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8%E8%99%9A%E5%87%BD%E6%95%B0"><span class="toc-text">条款9 不要在构造函数和析构函数中调用虚函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE10-%E8%B5%8B%E5%80%BC%E6%93%8D%E4%BD%9C%E7%AC%A6%E8%BF%94%E5%9B%9Ethis%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-text">条款10 赋值操作符返回*this的引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE11-%E5%9C%A8operator-%E4%B8%AD%E5%A4%84%E7%90%86%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BCself-assingment"><span class="toc-text">条款11 在operator&#x3D; 中处理自我赋值（self assingment）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE12-%E5%AE%8C%E6%95%B4%E6%8B%B7%E8%B4%9D%E5%AF%B9%E8%B1%A1"><span class="toc-text">条款12 完整拷贝对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE13-%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%9D%A5%E7%AE%A1%E7%90%86%E8%B5%84%E6%BA%90"><span class="toc-text">条款13 用对象来管理资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE14-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="toc-text">条款14 资源管理类的拷贝</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2022/09/21/Effective-C-%E7%AC%94%E8%AE%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="ATT_POWER"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="ATT_POWER的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Effective C++ 笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2022-09-21 10:39:07" itemprop="dateCreated datePublished" datetime="2022-09-21T10:39:07+08:00">2022-09-21</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2022-09-29 17:49:35" itemprop="dateModified" datetime="2022-09-29T17:49:35+08:00">2022-09-29</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">11.9k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">44m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/C/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">C++</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">C++</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><p>本文记录我阅读Effective C++笔记的收获</p>
-<h3 id="条款1-将c看作一个语言联邦">条款1 将C++看作一个语言联邦</h3>
-<p>早期的C++只是叫"C with classes"，但发展到今天已经成为一个多重泛型编程语言，有四种次语言：</p>
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://yglsaltfish.github.io/2022/09/21/Effective-C-笔记/"/>
+
+
+
+
+
+  <title>Effective C++ 笔记 | ATT_POWER的博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ATT_POWER的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2022/09/21/Effective-C-%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ATT_POWER的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Effective C++ 笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-09-21T10:39:07+08:00">
+                2022-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  11.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  45
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文记录我阅读Effective C++笔记的收获</p>
+<h3 id="条款1-将C-看作一个语言联邦">条款1 将C++看作一个语言联邦</h3>
+<p>早期的C++只是叫&quot;C with classes&quot;，但发展到今天已经成为一个多重泛型编程语言，有四种次语言：</p>
 <ul>
 <li>C</li>
 <li>面向对象 C++ ，也就是 C with class</li>
@@ -29,48 +401,106 @@
 <li>STL。 template 程序库</li>
 </ul>
 <p>总结：C++高效编程守则视情况变化而变化，取决于使用C++的部分。</p>
-<h3 id="条款2-尽量用constenuminline-替换-define">条款2 尽量用const，enum，inline 替换 #define</h3>
+<h3 id="条款2-尽量用const，enum，inline-替换-define">条款2 尽量用const，enum，inline 替换 #define</h3>
 <p>也可以说是使用编译器替换预处理器</p>
-<ol type="1">
-<li><p>例如： <pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ASPECT</span> <span class="token expression"><span class="token number">1.653</span></span></span></code></pre> 在上面这个语句中，字符串'ASPECT'是不会被编译器看到的，而编译器看到的是'1.653'，这就会导致在调试过程中，编译器的错误信息只显示'1.653'而不是'ASPECT'，对调试造成问题。 可以使用如下替换： <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">double</span> Aspect <span class="token operator">=</span> <span class="token number">1.653</span><span class="token punctuation">;</span>  <span class="token comment">//由于大写名称通常使用于宏，所以 ASPECT->Aspect</span></code></pre></p></li>
-<li><p>当定义或声明全局变量时，常数指针和类的常数需要另加考虑</p>
+<ol>
+<li>例如：<pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ASPECT</span> <span class="token expression"><span class="token number">1.653</span></span></span></code></pre>
+在上面这个语句中，字符串’ASPECT’是不会被编译器看到的，而编译器看到的是’1.653’，这就会导致在调试过程中，编译器的错误信息只显示’1.653’而不是’ASPECT’，对调试造成问题。<br>
+可以使用如下替换： <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">double</span> Aspect <span class="token operator">=</span> <span class="token number">1.653</span><span class="token punctuation">;</span>  <span class="token comment">//由于大写名称通常使用于宏，所以 ASPECT->Aspect</span></code></pre>
+</li>
+<li>当定义或声明全局变量时，常数指针和类的常数需要另加考虑
 <ul>
-<li><p>对于指针要把指针本身和它指向的数据都定义为const。 例如 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token keyword">const</span> myWord <span class="token operator">=</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span></code></pre> 在C++中可以更方便地使用std::string这样基于char*类型的推广，例如 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token function">myWord</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></p></li>
-<li><p>对于类的常数 为了将常量的作用域限制于class内，并且确保这个常量不会生成多个拷贝，可以声明为类的私有静态成员 <pre class="language-c" data-language="c"><code class="language-c">class Player<span class="token punctuation">&#123;</span>
+<li>对于指针要把指针本身和它指向的数据都定义为const。<br>
+例如</li>
+</ul>
+</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token keyword">const</span> myWord <span class="token operator">=</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span></code></pre>
+<p>在C++中可以更方便地使用std::string这样基于char*类型的推广，例如</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token function">myWord</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre><code>* 对于类的常数
+</code></pre>
+<p>为了将常量的作用域限制于class内，并且确保这个常量不会生成多个拷贝，可以声明为类的私有静态成员</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Player<span class="token punctuation">&#123;</span>
  private<span class="token operator">:</span>
   <span class="token keyword">static</span> <span class="token keyword">const</span> <span class="token keyword">int</span> NumTurns <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span></code></pre> 因为此处是类的成员声明范围内，所以上面只是变量的声明和初始化，而并非定义，因此如果想获取变量的地址，需要在别处另加定义。这个定义不能有任何赋值语句，因为在类内已经规定为const: <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> Player<span class="token operator">::</span>numPlayer<span class="token punctuation">;</span></code></pre></p></li>
-</ul></li>
-<li><p>枚举技巧 假设存在这么一种情况：需要在一个类内声明某变量，但你的编译器不允许在声明时赋值初始化，同时接下来的某个语句却需要用到这个变量的具体数值，如： <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> noPlayer<span class="token punctuation">;</span>
-<span class="token keyword">int</span> scores<span class="token punctuation">[</span>noPlayer<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre> 这个时候编译器会报错，可以使用以下方式解决： <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">enum</span> <span class="token punctuation">&#123;</span>noPlayer <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> scores<span class="token punctuation">[</span>noPlayer<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre> 但注意enum类型在内存中没有实体，无法取得enum类型的地址，因此这个方法更相当于取一个本地的#define数值</p></li>
-<li><p>对于#define的宏函数，尽量使用inline修饰的函数来代替#define inline关键字用来建议编译器把某频繁调用的函数当做内联函数，即在每次函数调用时，直接把函数代码放在函数调用语句的地址，减少堆栈浪费。 如果为了减少堆栈资源的使用，把某个频繁调用的函数规定为宏，例如用a和b的最大值来调用某函数f: <pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">CALL_MAX</span><span class="token expression"><span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span></code></pre> 但是这样会产生一个新问题 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> a<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>因为此处是类的成员声明范围内，所以上面只是变量的声明和初始化，而并非定义，因此如果想获取变量的地址，需要在别处另加定义。这个定义不能有任何赋值语句，因为在类内已经规定为const:</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> Player<span class="token operator">::</span>numPlayer<span class="token punctuation">;</span></code></pre>
+<ol start="3">
+<li>枚举技巧<br>
+假设存在这么一种情况：需要在一个类内声明某变量，但你的编译器不允许在声明时赋值初始化，同时接下来的某个语句却需要用到这个变量的具体数值，如：</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> noPlayer<span class="token punctuation">;</span>
+<span class="token keyword">int</span> scores<span class="token punctuation">[</span>noPlayer<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+<p>这个时候编译器会报错，可以使用以下方式解决：</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">enum</span> <span class="token punctuation">&#123;</span>noPlayer <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> scores<span class="token punctuation">[</span>noPlayer<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+<p>但注意enum类型在内存中没有实体，无法取得enum类型的地址，因此这个方法更相当于取一个本地的#define数值</p>
+<ol start="4">
+<li>对于#define的宏函数，尽量使用inline修饰的函数来代替#define<br>
+inline关键字用来建议编译器把某频繁调用的函数当做内联函数，即在每次函数调用时，直接把函数代码放在函数调用语句的地址，减少堆栈浪费。<br>
+如果为了减少堆栈资源的使用，把某个频繁调用的函数规定为宏，例如用a和b的最大值来调用某函数f:</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">CALL_MAX</span><span class="token expression"><span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span></code></pre>
+<p>但是这样会产生一个新问题</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> a<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token function">CALL_MAX</span><span class="token punctuation">(</span><span class="token operator">++</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment">//a增加了一次</span>
-<span class="token function">CALL_MAX</span><span class="token punctuation">(</span><span class="token operator">++</span>a<span class="token punctuation">,</span> b<span class="token operator">+</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">//a增加了两次 </span></code></pre> 解决方法： <pre class="language-c" data-language="c"><code class="language-c">template<span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+<span class="token function">CALL_MAX</span><span class="token punctuation">(</span><span class="token operator">++</span>a<span class="token punctuation">,</span> b<span class="token operator">+</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">//a增加了两次 </span></code></pre>
+<p>解决方法：</p>
+<pre class="language-c" data-language="c"><code class="language-c">template<span class="token operator">&lt;</span>typename T<span class="token operator">></span>
 <span class="token keyword">inline</span> <span class="token keyword">void</span> <span class="token function">callMax</span><span class="token punctuation">(</span><span class="token keyword">const</span> T<span class="token operator">&amp;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> T<span class="token operator">&amp;</span> b<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token function">f</span><span class="token punctuation">(</span>a <span class="token operator">></span> b <span class="token operator">?</span> a <span class="token operator">:</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre></p></li>
-</ol>
+<span class="token punctuation">&#125;</span></code></pre>
 <h3 id="条款3-多用const">条款3 多用const</h3>
-<ol type="1">
-<li><p>如果要定义某指针或数据为常量不允许改变 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>  <span class="token comment">//数据是const ，数据不允许被改变</span>
+<ol>
+<li>如果要定义某指针或数据为常量不允许改变</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>  <span class="token comment">//数据是const ，数据不允许被改变</span>
 <span class="token keyword">char</span><span class="token operator">*</span> <span class="token keyword">const</span> p<span class="token punctuation">;</span>  <span class="token comment">//指针是const , 指针不允许被改变</span>
 <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token keyword">const</span> <span class="token keyword">const</span> p<span class="token punctuation">;</span> <span class="token comment">//数据和指针都是const，都不可以被改变</span>
 
 <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> p<span class="token punctuation">;</span>  <span class="token comment">//都表示指向常量char的指针</span>
-<span class="token keyword">char</span> cosnt <span class="token operator">*</span>p<span class="token punctuation">;</span> </code></pre> const 在*号左边修饰数据，const在星号右边修饰指针</p></li>
-<li><p>迭代器与const 迭代器在功能上相当于指向某类型T的指针T* <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> std<span class="token operator">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">::</span>iterator it <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//表示迭代器本身是常量</span>
+<span class="token keyword">char</span> cosnt <span class="token operator">*</span>p<span class="token punctuation">;</span> </code></pre>
+<p>const 在*号左边修饰数据，const在星号右边修饰指针</p>
+<ol start="2">
+<li>迭代器与const<br>
+迭代器在功能上相当于指向某类型T的指针T*</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> std<span class="token operator">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">::</span>iterator it <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//表示迭代器本身是常量</span>
 <span class="token operator">*</span>it <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment">//编译通过，迭代器是常量，但是数据可以被修改</span>
-<span class="token operator">++</span>it<span class="token punctuation">;</span>   <span class="token comment">//编译失败！因为const迭代器不允许被改变！</span></code></pre> 如果要更改数据，使用const_iterator <pre class="language-c" data-language="c"><code class="language-c">std<span class="token operator">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">::</span>const_iterator it <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//无法使用，待解决TODO</span>
-</code></pre></p></li>
-<li><p>尽量使用const可以帮助调试 假设存在 <pre class="language-c" data-language="c"><code class="language-c">class Rational<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-Rational operator<span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> lhs<span class="token punctuation">,</span> <span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span></code></pre> 在某处使用此乘法操作符，误把比较操作符“==”打成了赋值操作符 “=” ： <pre class="language-c" data-language="c"><code class="language-c">Rational a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">;</span>
-<span class="token keyword">if</span><span class="token punctuation">(</span>a <span class="token operator">*</span> b <span class="token operator">=</span> c<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>      </code></pre> 但编译器在此并不会报错，因为只有当a,b,c是C++自有类型(比如int)才会报错，对于用户自定义的类，编译器会认为此操作是将一个Rational赋值给另一个Rational 如果将该操作符定义为返回const，这样赋值将会是非法操作。 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> Rational operator<span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> lhs<span class="token punctuation">,</span> <span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span></code></pre></p></li>
-<li><p>类的成员函数与const 给成员函数使用const关键字是非常重要的，它可以让接口更加直观，直接告诉用户这个函数是不是只读(Read only)，会不会改变某变量。</p></li>
-<li><p>成员函数的常量性 C++标准对成员函数"常量性"的规定是数据常量性(bitwise constness)，即不允许常量对象的成员数据被修改。C++编译器对此的检测也十分简单粗暴，只检查该成员函数有没有给成员数据的赋值操作。 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> Text <span class="token function">ct</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment">//构造某常量对象</span>
+<span class="token operator">++</span>it<span class="token punctuation">;</span>   <span class="token comment">//编译失败！因为const迭代器不允许被改变！</span></code></pre>
+<p>如果要更改数据，使用const_iterator</p>
+<pre class="language-c" data-language="c"><code class="language-c">std<span class="token operator">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">::</span>const_iterator it <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//无法使用，待解决TODO</span>
+</code></pre>
+<ol start="3">
+<li>尽量使用const可以帮助调试<br>
+假设存在</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c">class Rational<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+Rational operator<span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> lhs<span class="token punctuation">,</span> <span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span></code></pre>
+<p>在某处使用此乘法操作符，误把比较操作符“==”打成了赋值操作符 “=” ：</p>
+<pre class="language-c" data-language="c"><code class="language-c">Rational a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>a <span class="token operator">*</span> b <span class="token operator">=</span> c<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>      </code></pre>
+<p>但编译器在此并不会报错，因为只有当a,b,c是C++自有类型(比如int)才会报错，对于用户自定义的类，编译器会认为此操作是将一个Rational赋值给另一个Rational<br>
+如果将该操作符定义为返回const，这样赋值将会是非法操作。</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> Rational operator<span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> lhs<span class="token punctuation">,</span> <span class="token keyword">const</span> Rational<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span></code></pre>
+<ol start="4">
+<li>
+<p>类的成员函数与const<br>
+给成员函数使用const关键字是非常重要的，它可以让接口更加直观，直接告诉用户这个函数是不是只读(Read only)，会不会改变某变量。</p>
+</li>
+<li>
+<p>成员函数的常量性<br>
+C++标准对成员函数&quot;常量性&quot;的规定是数据常量性(bitwise constness)，即不允许常量对象的成员数据被修改。C++编译器对此的检测也十分简单粗暴，只检查该成员函数有没有给成员数据的赋值操作。</p>
+</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> Text <span class="token function">ct</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment">//构造某常量对象</span>
 <span class="token keyword">char</span><span class="token operator">*</span> pc <span class="token operator">=</span> <span class="token operator">&amp;</span>ct<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>             <span class="token comment">//取其指针</span>
-<span class="token operator">*</span>pc <span class="token operator">=</span> <span class="token string">'K'</span><span class="token punctuation">;</span>                     <span class="token comment">//通过指针修改常量对象，编译不会报错，结果为"Kello"</span></code></pre> 还有另一个局限性，例如： <pre class="language-c" data-language="c"><code class="language-c">class Text<span class="token punctuation">&#123;</span>
+<span class="token operator">*</span>pc <span class="token operator">=</span> <span class="token char">'K'</span><span class="token punctuation">;</span>                     <span class="token comment">//通过指针修改常量对象，编译不会报错，结果为"Kello"</span></code></pre>
+<p>还有另一个局限性，例如：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Text<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     std<span class="token operator">::</span><span class="token class-name">sizt_t</span> <span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
   private<span class="token operator">:</span>
@@ -87,28 +517,52 @@ std<span class="token operator">::</span><span class="token class-name">size_t</
   <span class="token punctuation">&#125;</span>
 
   <span class="token keyword">return</span> length<span class="token punctuation">;</span>             <span class="token comment">//这行才是代码核心</span>
-<span class="token punctuation">&#125;</span></code></pre> 在这段代码中，length()函数要做某些错误检测，因此可能会修改成员数据。即使真正的功能核心只是返回字符长度，编译器依然认为你可能会修改某些成员数据而报错。因此，更好的方法是逻辑常量性(Logical constness)，即允许某些数据被修改，只要这些改动不会反映在外，例如，以上问题可以用mutable关键字来解决: <pre class="language-c" data-language="c"><code class="language-c">mutable std<span class="token operator">::</span><span class="token class-name">size_t</span> length<span class="token punctuation">;</span>
-mutable bool lengthValid<span class="token punctuation">;</span></code></pre></p></li>
-<li><p>在定义常量与非常量成员函数时，避免代码重复 其实在这里指的是函数的实现要避免重复。试想某函数既要检查边界范围，又要记录读取历史，还要检查数据完整性，这样的代码复制一遍，既不显得美观，又增加了代码维护的难度和编译时间。因此，可以使用非常量的函数来调用常量函数。 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">&amp;</span> operator<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span>std<span class="token operator">::</span><span class="token class-name">size_t</span> pos<span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>在这段代码中，length()函数要做某些错误检测，因此可能会修改成员数据。即使真正的功能核心只是返回字符长度，编译器依然认为你可能会修改某些成员数据而报错。因此，更好的方法是逻辑常量性(Logical constness)，即允许某些数据被修改，只要这些改动不会反映在外，例如，以上问题可以用mutable关键字来解决:</p>
+<pre class="language-c" data-language="c"><code class="language-c">mutable std<span class="token operator">::</span><span class="token class-name">size_t</span> length<span class="token punctuation">;</span>
+mutable bool lengthValid<span class="token punctuation">;</span></code></pre>
+<ol start="6">
+<li>在定义常量与非常量成员函数时，避免代码重复<br>
+其实在这里指的是函数的实现要避免重复。试想某函数既要检查边界范围，又要记录读取历史，还要检查数据完整性，这样的代码复制一遍，既不显得美观，又增加了代码维护的难度和编译时间。因此，可以使用非常量的函数来调用常量函数。</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">&amp;</span> operator<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span>std<span class="token operator">::</span><span class="token class-name">size_t</span> pos<span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
 <span class="token keyword">char</span><span class="token operator">&amp;</span> operator<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span>std<span class="token operator">::</span><span class="token class-name">size_t</span> pos<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   <span class="token keyword">return</span>
     const_cast<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">&amp;</span><span class="token operator">></span><span class="token punctuation">(</span>                              <span class="token comment">//const_cast去掉const关键字，并转换为char&amp;</span>
       static_cast<span class="token operator">&lt;</span><span class="token keyword">const</span> Text<span class="token operator">&amp;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token operator">*</span>this<span class="token punctuation">)</span><span class="token punctuation">[</span>position<span class="token punctuation">]</span><span class="token punctuation">;</span>    <span class="token comment">//给当前变量加上const关键字，才可以调用const操作符</span>
   <span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre> 为了避免无限递归调用当前非常量的操作符，可以需要将(*this)转换为const Text&amp;类型才能保证安全调用const的操作符，最后去掉const关键字再将其返回，巧妙避免了代码的大段复制。 但注意，如果使用相反的方法，用const函数来调用non-const函数，就可能会有未知结果，因为这样相当于non-const函数接触到了const对象的数据，就可能导致常量数据被改变。</p></li>
-</ol>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>为了避免无限递归调用当前非常量的操作符，可以需要将(*this)转换为const Text&amp;类型才能保证安全调用const的操作符，最后去掉const关键字再将其返回，巧妙避免了代码的大段复制。<br>
+但注意，如果使用相反的方法，用const函数来调用non-const函数，就可能会有未知结果，因为这样相当于non-const函数接触到了const对象的数据，就可能导致常量数据被改变。</p>
 <p>总结：</p>
 <ul>
-<li><p>指针，迭代器，引用，本地变量，全局变量，成员函数，返回值都可以使用const来实现数据只读的目的，const是C++一个非常强大的特性。</p></li>
-<li><p>除此之外，它还能帮助加快调试过程</p></li>
-<li><p>即使编译器使用数据常量性的标准，可以编程的时候应该采用逻辑常量性，对相关不可避免更改的成员数据加上mutable关键字来修饰</p></li>
-<li><p>当有大段复制代码出现在const和non-const的成员函数中，可以使用non-const函数来调用const函数来避免复制。</p></li>
+<li>
+<p>指针，迭代器，引用，本地变量，全局变量，成员函数，返回值都可以使用const来实现数据只读的目的，const是C++一个非常强大的特性。</p>
+</li>
+<li>
+<p>除此之外，它还能帮助加快调试过程</p>
+</li>
+<li>
+<p>即使编译器使用数据常量性的标准，可以编程的时候应该采用逻辑常量性，对相关不可避免更改的成员数据加上mutable关键字来修饰</p>
+</li>
+<li>
+<p>当有大段复制代码出现在const和non-const的成员函数中，可以使用non-const函数来调用const函数来避免复制。</p>
+</li>
 </ul>
 <h3 id="条款4-确定对象被使用前已经被初始化">条款4 确定对象被使用前已经被初始化</h3>
 <p>C++并不能保证每个对象在定义时都被自动初始化。就像书中第一条提到的一样，C++包含多种子语言，例如定义一个C风格的整型数组(int[])时，其中就可能包含非零初始化的元素。到那时STL中的容器所有元素都是被0初始化的（默认条件）。</p>
-<ol type="1">
-<li><p>自有类型(built-in type)的初始化 C++的自有类型继承于C，因此不能保证此类型的变量在定义时被初始化。使用未初始化的数据可能会导致程序不正常运作，因此在定义变量的时候，需要对其进行初始化。</p></li>
-<li><p>类的初始化 对于用户自定义的类，可以需要构造函数(constructor)来完成此类的初始化 例如： <pre class="language-c" data-language="c"><code class="language-c">class PhoneNumber <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<ol>
+<li>
+<p>自有类型(built-in type)的初始化<br>
+C++的自有类型继承于C，因此不能保证此类型的变量在定义时被初始化。使用未初始化的数据可能会导致程序不正常运作，因此在定义变量的时候，需要对其进行初始化。</p>
+</li>
+<li>
+<p>类的初始化<br>
+对于用户自定义的类，可以需要构造函数(constructor)来完成此类的初始化<br>
+例如：</p>
+</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c">class PhoneNumber <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
 class ABEntry
 <span class="token punctuation">&#123;</span> <span class="token comment">// ABEntry = “Address Book Entry”</span>
@@ -129,20 +583,30 @@ ABEntry<span class="token operator">::</span><span class="token function">ABEntr
     theAddress <span class="token operator">=</span> address<span class="token punctuation">;</span> <span class="token comment">// not initializations</span>
     thePhones <span class="token operator">=</span> phones<span class="token punctuation">;</span>
     numTimesConsulted <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre> 这是个易于记忆的方法，但不是最好的方法。因为此构造函数并没有真正完成“初始化”，只不过是做了“赋值”的操作。C++规定，对象的成员变量的初始化动作发生在进入构造函数本体之前。也就是初始化的发生时间在这些成员的default构造函数被调用之时（比进入构造函数本体的时间更早）。 描写构造函数可以有更好的方法： <pre class="language-c" data-language="c"><code class="language-c">ABEntry<span class="token operator">::</span><span class="token function">ABEntry</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>name<span class="token punctuation">,</span> <span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>address<span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>这是个易于记忆的方法，但不是最好的方法。因为此构造函数并没有真正完成“初始化”，只不过是做了“赋值”的操作。C++规定，对象的成员变量的初始化动作发生在进入构造函数本体之前。也就是初始化的发生时间在这些成员的default构造函数被调用之时（比进入构造函数本体的时间更早）。<br>
+描写构造函数可以有更好的方法：</p>
+<pre class="language-c" data-language="c"><code class="language-c">ABEntry<span class="token operator">::</span><span class="token function">ABEntry</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>name<span class="token punctuation">,</span> <span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>address<span class="token punctuation">,</span>
                  <span class="token keyword">const</span> std<span class="token operator">::</span>list<span class="token operator">&lt;</span>PhoneNumber<span class="token operator">></span> <span class="token operator">&amp;</span>phones<span class="token punctuation">)</span>
     <span class="token operator">:</span> <span class="token function">theName</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">,</span>
       <span class="token function">theAddress</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// these are now all initializations</span>
       <span class="token function">thePhones</span><span class="token punctuation">(</span>phones<span class="token punctuation">)</span><span class="token punctuation">,</span>
       <span class="token function">numTimesConsulted</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> </code></pre></p></li>
-<li><p>有些初始化是必要的 例如在定义引用(reference)和常量(const)时，不将其初始化会导致编译器报错。 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> a<span class="token punctuation">;</span>                <span class="token comment">//报错，需要初始化！</span>
+<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> </code></pre>
+<ol start="3">
+<li>有些初始化是必要的<br>
+例如在定义引用(reference)和常量(const)时，不将其初始化会导致编译器报错。</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> a<span class="token punctuation">;</span>                <span class="token comment">//报错，需要初始化！</span>
 <span class="token keyword">int</span><span class="token operator">&amp;</span> b<span class="token punctuation">;</span>                     <span class="token comment">//报错，需要初始化！</span>
 <span class="token comment">//现在对其进行初始化：</span>
 <span class="token keyword">const</span> <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>            <span class="token comment">//编译通过</span>
 <span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span><span class="token operator">&amp;</span> b <span class="token operator">=</span> c<span class="token punctuation">;</span>                 <span class="token comment">//编译通过！</span></code></pre> 最省力的方法就是总是初始化，并且使用初值列初始化，省力又高效。</p></li>
-<li><p>初始化的顺序 在继承关系中，基类(base class)总是先被初始化。</p></li>
+<span class="token keyword">int</span><span class="token operator">&amp;</span> b <span class="token operator">=</span> c<span class="token punctuation">;</span>                 <span class="token comment">//编译通过！</span></code></pre>
+<p>最省力的方法就是总是初始化，并且使用初值列初始化，省力又高效。</p>
+<ol start="4">
+<li>初始化的顺序<br>
+在继承关系中，基类(base class)总是先被初始化。</li>
 </ol>
 <p>在同一类中，成员数据的初始化顺序与其声明顺序是一致的，而不是初始化列表的顺序。因此，为了代码一致性，要保证初始化列表的顺序与成员数据声明的顺序是一样的。</p>
 <pre class="language-c" data-language="c"><code class="language-c">class myClass<span class="token punctuation">&#123;</span>
@@ -156,12 +620,16 @@ ABEntry<span class="token operator">::</span><span class="token function">ABEntr
 
 <span class="token comment">//即使初始化列表是c->a->b的顺序，真正的初始化顺序还是按照a->b->c</span>
 myClass<span class="token operator">::</span><span class="token function">myClass</span><span class="token punctuation">(</span><span class="token keyword">int</span> _a<span class="token punctuation">,</span> <span class="token keyword">int</span> _b<span class="token punctuation">,</span> <span class="token keyword">int</span> _c<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token function">c</span><span class="token punctuation">(</span>_c<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">a</span><span class="token punctuation">(</span>_a<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">b</span><span class="token punctuation">(</span>_b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span></code></pre>
-<ol start="5" type="1">
-<li>初始化非本地静态对象 在两个编译单元中，分别包含至少一个非本地静态对象，当这些对象发生互动时，它们的初始化顺序是不确定的，所以直接使用这些变量，就会给程序的运行带来风险。</li>
+<ol start="5">
+<li>初始化非本地静态对象<br>
+在两个编译单元中，分别包含至少一个非本地静态对象，当这些对象发生互动时，它们的初始化顺序是不确定的，所以直接使用这些变量，就会给程序的运行带来风险。</li>
 </ol>
 <ul>
 <li>编译单元：可以让编译器生成代码的基本单元，一般一个源代码文件就是一个编译单元。</li>
-<li>非本地静态对象(non-local static object): 静态对象可以是在全局范围定义的变量，在名空间范围定义的变量，函数范围内定义为static的变量，类的范围内定义为static的变量，而除了函数中的静态对象是本地的，其他都是非本地的。静态对象存在于程序的开始到结束，所以它不是基于堆(heap)或者栈(stack)的。初始化的静态对象存在于.data中，未初始化的则存在于.bss中。 存在以下服务端代码和客户端代码 <pre class="language-c" data-language="c"><code class="language-c"><span class="token comment">//服务端</span>
+<li>非本地静态对象(non-local static object): 静态对象可以是在全局范围定义的变量，在名空间范围定义的变量，函数范围内定义为static的变量，类的范围内定义为static的变量，而除了函数中的静态对象是本地的，其他都是非本地的。静态对象存在于程序的开始到结束，所以它不是基于堆(heap)或者栈(stack)的。初始化的静态对象存在于.data中，未初始化的则存在于.bss中。<br>
+存在以下服务端代码和客户端代码</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token comment">//服务端</span>
 class Server<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>     
 <span class="token keyword">extern</span> Server server<span class="token punctuation">;</span>                 <span class="token comment">//在全局范围声明外部对象server，供外部使用</span>
 <span class="token comment">//客户端</span>
@@ -170,7 +638,11 @@ Client<span class="token operator">::</span><span class="token function">Client<
     number <span class="token operator">=</span> server<span class="token punctuation">.</span>number<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span>
 
-Client client<span class="token punctuation">;</span>                       <span class="token comment">//在全局范围定义client对象，自动调用了Client类的构造函数</span></code></pre> 以上问题在于，定义对象client自动调用了client类的构造函数，此时需要读取对象server的数据，但全局变量的不可控性让可以不能保证对象server在此时被读取时是初始化的。试想如果还有对象client1, client2等等不同的用户读写，可以不能保证当前server的数据是可以想要的。 解决方法: 将全局变量变为本地静态变量 使用一个函数，只用来定义一个本地静态变量并返回它的引用。因为C++规定在本地范围(函数范围)内定义某静态对象时，当此函数被调用，该静态变量一定会被初始化。 <pre class="language-c" data-language="c"><code class="language-c">class Server<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+Client client<span class="token punctuation">;</span>                       <span class="token comment">//在全局范围定义client对象，自动调用了Client类的构造函数</span></code></pre>
+<p>以上问题在于，定义对象client自动调用了client类的构造函数，此时需要读取对象server的数据，但全局变量的不可控性让可以不能保证对象server在此时被读取时是初始化的。试想如果还有对象client1, client2等等不同的用户读写，可以不能保证当前server的数据是可以想要的。<br>
+解决方法: 将全局变量变为本地静态变量<br>
+使用一个函数，只用来定义一个本地静态变量并返回它的引用。因为C++规定在本地范围(函数范围)内定义某静态对象时，当此函数被调用，该静态变量一定会被初始化。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Server<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 Server<span class="token operator">&amp;</span> <span class="token function">server</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>                         <span class="token comment">//将直接的声明改为一个函数</span>
     <span class="token keyword">static</span> Server server<span class="token punctuation">;</span>
     <span class="token keyword">return</span> server<span class="token punctuation">;</span>
@@ -183,14 +655,18 @@ Client<span class="token operator">::</span><span class="token function">client<
 Client<span class="token operator">&amp;</span> <span class="token function">client</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>                        <span class="token comment">//同样将客户端的声明改为一个函数</span>
     <span class="token keyword">static</span> Client client<span class="token punctuation">;</span>
     <span class="token keyword">return</span> client<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre> 总结：</li>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>总结：</p>
+<ul>
 <li>对于自由类型，要保证在定义时手动初始化</li>
 <li>在定义构造函数时，要用初始化列表，避免使用在函数体内的赋值初始化。在使用初始化列表时，为了保持代码一致性，初始化列表中变量的顺序要与其声明顺序相同</li>
 <li>当不同的编译单元产生互动时，要将其中非本地的静态变量变为本地的静态变量才能保证安全的读写</li>
 </ul>
-<h3 id="条款5-了解c默默编写并调用哪些函数">条款5 了解C++默默编写并调用哪些函数</h3>
-<ol type="1">
-<li>C++会为类生成默认的关键函数，如默认的构造函数，拷贝赋值运算符，拷贝构造函数以及析构函数 <pre class="language-c" data-language="c"><code class="language-c">class Empty <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>             
+<h3 id="条款5-了解C-默默编写并调用哪些函数">条款5 了解C++默默编写并调用哪些函数</h3>
+<ol>
+<li>C++会为类生成默认的关键函数，如默认的构造函数，拷贝赋值运算符，拷贝构造函数以及析构函数</li>
+</ol>
+<pre class="language-c" data-language="c"><code class="language-c">class Empty <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>             
 <span class="token comment">//假定以下功能都会被调用，此定义等价于：</span>
 class Empty<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
@@ -198,7 +674,9 @@ class Empty<span class="token punctuation">&#123;</span>
     <span class="token function">Empty</span><span class="token punctuation">(</span><span class="token keyword">const</span> Empty<span class="token operator">&amp;</span> empty<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>             <span class="token comment">//拷贝构造函数</span>
     <span class="token operator">~</span><span class="token function">Empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>                               <span class="token comment">//析构函数</span>
     Empty<span class="token operator">&amp;</span> operator<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">const</span> Empty<span class="token operator">&amp;</span> empty<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>   <span class="token comment">//拷贝赋值运算符</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 对于赋值运算符，只有当代码合法且有意义，编译器才会自动生成，然而有些时候会产生错误。 <pre class="language-c" data-language="c"><code class="language-c">template<span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>对于赋值运算符，只有当代码合法且有意义，编译器才会自动生成，然而有些时候会产生错误。</p>
+<pre class="language-c" data-language="c"><code class="language-c">template<span class="token operator">&lt;</span>typename T<span class="token operator">></span>
 class A<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     <span class="token function">A</span><span class="token punctuation">(</span>std<span class="token operator">::</span>string<span class="token operator">&amp;</span> _name<span class="token punctuation">,</span> <span class="token keyword">const</span> T<span class="token operator">&amp;</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -210,16 +688,19 @@ std<span class="token operator">::</span>string <span class="token function">s1<
 std<span class="token operator">::</span>string <span class="token function">s2</span><span class="token punctuation">(</span><span class="token string">"hi"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 A<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">a1</span><span class="token punctuation">(</span>s1<span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 A<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">a2</span><span class="token punctuation">(</span>s2<span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-a1<span class="token operator">=</span>a2<span class="token punctuation">;</span></code></pre> 如果按照默认的赋值运算符，会编译错误，相当于如下操作，自然不可使用。 <pre class="language-c" data-language="c"><code class="language-c">string u <span class="token punctuation">,</span> v<span class="token punctuation">;</span>
+a1<span class="token operator">=</span>a2<span class="token punctuation">;</span></code></pre>
+<p>如果按照默认的赋值运算符，会编译错误，相当于如下操作，自然不可使用。</p>
+<pre class="language-c" data-language="c"><code class="language-c">string u <span class="token punctuation">,</span> v<span class="token punctuation">;</span>
 string <span class="token operator">&amp;</span>a <span class="token operator">=</span> u <span class="token punctuation">,</span><span class="token operator">&amp;</span>b <span class="token operator">=</span> v<span class="token punctuation">;</span>
-a <span class="token operator">=</span> b<span class="token punctuation">;</span></code></pre> 此外，当基类有将赋值运算符声明为私有时，编译器也会拒绝为它的子类生成赋值运算符，因为在子类赋值过程中，它所包含的基类也应当被赋值。但是既然被声明为基类的私有成员，子类将不能调用。</li>
-</ol>
+a <span class="token operator">=</span> b<span class="token punctuation">;</span></code></pre>
+<p>此外，当基类有将赋值运算符声明为私有时，编译器也会拒绝为它的子类生成赋值运算符，因为在子类赋值过程中，它所包含的基类也应当被赋值。但是既然被声明为基类的私有成员，子类将不能调用。</p>
 <p>总结：</p>
 <ul>
 <li>如果自己不声明，编译器将会自动生成默认的构造函数，拷贝构造函数，拷贝赋值运算符和析构函数。</li>
 </ul>
 <h3 id="条款6-明确拒绝不需要的自动生成函数">条款6 明确拒绝不需要的自动生成函数</h3>
-<p>考虑如下类： <pre class="language-c" data-language="c"><code class="language-c">class Widget <span class="token punctuation">&#123;</span>
+<p>考虑如下类：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Widget <span class="token punctuation">&#123;</span>
  public<span class="token operator">:</span>
     <span class="token function">Widget</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>name<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">name_</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">buf_</span><span class="token punctuation">(</span>new <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
     <span class="token operator">~</span><span class="token function">Widget</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> delete buf_<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
@@ -227,8 +708,10 @@ a <span class="token operator">=</span> b<span class="token punctuation">;</span
  private<span class="token operator">:</span>
     std<span class="token operator">::</span>string name_<span class="token punctuation">;</span>
     <span class="token keyword">char</span> <span class="token operator">*</span>buf_<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 默认生成的拷贝构造函数，会直接拷贝buf_的值，导致两个Widget对象指向同一个缓 冲区，这会导致析构的时候两次删除同一片区域的问题（这个问题又叫双杀问题），所以在某种情况下就需要禁止拷贝。</p>
-<p>当一个父类将拷贝函数声明为私有时，编译器会拒绝为它的子类生成拷贝函数。因此可以专门使用一个父类，在其中声明拷贝操作为私有，并让可以的类继承自它。 <pre class="language-c" data-language="c"><code class="language-c">class Uncopyable<span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>默认生成的拷贝构造函数，会直接拷贝buf_的值，导致两个Widget对象指向同一个缓 冲区，这会导致析构的时候两次删除同一片区域的问题（这个问题又叫双杀问题），所以在某种情况下就需要禁止拷贝。</p>
+<p>当一个父类将拷贝函数声明为私有时，编译器会拒绝为它的子类生成拷贝函数。因此可以专门使用一个父类，在其中声明拷贝操作为私有，并让可以的类继承自它。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Uncopyable<span class="token punctuation">&#123;</span>
   protected<span class="token operator">:</span>
     <span class="token function">Uncopyable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token operator">~</span><span class="token function">Uncopyable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -237,19 +720,23 @@ a <span class="token operator">=</span> b<span class="token punctuation">;</span
     Uncopyable<span class="token operator">&amp;</span> operator<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">const</span> Uncopyable<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
-class House<span class="token operator">:</span>public Uncopyable<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>              <span class="token comment">//公有继承</span></code></pre> 在c++11中，可以在函数列表后加上=delete防止拷贝。 <pre class="language-c" data-language="c"><code class="language-c">class Base<span class="token punctuation">&#123;</span>
+class House<span class="token operator">:</span>public Uncopyable<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>              <span class="token comment">//公有继承</span></code></pre>
+<p>在c++11中，可以在函数列表后加上=delete防止拷贝。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Base<span class="token punctuation">&#123;</span>
 	public<span class="token operator">:</span>
 		<span class="token function">Base</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
 	private<span class="token operator">:</span>
 		<span class="token function">Base</span><span class="token punctuation">(</span>Base<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token operator">=</span>delete<span class="token punctuation">;</span>
 		Base<span class="token operator">&amp;</span> operator<span class="token operator">=</span><span class="token punctuation">(</span>Base<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token operator">=</span>delete<span class="token punctuation">;</span>
 	friend <span class="token keyword">void</span> <span class="token function">friendfunc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 总结:</p>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>总结:</p>
 <ul>
 <li>当不想让编译器为类自动生成某些函数时，把这些不想要的函数声明在此类的私有成员中，或者更好使用像如上例子的一个父类，并让可以的类公有继承。</li>
 </ul>
 <h3 id="条款7-为多态基类生成virtual析构函数">条款7 为多态基类生成virtual析构函数</h3>
-<p>对于多态基类，考虑如下情况： <pre class="language-c" data-language="c"><code class="language-c">class TimeKeeper                              <span class="token comment">//计时器类，用来当做基类</span>
+<p>对于多态基类，考虑如下情况：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class TimeKeeper                              <span class="token comment">//计时器类，用来当做基类</span>
 <span class="token punctuation">&#123;</span>                              
   public<span class="token operator">:</span>
     <span class="token function">TimeKeeper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                              <span class="token comment">//这是构造函数</span>
@@ -262,14 +749,21 @@ class WaterClock <span class="token operator">:</span> public TimeKeeper<span cl
 TimeKeeper<span class="token operator">*</span> <span class="token function">getTimeKeeper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>              <span class="token comment">//用来返回一个动态分配的基类对象</span>
 TimeKeeper<span class="token operator">*</span> ptk <span class="token operator">=</span> <span class="token function">getTimeKeeper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>                                         <span class="token comment">//使用这个指针操作它的子类</span>
-delete ptk<span class="token punctuation">;</span>                                   <span class="token comment">//使用完毕，释放资源</span></code></pre> C++中的new与delete常会导致内存泄漏。 如上代码问题在于，当你通过基类指针使用子类，使用完毕后却只从基类删除。同时这个基类的析构函数并不是虚函数(virtual)，也就是不允许子类有自己版本的析构函数，这样就只能删除子类中基类的部分，而子类衍生出来的变量和函数所占用的资源并没有被释放，这就造成了这个对象只被释放了一部分资源的现象，依然会导致内存泄漏。</p>
-<p>解决办法： 给基类一个虚的析构函数，这样子类就允许拥有自己的析构函数，就能保证被占用的所有资源都会被释放。 <pre class="language-c" data-language="c"><code class="language-c">class TimeKeeper
+delete ptk<span class="token punctuation">;</span>                                   <span class="token comment">//使用完毕，释放资源</span></code></pre>
+<p>C++中的new与delete常会导致内存泄漏。<br>
+如上代码问题在于，当你通过基类指针使用子类，使用完毕后却只从基类删除。同时这个基类的析构函数并不是虚函数(virtual)，也就是不允许子类有自己版本的析构函数，这样就只能删除子类中基类的部分，而子类衍生出来的变量和函数所占用的资源并没有被释放，这就造成了这个对象只被释放了一部分资源的现象，依然会导致内存泄漏。</p>
+<p>解决办法：<br>
+给基类一个虚的析构函数，这样子类就允许拥有自己的析构函数，就能保证被占用的所有资源都会被释放。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class TimeKeeper
 <span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     virtual <span class="token operator">~</span><span class="token function">TimeKeeper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 但是！如果不用来当做基类，随便把它的析构函数声明为虚函数不是不必要，而是不好！</p>
-<p>虚函数是用来在运行时(runtime)，自动把编译时未知的对象，比如用户输入的对象，和它所对应的函数绑定起来并调用。当一个类包含虚函数时，编译器会给这个类添加一个隐藏变量，即虚函数表指针(virtual table pointer)，用来指向一个包含函数指针的数组，即虚函数表(virtual table)。当一个虚函数被调用时，具体调用哪个函数就可以从这个表里找了。 问题在于，这个变量也是要占空间的！例如在32位系统里，一个地址占32位，那么这个变量就要占32位，而在64位系统就要占用64位。再举个栗子: <pre class="language-c" data-language="c"><code class="language-c">class Point
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>但是！如果不用来当做基类，随便把它的析构函数声明为虚函数不是不必要，而是不好！</p>
+<p>虚函数是用来在运行时(runtime)，自动把编译时未知的对象，比如用户输入的对象，和它所对应的函数绑定起来并调用。当一个类包含虚函数时，编译器会给这个类添加一个隐藏变量，即虚函数表指针(virtual table pointer)，用来指向一个包含函数指针的数组，即虚函数表(virtual table)。当一个虚函数被调用时，具体调用哪个函数就可以从这个表里找了。<br>
+问题在于，这个变量也是要占空间的！例如在32位系统里，一个地址占32位，那么这个变量就要占32位，而在64位系统就要占用64位。再举个栗子:</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Point
 <span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     <span class="token function">Point</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -277,23 +771,32 @@ delete ptk<span class="token punctuation">;</span>                              
   private<span class="token operator">:</span>
     <span class="token keyword">int</span> x<span class="token punctuation">;</span>
     <span class="token keyword">int</span> y<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 这样一个Point的类包含两个整型，因此一个对象要占64位。但如果把析构函数声明为虚函数，在32位系统里就要多占32位，在64位系统里就要多占64位，那么它所占用的空间直接增大了50%到100%。这样一来，对象就刚好不能用一个64位的寄存器装下了。</p>
-<p>对于标准库中的类不能随便继承，包括STL，因为这些库的并没有把析构函数定义为虚函数。 <pre class="language-c" data-language="c"><code class="language-c">class SpecialString <span class="token operator">:</span> public std<span class="token operator">::</span>string<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>      <span class="token comment">//某个继承自标准字符串的类</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>这样一个Point的类包含两个整型，因此一个对象要占64位。但如果把析构函数声明为虚函数，在32位系统里就要多占32位，在64位系统里就要多占64位，那么它所占用的空间直接增大了50%到100%。这样一来，对象就刚好不能用一个64位的寄存器装下了。</p>
+<p>对于标准库中的类不能随便继承，包括STL，因为这些库的并没有把析构函数定义为虚函数。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class SpecialString <span class="token operator">:</span> public std<span class="token operator">::</span>string<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>      <span class="token comment">//某个继承自标准字符串的类</span>
 
 SpecialString<span class="token operator">*</span> pss <span class="token operator">=</span> new <span class="token function">SpecialString</span><span class="token punctuation">(</span><span class="token string">"Hi"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 std<span class="token operator">::</span>string<span class="token operator">*</span> ps<span class="token punctuation">;</span>
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 ps <span class="token operator">=</span> pss<span class="token punctuation">;</span>
-delete ps<span class="token punctuation">;</span>                                          <span class="token comment">//使用完后从基类删除内存</span></code></pre> 如上代码会导致一开始所说的内存泄露问题。</p>
+delete ps<span class="token punctuation">;</span>                                          <span class="token comment">//使用完后从基类删除内存</span></code></pre>
+<p>如上代码会导致一开始所说的内存泄露问题。</p>
 <p>对于抽象类(abstract class)，抽象类是包含至少一个纯虚函数的类(pure virtual function)，而且它们不能被实例化，只能通过指针来操作，是纯粹被用来当做多态的基类的。</p>
-<p>相比于具体类(concrete class)，虽然它们都可以通过父类指针来操作子类，但抽象类有更高一层的抽象，从设计的角度上能更好概括某些类的共同特性，比如"狗"相对于"边牧"，"柴犬"，"斗牛"，把"狗"当做基类显然要好过把某个品种当做基类。</p>
-<p>因为多态的基类需要有虚析构函数，抽象类又需要有纯虚函数，那么在抽象类中就要把析构函数声明为纯虚函数: <pre class="language-c" data-language="c"><code class="language-c">class VBase
+<p>相比于具体类(concrete class)，虽然它们都可以通过父类指针来操作子类，但抽象类有更高一层的抽象，从设计的角度上能更好概括某些类的共同特性，比如&quot;狗&quot;相对于&quot;边牧&quot;，“柴犬”，“斗牛”，把&quot;狗&quot;当做基类显然要好过把某个品种当做基类。</p>
+<p>因为多态的基类需要有虚析构函数，抽象类又需要有纯虚函数，那么在抽象类中就要把析构函数声明为纯虚函数:</p>
+<pre class="language-c" data-language="c"><code class="language-c">class VBase
 <span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     virtual <span class="token operator">~</span><span class="token function">VBase</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>              <span class="token comment">//"=0"只是一个关键字，用来声明纯虚函数，并不把任何东西设为0</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 同时注意，当在继承层级中某一类的析构函数被调用时，它下一级类的析构函数会被随后调用，最后一直到基类的析构函数，因此作为析构函数调用的终点，要保证有一个定义，否则链接器会报错。</p>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>同时注意，当在继承层级中某一类的析构函数被调用时，它下一级类的析构函数会被随后调用，最后一直到基类的析构函数，因此作为析构函数调用的终点，要保证有一个定义，否则链接器会报错。</p>
 <p>一般来讲，可以使用基类都是为了实现多态，那么这些基类就需要虚的析构函数，比如可以的TimeKeeper类，就可以通过TimeKeeper的指针来操作例如AtomicClock这样的子类。但并不是所有的基类都是被用来实现多态的，比如可以在上一章讲过的Uncopyable类，单纯只是为了实现某个功能，而不是希望通过它的指针来操作某个对象，那么就不需要将析构函数声明为虚函数。以及某些类就不是用来当做基类的，比如标准库的string类和STL容器类，也不需要将析构函数声明为虚函数。</p>
-<p>总结： * 用来实现多态的基类应该有声明为虚(virtual)的析构函数。如果一个基类中含有虚函数，那它就是被用来实现多态的，就需要有一个虚的析构函数 * 某些类不是被用来当做基类的，比如std::string和STL，或者某些不是用来实现多态的基类，比如上一章的Uncopyable，就不需要虚的析构函数。</p>
+<p>总结：</p>
+<ul>
+<li>用来实现多态的基类应该有声明为虚(virtual)的析构函数。如果一个基类中含有虚函数，那它就是被用来实现多态的，就需要有一个虚的析构函数</li>
+<li>某些类不是被用来当做基类的，比如std::string和STL，或者某些不是用来实现多态的基类，比如上一章的Uncopyable，就不需要虚的析构函数。</li>
+</ul>
 <h3 id="条款8-别在析构函数中抛出异常">条款8 别在析构函数中抛出异常</h3>
 <p>先讲一下什么叫栈展开(stack unwinding)，才能更好理解C++异常(exception)的机制：</p>
 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token function">throw</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>           <span class="token comment">//函数f1会抛出一个整型的异常代码</span>
@@ -327,7 +830,8 @@ delete ps<span class="token punctuation">;</span>                               
 <p>在C++里，当有异常被抛出，调用栈(call stack)，即栈中用来储存函数调用信息的部分，会被按次序搜索，直到找到对应类型的处理程序(exception handler)。而这里的搜索顺序就是f1-&gt;f2-&gt;f3。f1没有对应类型的catch块，因此跳到了f2，但f2也没有对应类型的catch块，因此跳到f3才能处理掉这个异常。</p>
 <p>以上这个寻找异常相应类型处理器的过程就叫做栈展开。同时在这一过程中，当从f1返回到f2时，f1里局部变量的资源会被清空，即调用了对象的析构函数。同样，在从f2返回到f3时，f2里局部变量也会被调用析构函数并清空资源。</p>
 <p>C++并不阻止在类的析构函数中抛出异常，但这是一个非常不好的做法。因为栈展开的前提是已经有一个未处理的异常，并且栈展开会自动调用函数本地对象的析构函数，如果这时对象的析构函数时又抛出一个异常，现在就同时有两个异常出现，但C++最多只能同时处理一个异常，因此程序这时会自动调用std::terminate()函数，导致可以所谓的闪退或者崩溃。</p>
-<p>如下栗子也会导致程序同时出现多个异常： <pre class="language-c" data-language="c"><code class="language-c">class Widget<span class="token punctuation">&#123;</span>
+<p>如下栗子也会导致程序同时出现多个异常：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Widget<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
     <span class="token operator">~</span><span class="token function">Widget</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>        <span class="token comment">//假设此析构函数可能会抛出异常</span>
@@ -335,8 +839,10 @@ delete ps<span class="token punctuation">;</span>                               
 
 <span class="token keyword">void</span> <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>Widget<span class="token operator">></span> v<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>                         <span class="token comment">//在这一行调用了v的析构函数，资源被释放</span></code></pre> 当v被调用析构函数，它包含的所有Widget对象也都会被调用析构函数。又因为v是一个容器，如果在释放第一个元素时触发了异常，它也只能继续释放别的元素，否则会导致其它元素的资源泄露。如果在释放第二个元素的时候又触发了异常，那么程序同样会导致崩溃。不仅仅是std::vector，所有STL容器的类甚至包括数组也都会像这样因为析构函数抛出异常而崩溃程序，所以在C++中，不要让析构函数抛出异常！</p>
-<p>如果不得不抛出异常呢，如下： <pre class="language-c" data-language="c"><code class="language-c">class DBConnection<span class="token punctuation">&#123;</span>                   <span class="token comment">//某用来建立数据库连接的类</span>
+<span class="token punctuation">&#125;</span>                         <span class="token comment">//在这一行调用了v的析构函数，资源被释放</span></code></pre>
+<p>当v被调用析构函数，它包含的所有Widget对象也都会被调用析构函数。又因为v是一个容器，如果在释放第一个元素时触发了异常，它也只能继续释放别的元素，否则会导致其它元素的资源泄露。如果在释放第二个元素的时候又触发了异常，那么程序同样会导致崩溃。不仅仅是std::vector，所有STL容器的类甚至包括数组也都会像这样因为析构函数抛出异常而崩溃程序，所以在C++中，不要让析构函数抛出异常！</p>
+<p>如果不得不抛出异常呢，如下：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class DBConnection<span class="token punctuation">&#123;</span>                   <span class="token comment">//某用来建立数据库连接的类</span>
   public<span class="token operator">:</span>
     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
     <span class="token keyword">static</span> DBConnection <span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">//建立一个连接</span>
@@ -356,24 +862,34 @@ class DBConn<span class="token punctuation">&#123;</span>                       
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>                                
 <span class="token punctuation">&#125;</span>      
 <span class="token comment">//对象dbc被释放资源</span>
-<span class="token comment">//但它的析构函数调用了可能会抛出异常的close()方法</span></code></pre> 可以通过DBConn的析构函数来释放资源并关闭连接，但析构函数所调用的close()方法可能会抛出异常，那么有什么方法来解决呢？ 有三个方法：</p>
+<span class="token comment">//但它的析构函数调用了可能会抛出异常的close()方法</span></code></pre>
+<p>可以通过DBConn的析构函数来释放资源并关闭连接，但析构函数所调用的close()方法可能会抛出异常，那么有什么方法来解决呢？<br>
+有三个方法：</p>
 <ul>
-<li><p>栈展开的过程终止于异常被对应类型的catch块接到，因此在这种情况下，只要catch包括了所有可能的异常，析构函数就能消化掉这个异常，防止异常从析构函数里跑出来，和别的异常产生冲突。 <pre class="language-c" data-language="c"><code class="language-c">DBConn<span class="token operator">::</span><span class="token operator">~</span><span class="token function">DBConn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<li>栈展开的过程终止于异常被对应类型的catch块接到，因此在这种情况下，只要catch包括了所有可能的异常，析构函数就能消化掉这个异常，防止异常从析构函数里跑出来，和别的异常产生冲突。</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c">DBConn<span class="token operator">::</span><span class="token operator">~</span><span class="token function">DBConn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   try<span class="token punctuation">&#123;</span> 
     db<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">&#125;</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token comment">//记录访问历史</span>
   <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span></code></pre></p></li>
-<li><p>通过std::abort()函数来主动关闭程序，而不是任由程序在某个随机时刻突然崩溃，这样能减少潜在的用户风险。对于某些比较严重的异常，就可以使用这个方法。并且可以结合使用上面的方法，把能处理的异常消化掉。 <pre class="language-c" data-language="c"><code class="language-c">DBConn<span class="token operator">::</span><span class="token operator">~</span><span class="token function">DBConn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<ul>
+<li>通过std::abort()函数来主动关闭程序，而不是任由程序在某个随机时刻突然崩溃，这样能减少潜在的用户风险。对于某些比较严重的异常，就可以使用这个方法。并且可以结合使用上面的方法，把能处理的异常消化掉。</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c">DBConn<span class="token operator">::</span><span class="token operator">~</span><span class="token function">DBConn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   try<span class="token punctuation">&#123;</span> 
     db<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">&#125;</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token comment">//记录访问历史</span>
     std<span class="token operator">::</span><span class="token function">abort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span></code></pre></p></li>
-<li><p>把可能抛出异常的代码移出析构函数，设计DBConn类的更安全的接口，让其他函数来承担这个风险，而且这样也可以事先在析构函数这样的紧要关头前对异常做出处理。 <pre class="language-c" data-language="c"><code class="language-c">class DBConn<span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<ul>
+<li>把可能抛出异常的代码移出析构函数，设计DBConn类的更安全的接口，让其他函数来承担这个风险，而且这样也可以事先在析构函数这样的紧要关头前对异常做出处理。</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c">class DBConn<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
     <span class="token operator">~</span><span class="token function">DBConn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -396,15 +912,15 @@ DBConn<span class="token operator">::</span><span class="token operator">~</span
       <span class="token comment">//记录访问历史</span>
       <span class="token comment">//消化异常或者主动关闭</span>
     <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span></code></pre></p></li>
-</ul>
+<span class="token punctuation">&#125;</span></code></pre>
 <p>总结：</p>
 <ul>
 <li>不要让异常从析构函数里跑出来。如果析构函数的某些代码可能会抛出异常，要保证它们能在跑出析构函数之前被catch块接到，然后选择消化异常还是终止程序。</li>
 <li>可以把可能抛出异常的代码从析构函数中移到别的函数里，这样就可以事先对异常做出反应。</li>
 </ul>
 <h3 id="条款9-不要在构造函数和析构函数中调用虚函数">条款9 不要在构造函数和析构函数中调用虚函数</h3>
-<p>考虑如下情况 <pre class="language-c" data-language="c"><code class="language-c">class Transaction<span class="token punctuation">&#123;</span>                              <span class="token comment">//股市交易的基类</span>
+<p>考虑如下情况</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Transaction<span class="token punctuation">&#123;</span>                              <span class="token comment">//股市交易的基类</span>
   public<span class="token operator">:</span>
     <span class="token function">Transaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     virtual <span class="token keyword">void</span> <span class="token function">logTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">//该函数用来记录交易历史，是一个纯虚函数</span>
@@ -414,7 +930,9 @@ DBConn<span class="token operator">::</span><span class="token operator">~</span
 Transaction<span class="token operator">::</span><span class="token function">Transaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
   <span class="token function">logTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                             <span class="token comment">//在基类的构造函数中调用了这个纯虚函数</span>
-<span class="token punctuation">&#125;</span></code></pre> 同时又有表示"买进"和"卖出"的类，继承自以上的"交易": <pre class="language-c" data-language="c"><code class="language-c">class BuyTransaction <span class="token operator">:</span> public Transaction<span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>同时又有表示&quot;买进&quot;和&quot;卖出&quot;的类，继承自以上的&quot;交易&quot;:</p>
+<pre class="language-c" data-language="c"><code class="language-c">class BuyTransaction <span class="token operator">:</span> public Transaction<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     virtual <span class="token keyword">void</span> <span class="token function">logTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
@@ -424,12 +942,16 @@ class SellTransaction <span class="token operator">:</span> public Transaction<s
   public<span class="token operator">:</span>
     virtual <span class="token keyword">void</span> <span class="token function">logTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 假设在某处定义一个“买进”类的对象： <pre class="language-c" data-language="c"><code class="language-c">BuyTransaction b<span class="token punctuation">;</span></code></pre> 显然这里调用了"BuyTransaction"的构造函数。但因为在C++中，当子类开始构造时，它所包含的父类的部分要先完成构造，所以率先调用的构造函数是它的父类"Transaction"的构造函数。现在问题来了，因为父类的构造函数调用了一个纯虚函数，这就会导致即使创建的是它的子类对象，这个虚函数也不会绑定到子类的版本上，而是使用的父类版本。</p>
-<p>这就"有悖常理"了，虚函数不是会自动绑定到继承层级里对应的一个类吗？其实C++这样做是有一个很好的原因的。在条款四中提到，使用未初始化的数据可能会给程序带来风险。因为在创建一个子类对象时，它的父类部分会先被创建。当父类的构造函数刚刚调用完成时，可以只能保证父类部分的数据被初始化，而不能保证衍生部分的被初始化。如果现在让这个虚函数去对应子类的版本，就可能会因为使用未初始化的数据而导致程序运行时错误。</p>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>假设在某处定义一个“买进”类的对象：</p>
+<pre class="language-c" data-language="c"><code class="language-c">BuyTransaction b<span class="token punctuation">;</span></code></pre>
+<p>显然这里调用了&quot;BuyTransaction&quot;的构造函数。但因为在C++中，当子类开始构造时，它所包含的父类的部分要先完成构造，所以率先调用的构造函数是它的父类&quot;Transaction&quot;的构造函数。现在问题来了，因为父类的构造函数调用了一个纯虚函数，这就会导致即使创建的是它的子类对象，这个虚函数也不会绑定到子类的版本上，而是使用的父类版本。</p>
+<p>这就&quot;有悖常理&quot;了，虚函数不是会自动绑定到继承层级里对应的一个类吗？其实C++这样做是有一个很好的原因的。在条款四中提到，使用未初始化的数据可能会给程序带来风险。因为在创建一个子类对象时，它的父类部分会先被创建。当父类的构造函数刚刚调用完成时，可以只能保证父类部分的数据被初始化，而不能保证衍生部分的被初始化。如果现在让这个虚函数去对应子类的版本，就可能会因为使用未初始化的数据而导致程序运行时错误。</p>
 <p>事实上，正是由于这个原因，当一个子类对象在完成它自己全部成员的构造之前，C++只会把它当成父类，除了虚函数还包括typeid，dynamic_cast等，都会把当前对象当做父类，用来规避使用未初始化数据可能带来的风险。</p>
 <p>同样的原理，也不要让析构函数调用虚函数。在条款7讲过，析构函数的调用顺序是从子类到父类，与构造函数的调用顺序是相反的。当子类部分的成员数据被删除时，C++同样会把当前的对象认为是父类，如果这时调用了虚函数，也会导致错误版本的虚函数被调用。</p>
 <p>实际上这样在构造函数或者析构函数里直接调用虚函数，在某些编译器中是会发出警告的。不过即使无视掉这些警告，因为调用的是一个纯虚函数，通常是不会有定义的，所以在之后的链接过程中，链接器也会报错。</p>
-<p>但如下的代码做了完全一样的事，编译器和链接器却都不会发出警告或报错。这样的代码相比前面的就更具有潜在危害性: <pre class="language-c" data-language="c"><code class="language-c">class Transaction
+<p>但如下的代码做了完全一样的事，编译器和链接器却都不会发出警告或报错。这样的代码相比前面的就更具有潜在危害性:</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Transaction
 <span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     <span class="token function">Transaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>                  <span class="token comment">//调用了一个专门的init()函数</span>
@@ -441,9 +963,11 @@ class SellTransaction <span class="token operator">:</span> public Transaction<s
       <span class="token function">logTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                       <span class="token comment">//但里面却包含了虚函数的代码</span>
     <span class="token punctuation">&#125;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 即使init()函数有定义而且不是虚函数，它却调用了没有定义的纯虚函数logTransaction()，这就会导致在运行过程中，一旦使用了这里的代码，程序就会崩溃。</p>
-<p>就算logTransaction()函数是一个有定义的"普通的"虚函数，即没有"=0"关键字来修饰，程序虽然不会因为缺少定义而闪退，但却一样会在子类的构造过程中调用错误版本的虚函数。所以万全的解决方法就是，不管是纯虚的还是普通的，就不要在构造或者析构函数中调用虚函数。</p>
-<p>但如果一定想要对象在初始化的时候完成某些任务呢？那可以就需要在父类Transaction中，把虚函数logTransaction去掉virtual关键字，变成普通的函数，然后在子类构造过程中，把某些信息传递到父类的构造函数中。 <pre class="language-c" data-language="c"><code class="language-c">class Transaction<span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>即使init()函数有定义而且不是虚函数，它却调用了没有定义的纯虚函数logTransaction()，这就会导致在运行过程中，一旦使用了这里的代码，程序就会崩溃。</p>
+<p>就算logTransaction()函数是一个有定义的&quot;普通的&quot;虚函数，即没有&quot;=0&quot;关键字来修饰，程序虽然不会因为缺少定义而闪退，但却一样会在子类的构造过程中调用错误版本的虚函数。所以万全的解决方法就是，不管是纯虚的还是普通的，就不要在构造或者析构函数中调用虚函数。</p>
+<p>但如果一定想要对象在初始化的时候完成某些任务呢？那可以就需要在父类Transaction中，把虚函数logTransaction去掉virtual关键字，变成普通的函数，然后在子类构造过程中，把某些信息传递到父类的构造函数中。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Transaction<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     explicit <span class="token function">Transaction</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> info<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">//explicit关键字用来防止隐式转换</span>
     <span class="token keyword">void</span> <span class="token function">logTransaction</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> info<span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span> <span class="token comment">//增加一个传递参数，就可以从子类获得信息了</span>
@@ -453,22 +977,27 @@ class SellTransaction <span class="token operator">:</span> public Transaction<s
 Transaction<span class="token operator">::</span><span class="token function">Transaction</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> info<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
   <span class="token function">logTransaction</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span></code></pre> 现在就可以在子类对象中如下定义构造函数了，这样就能把子类的信息传递到父类中，让父类构造函数去完成子类构造函数想做的事： <pre class="language-c" data-language="c"><code class="language-c">class BuyTransaction <span class="token operator">:</span> public Transaction<span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>现在就可以在子类对象中如下定义构造函数了，这样就能把子类的信息传递到父类中，让父类构造函数去完成子类构造函数想做的事：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class BuyTransaction <span class="token operator">:</span> public Transaction<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     <span class="token function">BuyTransaction</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">Transaction</span><span class="token punctuation">(</span><span class="token function">createLog</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
   private<span class="token operator">:</span>
     <span class="token keyword">static</span> std<span class="token operator">::</span>string <span class="token function">createLog</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 这里createLog()就是一个辅助函数(helper function)，用来将某函数的一部分功能封装成另一个小函数，减少代码的复杂性，使代码更加可读。此外，因为这是一个子类的私有成员，父类构造函数被调用时不能保证它被初始化，所以使用static关键字可以避免意外使用了未初始化的成员数据。</p>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>这里createLog()就是一个辅助函数(helper function)，用来将某函数的一部分功能封装成另一个小函数，减少代码的复杂性，使代码更加可读。此外，因为这是一个子类的私有成员，父类构造函数被调用时不能保证它被初始化，所以使用static关键字可以避免意外使用了未初始化的成员数据。</p>
 <p>总结：</p>
 <ul>
 <li>不要在构造函数或者析构函数中调用虚函数，因为这样的虚函数只会对应起来当前构造或析构的类，不会上升到它的任何子类。</li>
 </ul>
-<h3 id="条款10-赋值操作符返回this的引用">条款10 赋值操作符返回*this的引用</h3>
-<p>c++中有如下用法： <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> x <span class="token punctuation">,</span> y <span class="token punctuation">,</span> z<span class="token punctuation">;</span>
+<h3 id="条款10-赋值操作符返回-this的引用">条款10 赋值操作符返回*this的引用</h3>
+<p>c++中有如下用法：</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> x <span class="token punctuation">,</span> y <span class="token punctuation">,</span> z<span class="token punctuation">;</span>
 x <span class="token operator">=</span> y <span class="token operator">=</span> z <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">;</span>
 <span class="token comment">//上述代码会被编译器从最右开始解析</span>
-x <span class="token operator">=</span> <span class="token punctuation">(</span>y <span class="token operator">=</span> <span class="token punctuation">(</span>z <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre> 对于自定义的类，赋值操作符应遵循如下两点规则:</p>
+x <span class="token operator">=</span> <span class="token punctuation">(</span>y <span class="token operator">=</span> <span class="token punctuation">(</span>z <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>对于自定义的类，赋值操作符应遵循如下两点规则:</p>
 <ul>
 <li>返回类型是当前类的引用</li>
 <li>返回*this给左边的变量</li>
@@ -492,20 +1021,23 @@ MessageBox<span class="token operator">::</span><span class="token function">Mes
 <ul>
 <li>赋值操作符应返回一个指向*this的引用</li>
 </ul>
-<h3 id="条款11-在operator-中处理自我赋值self-assingment">条款11 在operator= 中处理自我赋值（self assingment）</h3>
-<p>自我赋值： <pre class="language-c" data-language="c"><code class="language-c">class Widget<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<h3 id="条款11-在operator-中处理自我赋值（self-assingment）">条款11 在operator= 中处理自我赋值（self assingment）</h3>
+<p>自我赋值：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Widget<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 Widget w<span class="token punctuation">;</span>
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 w <span class="token operator">=</span> w<span class="token punctuation">;</span>             <span class="token comment">//自赋值</span>
 
 a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>       <span class="token comment">//如果i==j,那么这行代码也构成自赋值</span>
-<span class="token operator">*</span>px <span class="token operator">=</span> <span class="token operator">*</span>py<span class="token punctuation">;</span>         <span class="token comment">//如果px和py指向了同一个对象，这行代码也构成自赋值</span></code></pre> 以上的情况都是别名(aliasing)的后果，即某个对象可以通过多于一个符号名被访问，比如上面px和py如果被声明为同一个类型，它们就可以同时可以指向同一个对象。但在一个继承层级中，即使两个对象被声明为了不同的类型，别名依然可能发生，因为基类指针或者引用可以指向任何一个它的子类，例如:</p>
+<span class="token operator">*</span>px <span class="token operator">=</span> <span class="token operator">*</span>py<span class="token punctuation">;</span>         <span class="token comment">//如果px和py指向了同一个对象，这行代码也构成自赋值</span></code></pre>
+<p>以上的情况都是别名(aliasing)的后果，即某个对象可以通过多于一个符号名被访问，比如上面px和py如果被声明为同一个类型，它们就可以同时可以指向同一个对象。但在一个继承层级中，即使两个对象被声明为了不同的类型，别名依然可能发生，因为基类指针或者引用可以指向任何一个它的子类，例如:</p>
 <pre class="language-c" data-language="c"><code class="language-c">class Base<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 class Derived <span class="token operator">:</span> public Base<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>               <span class="token comment">//同一个继承层级中</span>
 
 <span class="token keyword">void</span> <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token keyword">const</span> Base<span class="token operator">&amp;</span> rb<span class="token punctuation">,</span> Derived<span class="token operator">*</span> pd<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//rb与pd就可能指向同一个对象</span></code></pre>
 <p>如果要手动管理资源而不使用资源管理类的话(resource managing class，见第13章)，的赋值操作符就可能不是自赋值安全的(self-assignment-safe):</p>
-<p>考虑如下代码： <pre class="language-c" data-language="c"><code class="language-c">class Bitmap<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
+<p>考虑如下代码：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Bitmap<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span>
 class Widget<span class="token punctuation">&#123;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
   private<span class="token operator">:</span>
@@ -516,8 +1048,13 @@ Widget<span class="token operator">&amp;</span> Widget<span class="token operato
   delete pb<span class="token punctuation">;</span>
   pb <span class="token operator">=</span> new <span class="token function">Bitmap</span><span class="token punctuation">(</span><span class="token operator">*</span>rhs<span class="token punctuation">.</span>bp<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">return</span> <span class="token operator">*</span>this<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre> 如果传入的参数rhs本身，就会导致delete语句把*this自己的资源释放掉，同时也释放掉了rhs的资源，最后返回的*this包含了一个损坏的数据，不能访问不能修改，甚至不能通过delete来为其释放资源，等于说这段空间就凭空消失了，所以这段代码不是自赋值安全的。</p>
-<p>解决方法： * 1 检查传入的参数是不是<em>this <pre class="language-c" data-language="c"><code class="language-c">Widget<span class="token operator">&amp;</span> Widget<span class="token operator">::</span>operator<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">const</span> Widget<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>如果传入的参数rhs本身，就会导致delete语句把*this自己的资源释放掉，同时也释放掉了rhs的资源，最后返回的*this包含了一个损坏的数据，不能访问不能修改，甚至不能通过delete来为其释放资源，等于说这段空间就凭空消失了，所以这段代码不是自赋值安全的。</p>
+<p>解决方法：</p>
+<ul>
+<li>1 检查传入的参数是不是*this</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c">Widget<span class="token operator">&amp;</span> Widget<span class="token operator">::</span>operator<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">const</span> Widget<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
 
   <span class="token keyword">if</span><span class="token punctuation">(</span>this <span class="token operator">==</span> <span class="token operator">&amp;</span>rhs<span class="token punctuation">)</span>             <span class="token comment">//先做一个身份检测</span>
     <span class="token keyword">return</span> <span class="token operator">*</span>this<span class="token punctuation">;</span>
@@ -525,12 +1062,22 @@ Widget<span class="token operator">&amp;</span> Widget<span class="token operato
   delete pb<span class="token punctuation">;</span>                   <span class="token comment">//如果不是自己，再执行如下操作</span>
   pb <span class="token operator">=</span> new <span class="token function">Bitmap</span><span class="token punctuation">(</span><span class="token operator">*</span>this<span class="token punctuation">.</span>pb<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">return</span> <span class="token operator">*</span>this<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre> 但是这个方法有个问题，当执行完delete，执行new语句时抛出异常，会导致</em>this储存了一个损坏的数据。 * 2 重新排列语句 <pre class="language-c" data-language="c"><code class="language-c">Widget<span class="token operator">&amp;</span> Widget<span class="token operator">::</span>operator<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">const</span> Widget<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>但是这个方法有个问题，当执行完delete，执行new语句时抛出异常，会导致*this储存了一个损坏的数据。</p>
+<ul>
+<li>2 重新排列语句</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c">Widget<span class="token operator">&amp;</span> Widget<span class="token operator">::</span>operator<span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">const</span> Widget<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   Bitmap <span class="token operator">*</span>pOrigin <span class="token operator">=</span> pb<span class="token punctuation">;</span>            <span class="token comment">//先保存一个原pb的备份</span>
   pb <span class="token operator">=</span> new <span class="token function">Bitmap</span><span class="token punctuation">(</span><span class="token operator">*</span>this<span class="token punctuation">.</span>pb<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">//拷贝过来rhs的pb</span>
   delete pOrigin<span class="token punctuation">;</span>                  <span class="token comment">//只删除备份</span>
   <span class="token keyword">return</span> <span class="token operator">*</span>this<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre> 这条解决方法既对自赋值安全，对异常也是安全的。如果现在new的这行抛出了异常，指针pb也不会被提前删除。同时这样的语句排列省去了上一条解决方法身份检测的步骤，因为即使传入的rhs是*this本身，最后删除的也只是备份而不是*this自己的pb。 * 3 先拷贝再调换 <pre class="language-c" data-language="c"><code class="language-c">class Widget<span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>这条解决方法既对自赋值安全，对异常也是安全的。如果现在new的这行抛出了异常，指针pb也不会被提前删除。同时这样的语句排列省去了上一条解决方法身份检测的步骤，因为即使传入的rhs是*this本身，最后删除的也只是备份而不是*this自己的pb。</p>
+<ul>
+<li>3 先拷贝再调换</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c">class Widget<span class="token punctuation">&#123;</span>
    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
   <span class="token keyword">void</span> <span class="token function">swap</span><span class="token punctuation">(</span>Widget<span class="token operator">&amp;</span> rhs<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//把rhs和*this的数据成员互相调换</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
@@ -546,7 +1093,8 @@ Widget<span class="token operator">&amp;</span> widget<span class="token operato
 Widget<span class="token operator">&amp;</span> Widget<span class="token operator">::</span><span class="token function">operator</span><span class="token punctuation">(</span>Widget rhs<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token function">swap</span><span class="token punctuation">(</span>rhs<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token operator">*</span>this<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span></code></pre> 这样的代码虽然可能违反了函数要使用常量引用传递的惯例，但这样做确实能减少源代码和目标代码的长度，增加了效率。</p>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>这样的代码虽然可能违反了函数要使用常量引用传递的惯例，但这样做确实能减少源代码和目标代码的长度，增加了效率。</p>
 <p>总结：</p>
 <ul>
 <li>赋值操作符要考虑到自赋值，使用参数身份检测，排列语句，先拷贝再调换的方法来确保代码是自赋值安全的。</li>
@@ -554,7 +1102,8 @@ Widget<span class="token operator">&amp;</span> Widget<span class="token operato
 </ul>
 <h3 id="条款12-完整拷贝对象">条款12 完整拷贝对象</h3>
 <p>C++有两种拷贝函数(copying function): 拷贝构造函数(copy constructor)和拷贝赋值操作符(copy assignment operator)。如果在自己定义的类中不声明这些拷贝函数，编译器会自动为你生成。如果我们声明了自己的拷贝函数，程序将会执行我们自己的拷贝函数。</p>
-<p>查看以下例子： <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">logCall</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> funcName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>查看以下例子：</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">logCall</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> funcName<span class="token punctuation">)</span><span class="token punctuation">;</span>
 class Customer<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
@@ -572,44 +1121,57 @@ Customer<span class="token operator">&amp;</span> Customer<span class="token ope
   <span class="token function">logCall</span><span class="token punctuation">(</span><span class="token string">"Customer copy assignment operator"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   name <span class="token operator">=</span> rhs<span class="token punctuation">.</span>name<span class="token punctuation">;</span>    <span class="token comment">//拷贝数据</span>
   <span class="token keyword">return</span> <span class="token operator">*</span>this<span class="token punctuation">;</span>       <span class="token comment">//返回*this，见第10章</span>
-<span class="token punctuation">&#125;</span></code></pre> 如果新增一个数据成员： <pre class="language-c" data-language="c"><code class="language-c">class Date<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>如果新增一个数据成员：</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Date<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 class Cutomer<span class="token punctuation">&#123;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
   private<span class="token operator">:</span>
     std<span class="token operator">::</span>string name<span class="token punctuation">;</span>
     Data lastTransaction<span class="token punctuation">;</span>     <span class="token comment">//新增了一个交易日期的数据成员</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 如果依然使用相同的两种拷贝函数，只能得到一个部分拷贝对象。</p>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>如果依然使用相同的两种拷贝函数，只能得到一个部分拷贝对象。</p>
 <p>C++的这两种拷贝函数有相似的功能和代码，如果想要节省代码，可以写另一个函数来给每个成员赋值，一般叫做init()</p>
 <p>总结：</p>
 <ul>
 <li>拷贝函数要照顾到类的所有部分，包括所有的数据成员和它的基类部分</li>
 <li>不要用一个拷贝函数来实现另一个拷贝函数，两种拷贝函数的语义不同。如果要节省代码，可以另写一个init()函数让两个拷贝函数来调用。</li>
 </ul>
-<h3 id="条款13-用对象来管理资源">条款13 用对象来管理资源</h3>
+<h3 id="条款13-用对象来管理资源">条款13  用对象来管理资源</h3>
 <p>资源是一个很宽泛的概念，但总体来讲，资源是我们可以用来使用，并且使用完之后要返还给系统的东西。在C++中，资源多数是指动态分配的内存。如果你只用new来分配内存却不在使用完后delete掉，将会导致内存泄漏。</p>
 <p>其他资源比如文件描述符(file descriptor)，Mutex锁，GUI中的字体(font)和画刷(brush)，网络接口(socket)，但不论资源是什么，我们一定要保证在使用过后要及时释放，否则就会造成资源泄露。当我们的代码变得越来越复杂，比如增加了异常抛出，函数不同的返回路径，手动管理资源将会变得费时费力，因此我们需要用对象来管理资源。</p>
-<p>假设我们在为不同类型的投资写一个库: <pre class="language-c" data-language="c"><code class="language-c">class Investment<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>            <span class="token comment">//Investment继承层级的基类</span>
-Investment<span class="token operator">*</span> <span class="token function">createInvestment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//返回一个动态分配的Investment层级对象指针</span></code></pre> 返回一个指针就说明我们要负责在用毕后及时释放资源: <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<p>假设我们在为不同类型的投资写一个库:</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Investment<span class="token punctuation">&#123;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>            <span class="token comment">//Investment继承层级的基类</span>
+Investment<span class="token operator">*</span> <span class="token function">createInvestment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//返回一个动态分配的Investment层级对象指针</span></code></pre>
+<p>返回一个指针就说明我们要负责在用毕后及时释放资源:</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   Intestment<span class="token operator">*</span> pInv <span class="token operator">=</span> <span class="token function">createInvestment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//分配</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>                                    <span class="token comment">//使用</span>
   delete pInv<span class="token punctuation">;</span>                           <span class="token comment">//释放</span>
-<span class="token punctuation">&#125;</span></code></pre> 如果中间部分存在并触发了一个return语句，最后的delete语句便会被跳过。如果用在循环里，中间存在并触发了break或goto语句，delete也不会被执行。同样如果中间的代码抛出了异常，这个指针也不会被删除掉。如果这个动态分配的对象没有被清理掉，不仅仅是它占用的内存资源泄露，它所占有的所有资源也将泄露。</p>
-<p>解决方法： 使用引用计数的智能指针(Reference-Counting Smart Pointer, RCSP)，它在运行时会统计有多少对象指向当前的资源，然后当没有任何对象指向当前资源时便会自动释放，shared_ptr可以在STL容器中使用。 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>如果中间部分存在并触发了一个return语句，最后的delete语句便会被跳过。如果用在循环里，中间存在并触发了break或goto语句，delete也不会被执行。同样如果中间的代码抛出了异常，这个指针也不会被删除掉。如果这个动态分配的对象没有被清理掉，不仅仅是它占用的内存资源泄露，它所占有的所有资源也将泄露。</p>
+<p>解决方法：<br>
+使用引用计数的智能指针(Reference-Counting Smart Pointer, RCSP)，它在运行时会统计有多少对象指向当前的资源，然后当没有任何对象指向当前资源时便会自动释放，shared_ptr可以在STL容器中使用。</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   std<span class="token operator">::</span>shared_ptr<span class="token operator">&lt;</span>Investment<span class="token operator">></span> <span class="token function">pInv</span><span class="token punctuation">(</span><span class="token function">createInvestment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 <span class="token punctuation">&#125;</span>  <span class="token comment">//无需手动释放</span>
 
 std<span class="token operator">::</span>shared_ptr<span class="token operator">&lt;</span>Investment<span class="token operator">></span> <span class="token function">pInv1</span><span class="token punctuation">(</span><span class="token function">createInvestment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 std<span class="token operator">::</span>shared_ptr<span class="token operator">&lt;</span>investment<span class="token operator">></span> <span class="token function">pInv2</span><span class="token punctuation">(</span>pInv1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//pInv1保持不变</span>
-pInv1 <span class="token operator">=</span> pInv2<span class="token punctuation">;</span>                                  <span class="token comment">//pInv2保持不变</span></code></pre> 使用智能指针只是用对象管理资源的方法之一，而且也存在着局限性。例如我们不能使用标准库的智能指针来指向一个动态分配的数组。</p>
+pInv1 <span class="token operator">=</span> pInv2<span class="token punctuation">;</span>                                  <span class="token comment">//pInv2保持不变</span></code></pre>
+<p>使用智能指针只是用对象管理资源的方法之一，而且也存在着局限性。例如我们不能使用标准库的智能指针来指向一个动态分配的数组。</p>
 <p>总结：</p>
 <ul>
 <li>防止资源泄露，从RAII做起。获取资源在构造过程中，释放资源在析构过程中。</li>
 <li>std::shared_ptr和auto_ptr是两个常用的RAII类。一般情况下std1::shared_ptr是更好的选择，因为它的拷贝不会影响到其它对象，并且支持STL容器。</li>
 </ul>
 <h3 id="条款14-资源管理类的拷贝">条款14 资源管理类的拷贝</h3>
-<p>对于堆之外的资源，例如Mutex锁，智能指针就不太好用。 <pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">lock</span><span class="token punctuation">(</span>Mutex<span class="token operator">*</span> pm<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//锁住pm指向的锁</span>
-<span class="token keyword">void</span> <span class="token function">unlock</span><span class="token punctuation">(</span>Mutex<span class="token operator">*</span> pm<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//解锁pm指向的锁</span></code></pre> 同时我们有一个符合RAII规范的类来管理这些锁，RAII即获取资源在对象构造过程中，释放资源在对象析构过程中: <pre class="language-c" data-language="c"><code class="language-c">class Lock
+<p>对于堆之外的资源，例如Mutex锁，智能指针就不太好用。</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">lock</span><span class="token punctuation">(</span>Mutex<span class="token operator">*</span> pm<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//锁住pm指向的锁</span>
+<span class="token keyword">void</span> <span class="token function">unlock</span><span class="token punctuation">(</span>Mutex<span class="token operator">*</span> pm<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//解锁pm指向的锁</span></code></pre>
+<p>同时我们有一个符合RAII规范的类来管理这些锁，RAII即获取资源在对象构造过程中，释放资源在对象析构过程中:</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Lock
 <span class="token punctuation">&#123;</span>
 public<span class="token operator">:</span>
     explicit <span class="token function">Lock</span><span class="token punctuation">(</span>Mutex <span class="token operator">*</span>pm<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">mutexPtr</span><span class="token punctuation">(</span>pm<span class="token punctuation">)</span>
@@ -619,16 +1181,27 @@ public<span class="token operator">:</span>
     <span class="token operator">~</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token function">unlock</span><span class="token punctuation">(</span>mutexPtr<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token comment">//在析构时释放资源，解锁</span>
 private<span class="token operator">:</span>
     Mutex <span class="token operator">*</span>mutexPtr<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre> 例如访问临界区(critical section), 临界区即线程必须互斥地访问某些资源，这些资源必须只能由最多一个线程访问，我们就需要以RAII的方式来进行操作: <pre class="language-c" data-language="c"><code class="language-c">Mutex m<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>例如访问临界区(critical section), 临界区即线程必须互斥地访问某些资源，这些资源必须只能由最多一个线程访问，我们就需要以RAII的方式来进行操作:</p>
+<pre class="language-c" data-language="c"><code class="language-c">Mutex m<span class="token punctuation">;</span>
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 <span class="token punctuation">&#123;</span>              <span class="token comment">//创建一个代码块来定义临界区</span>
   Lock <span class="token function">ml</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//构造锁ml，锁住m</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>          <span class="token comment">//执行临界区操作</span>
-<span class="token punctuation">&#125;</span>              <span class="token comment">//临界区结束，调用ml的析构函数，解锁</span></code></pre> 到现在为止以上的用法都是没有问题的，如果锁被拷贝了呢？ <pre class="language-c" data-language="c"><code class="language-c">Lock <span class="token function">ml1</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//m在ml1的构造过程中被锁住</span>
-Lock <span class="token function">ml2</span><span class="token punctuation">(</span>ml1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//把ml1拷贝进ml2，会发生什么?</span></code></pre> 在创建自己的RAII资源管理类时，我们必须要思考需要如何规定这个类的拷贝行为。对于这个问题，我们有如下选择:</p>
+<span class="token punctuation">&#125;</span>              <span class="token comment">//临界区结束，调用ml的析构函数，解锁</span></code></pre>
+<p>到现在为止以上的用法都是没有问题的，如果锁被拷贝了呢？</p>
+<pre class="language-c" data-language="c"><code class="language-c">Lock <span class="token function">ml1</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//m在ml1的构造过程中被锁住</span>
+Lock <span class="token function">ml2</span><span class="token punctuation">(</span>ml1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//把ml1拷贝进ml2，会发生什么?</span></code></pre>
+<p>在创建自己的RAII资源管理类时，我们必须要思考需要如何规定这个类的拷贝行为。对于这个问题，我们有如下选择:</p>
 <ul>
-<li><p>禁止拷贝 如条款6中的把拷贝函数声明为私有来禁止拷贝</p></li>
-<li><p>给资源引用计数： 有时需要一直持有一个资源直到最后一个对象使用完毕，要实现这样的功能，必须有一个计数器来统计当前有多少对象在使用这个资源。当生成一个拷贝时加一，当删除一个拷贝时减一，和shared_ptr是一样的原理。 可以替代裸指针把shared_ptr作为RAII对象的数据成员来实现这个功能，将mutexPtr的类型从Mutex*变成shared_ptr<Mutex>。我们知道默认下的shared_ptr在引用计数为零时会删除掉它所包含的指针，但对于Mutex锁，我们想要的是解锁而不是删除掉，否则我们是没有办法解开一个被删除的锁的。 shared_ptr提供了一个特殊的可定义函数，删除器(deleter)，即在引用计数为零时调用的函数，是shared_ptr构造函数的一个附加参数。这个函数在auto_ptr中是不存在的，因此它不能有自定义的删除行为，只能删除掉它包括的指针。 <pre class="language-c" data-language="c"><code class="language-c">class Lock<span class="token punctuation">&#123;</span>
+<li>禁止拷贝<br>
+如条款6中的把拷贝函数声明为私有来禁止拷贝</li>
+<li>给资源引用计数：<br>
+有时需要一直持有一个资源直到最后一个对象使用完毕，要实现这样的功能，必须有一个计数器来统计当前有多少对象在使用这个资源。当生成一个拷贝时加一，当删除一个拷贝时减一，和shared_ptr是一样的原理。<br>
+可以替代裸指针把shared_ptr作为RAII对象的数据成员来实现这个功能，将mutexPtr的类型从Mutex*变成shared_ptr<Mutex>。我们知道默认下的shared_ptr在引用计数为零时会删除掉它所包含的指针，但对于Mutex锁，我们想要的是解锁而不是删除掉，否则我们是没有办法解开一个被删除的锁的。<br>
+shared_ptr提供了一个特殊的可定义函数，删除器(deleter)，即在引用计数为零时调用的函数，是shared_ptr构造函数的一个附加参数。这个函数在auto_ptr中是不存在的，因此它不能有自定义的删除行为，只能删除掉它包括的指针。</li>
+</ul>
+<pre class="language-c" data-language="c"><code class="language-c">class Lock<span class="token punctuation">&#123;</span>
   public<span class="token operator">:</span>
     explicit <span class="token function">Lock</span><span class="token punctuation">(</span>Mutex<span class="token operator">*</span> pm<span class="token punctuation">)</span>
     <span class="token operator">:</span><span class="token function">mutexPtr</span><span class="token punctuation">(</span>pm<span class="token punctuation">,</span> unlock<span class="token punctuation">)</span>    <span class="token comment">//将unlock函数绑定到删除器</span>
@@ -636,13 +1209,424 @@ Lock <span class="token function">ml2</span><span class="token punctuation">(</s
     <span class="token comment">//这里其实不需要定义析构函数</span>
   private<span class="token operator">:</span>
     std<span class="token operator">::</span>shared_ptr<span class="token operator">&lt;</span>Mutex<span class="token operator">></span> mutexPtr<span class="token punctuation">;</span> <span class="token comment">//使用shared_ptr，不使用裸指针</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre></p></li>
-<li><p>深拷贝封装的资源： 有时候我们可以拥有某个资源的多份拷贝，那么我们的资源管理类就要确保每一份拷贝都要在使用周期结束后释放资源，并且每一份拷贝互不干涉，因此拷贝这样的对象就要拷贝它包含的所有资源，进行深拷贝(deep copy)。例如当对象包含一个指针，我们必须先生成一个指针的拷贝，分配一个新的内存空间再把数据拷贝过来，这就是深拷贝。如果是浅拷贝，拷贝则直接使用了本体的指针成员，没有生成指针的拷贝，那么两个对象的指针成员就会指向同一个地址，删除拷贝就会导致本体被删除。</p></li>
-<li><p>转移所有权： 有时候想要只有一个对象来持有这个资源，因此进行拷贝的时候，资源的所有权就要从本体转移到拷贝上，本体不再持有资源</p></li>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li>
+<p>深拷贝封装的资源：<br>
+有时候我们可以拥有某个资源的多份拷贝，那么我们的资源管理类就要确保每一份拷贝都要在使用周期结束后释放资源，并且每一份拷贝互不干涉，因此拷贝这样的对象就要拷贝它包含的所有资源，进行深拷贝(deep copy)。例如当对象包含一个指针，我们必须先生成一个指针的拷贝，分配一个新的内存空间再把数据拷贝过来，这就是深拷贝。如果是浅拷贝，拷贝则直接使用了本体的指针成员，没有生成指针的拷贝，那么两个对象的指针成员就会指向同一个地址，删除拷贝就会导致本体被删除。</p>
+</li>
+<li>
+<p>转移所有权：<br>
+有时候想要只有一个对象来持有这个资源，因此进行拷贝的时候，资源的所有权就要从本体转移到拷贝上，本体不再持有资源</p>
+</li>
 </ul>
 <p>总结：</p>
 <ul>
 <li>拷贝RAII资源管理类的对象要根据它所包含的资源来具体考虑，我们想要资源展现出如何的拷贝行为，资源管理类就要展现出同样的拷贝行为。</li>
 <li>常用的RAII类的拷贝行为有禁止拷贝，使用引用计数，拷贝资源，转移所有权，但也可以用其他做法来符合特殊需要。</li>
 </ul>
-</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>ATT_POWER</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://yglsaltfish.github.io/2022/09/21/Effective-C-%E7%AC%94%E8%AE%B0/" title="Effective C++ 笔记">https://yglsaltfish.github.io/2022/09/21/Effective-C-%E7%AC%94%E8%AE%B0/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2022/09/22/%E8%AF%81%E6%98%8ENP%E9%9A%BE%E9%97%AE%E9%A2%98%E4%BE%8B%E5%AD%90/" rel="prev" title="证明NP难问题例子"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">证明NP难问题例子</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/03/30/Program-Static-Analysis-Note/Program-Static-Analysis-Note/" rel="next" title="Program Static Analysis Note"><span class="post-nav-text">Program Static Analysis Note</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2022 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> ATT_POWER</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.4.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.6.2</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></div><script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body></html>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/03/30/Program-Static-Analysis-Note/Program-Static-Analysis-Note/" rel="next" title="Program Static Analysis Note">
+                <i class="fa fa-chevron-left"></i> Program Static Analysis Note
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/09/22/%E8%AF%81%E6%98%8ENP%E9%9A%BE%E9%97%AE%E9%A2%98%E4%BE%8B%E5%AD%90/" rel="prev" title="证明NP难问题例子">
+                证明NP难问题例子 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE1-%E5%B0%86C-%E7%9C%8B%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%AD%E8%A8%80%E8%81%94%E9%82%A6"><span class="nav-text">条款1 将C++看作一个语言联邦</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE2-%E5%B0%BD%E9%87%8F%E7%94%A8const%EF%BC%8Cenum%EF%BC%8Cinline-%E6%9B%BF%E6%8D%A2-define"><span class="nav-text">条款2 尽量用const，enum，inline 替换 #define</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE3-%E5%A4%9A%E7%94%A8const"><span class="nav-text">条款3 多用const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE4-%E7%A1%AE%E5%AE%9A%E5%AF%B9%E8%B1%A1%E8%A2%AB%E4%BD%BF%E7%94%A8%E5%89%8D%E5%B7%B2%E7%BB%8F%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">条款4 确定对象被使用前已经被初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE5-%E4%BA%86%E8%A7%A3C-%E9%BB%98%E9%BB%98%E7%BC%96%E5%86%99%E5%B9%B6%E8%B0%83%E7%94%A8%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0"><span class="nav-text">条款5 了解C++默默编写并调用哪些函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE6-%E6%98%8E%E7%A1%AE%E6%8B%92%E7%BB%9D%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="nav-text">条款6 明确拒绝不需要的自动生成函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE7-%E4%B8%BA%E5%A4%9A%E6%80%81%E5%9F%BA%E7%B1%BB%E7%94%9F%E6%88%90virtual%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-text">条款7 为多态基类生成virtual析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE8-%E5%88%AB%E5%9C%A8%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-text">条款8 别在析构函数中抛出异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE9-%E4%B8%8D%E8%A6%81%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-text">条款9 不要在构造函数和析构函数中调用虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE10-%E8%B5%8B%E5%80%BC%E6%93%8D%E4%BD%9C%E7%AC%A6%E8%BF%94%E5%9B%9E-this%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-text">条款10 赋值操作符返回*this的引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE11-%E5%9C%A8operator-%E4%B8%AD%E5%A4%84%E7%90%86%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC%EF%BC%88self-assingment%EF%BC%89"><span class="nav-text">条款11 在operator&#x3D; 中处理自我赋值（self assingment）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE12-%E5%AE%8C%E6%95%B4%E6%8B%B7%E8%B4%9D%E5%AF%B9%E8%B1%A1"><span class="nav-text">条款12 完整拷贝对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE13-%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%9D%A5%E7%AE%A1%E7%90%86%E8%B5%84%E6%BA%90"><span class="nav-text">条款13  用对象来管理资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE14-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="nav-text">条款14 资源管理类的拷贝</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ATT_POWER</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
