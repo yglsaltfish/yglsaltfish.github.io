@@ -28,7 +28,7 @@
 <meta property="og:description" content="学习muduo笔记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-09T02:51:42.000Z">
-<meta property="article:modified_time" content="2022-10-04T02:37:18.463Z">
+<meta property="article:modified_time" content="2022-10-06T14:27:57.465Z">
 <meta property="article:author" content="ATT_POWER">
 <meta name="twitter:card" content="summary">
 
@@ -180,7 +180,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-04 10:37:18" itemprop="dateModified" datetime="2022-10-04T10:37:18+08:00">2022-10-04</time>
+                <time title="修改时间：2022-10-06 22:27:57" itemprop="dateModified" datetime="2022-10-06T22:27:57+08:00">2022-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -292,6 +292,249 @@
 </ul>
 </li>
 </ul>
+<h2 id="处理非活跃链接"><a href="#处理非活跃链接" class="headerlink" title="处理非活跃链接"></a>处理非活跃链接</h2><ul>
+<li>非活跃：指客户端（这里是浏览器）与服务器端建立连接后，长时间不交换数据，一直占用服务器端的文件描述符，导致连接资源的浪费。</li>
+<li>定时事件：指固定一段时间之后触发某段代码，由该段代码处理一个事件，如从内核事件表删除事件，并关闭文件描述符，释放连接资源。</li>
+<li>定时器，是指利用结构体或其他形式，将多种定时事件进行封装起来。这里只涉及一种定时事件，即定期检测非活跃连接，这里将该定时事件与连接资源封装为一个结构体定时器。</li>
+<li>定时器容器，是指使用某种容器类数据结构，将上述多个定时器组合起来，便于对定时事件统一管理。具体的，项目中使用升序链表将所有定时器串联组织起来。</li>
+</ul>
+<h3 id="定时方法"><a href="#定时方法" class="headerlink" title="定时方法"></a>定时方法</h3><p>在tinyWebserver项目中，服务器主循环为每一个连接创建一个定时器，并对每个连接进行定时。另外，利用升序时间链表容器将所有定时器串联起来，若主循环接收到定时通知，则在链表中依次执行定时任务。<br>Linux下有三种定时方法：</p>
+<ul>
+<li>socket选项SO_RECVTIMEO和SO_SNDTIMEO</li>
+<li>SIGALRM信号</li>
+<li>I/O复用系统调用的超时参数<br>项目中使用的是SIGAKRAM信号</li>
+</ul>
+<h3 id="相关api"><a href="#相关api" class="headerlink" title="相关api"></a>相关api</h3><h4 id="sigaction结构体"><a href="#sigaction结构体" class="headerlink" title="sigaction结构体"></a>sigaction结构体</h4><pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">sigaction</span>
+  <span class="token punctuation">&#123;</span>
+    <span class="token comment">/* Signal handler.  */</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression">defined __USE_POSIX199309 <span class="token operator">||</span> defined __USE_XOPEN_EXTENDED</span></span>
+    <span class="token keyword">union</span>
+      <span class="token punctuation">&#123;</span>
+	<span class="token comment">/* Used if SA_SIGINFO is not set.  */</span>
+	__sighandler_t sa_handler<span class="token punctuation">;</span>
+	<span class="token comment">/* Used if SA_SIGINFO is set.  */</span>
+	<span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>sa_sigaction<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token class-name">siginfo_t</span> <span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+    __sigaction_handler<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">define</span> <span class="token macro-name">sa_handler</span>	<span class="token expression">__sigaction_handler<span class="token punctuation">.</span>sa_handler</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span> <span class="token directive keyword">define</span> <span class="token macro-name">sa_sigaction</span>	<span class="token expression">__sigaction_handler<span class="token punctuation">.</span>sa_sigaction</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">else</span></span>
+    __sighandler_t sa_handler<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+
+    <span class="token comment">/* Additional set of signals to be blocked.  */</span>
+    __sigset_t sa_mask<span class="token punctuation">;</span>
+
+    <span class="token comment">/* Special flags.  */</span>
+    <span class="token keyword">int</span> sa_flags<span class="token punctuation">;</span>
+
+    <span class="token comment">/* Restore handler.  */</span>
+    <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>sa_restorer<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li>sa_handler是一个函数指针，指向信号处理函数</li>
+<li>sa_sigaction同样是信号处理函数，有三个参数，可以获得关于信号更详细的信息</li>
+<li>sa_mask用来指定在信号处理函数执行期间需要被屏蔽的信号</li>
+<li>sa_flags用于指定信号处理的行为<ul>
+<li>SA_RESTART，使被信号打断的系统调用自动重新发起</li>
+<li>SA_NOCLDSTOP，使父进程在它的子进程暂停或继续运行时不会收到 SIGCHLD 信号</li>
+<li>SA_NOCLDWAIT，使父进程在它的子进程退出时不会收到 SIGCHLD 信号，这时子进程如果退出也不会成为僵尸进程</li>
+<li>SA_NODEFER，使对信号的屏蔽无效，即在信号处理函数执行期间仍能发出这个信号</li>
+<li>SA_RESETHAND，信号处理之后重新设置为默认的处理方式</li>
+<li>SA_SIGINFO，使用 sa_sigaction 成员而不是 sa_handler 作为信号处理函数</li>
+</ul>
+</li>
+<li>sa_restorer一般不使用</li>
+</ul>
+<h4 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h4><ul>
+<li><p>sigaciton 函数</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;signal.h></span></span>
+<span class="token keyword">int</span> <span class="token function">sigaction</span><span class="token punctuation">(</span><span class="token keyword">int</span> signum<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">struct</span> <span class="token class-name">sigaction</span> <span class="token operator">*</span>act<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">sigaction</span> <span class="token operator">*</span>oldact<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li>signum表示操作的信号。</li>
+<li>act表示对信号设置新的处理方式。</li>
+<li>oldact表示信号原来的处理方式。</li>
+<li>返回值，0 表示成功，-1 表示有错误发生。</li>
+</ul>
+</li>
+<li><p>sigfillset函数</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">sigfillset</span><span class="token punctuation">(</span><span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">)</span><span class="token punctuation">;</span>w</code></pre>
+<p>用来将参数set信号集初始化，然后把所有的信号加入到此信号集里。</p>
+</li>
+<li>SIGALRM、SIGTERM信号<pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">SIGALRM</span>  <span class="token expression"><span class="token number">14</span>     </span><span class="token comment">//由alarm系统调用产生timer时钟信号</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">SIGTERM</span>  <span class="token expression"><span class="token number">15</span>     </span><span class="token comment">//终端发送的终止信号</span></span></code></pre></li>
+<li>alarm函数<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">unsigned</span> <span class="token keyword">int</span> <span class="token function">alarm</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> seconds<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+设置信号传送闹钟，即用来设置信号SIGALRM在经过参数seconds秒数后发送给目前的进程。如果未设置信号SIGALRM的处理函数，那么alarm()默认处理终止进程.</li>
+<li>socketpair函数<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">socketpair</span><span class="token punctuation">(</span><span class="token keyword">int</span> domain<span class="token punctuation">,</span> <span class="token keyword">int</span> type<span class="token punctuation">,</span> <span class="token keyword">int</span> protocol<span class="token punctuation">,</span> <span class="token keyword">int</span> sv<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li>domain表示协议族，PF_UNIX或者AF_UNIX等等，主要用来IPC。</li>
+<li>type表示协议，可以是SOCK_STREAM或者SOCK_DGRAM，SOCK_STREAM基于TCP，SOCK_DGRAM基于UDP</li>
+<li>protocol表示类型，只能为0</li>
+<li>sv[2]表示套节字柄对，该两个句柄作用相同，均能进行读写双向操作</li>
+<li>返回结果， 0为创建成功，-1为创建失败</li>
+</ul>
+</li>
+<li>send 函数<pre class="language-c" data-language="c"><code class="language-c"><span class="token class-name">ssize_t</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token keyword">int</span> sockfd<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>buf<span class="token punctuation">,</span> <span class="token class-name">size_t</span> len<span class="token punctuation">,</span> <span class="token keyword">int</span> flags<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+当套接字发送缓冲区变满时，send通常会阻塞，除非套接字设置为非阻塞模式，当缓冲区变满时，返回EAGAIN或者EWOULDBLOCK错误，此时可以调用select函数来监视何时可以发送数据。</li>
+</ul>
+<h2 id="日志相关"><a href="#日志相关" class="headerlink" title="日志相关"></a>日志相关</h2><h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><ul>
+<li>生产者-消费者模型，并发编程中的经典模型。以多线程为例，为了实现线程间数据同步，生产者线程与消费者线程共享一个缓冲区，其中生产者线程往缓冲区中push消息，消费者线程从缓冲区中pop消息。</li>
+<li>阻塞队列，将生产者-消费者模型进行封装，使用循环数组实现队列，作为两者共享的缓冲区。</li>
+<li>日志：由服务器自动创建，并记录运行状态，错误信息，访问数据的文件。<ul>
+<li>同步日志：日志写入函数与工作线程串行执行，由于涉及到I/O操作，当单条日志比较大的时候，同步模式会阻塞整个处理流程，服务器所能处理的并发能力将有所下降，尤其是在峰值的时候，写日志可能成为系统的瓶颈。</li>
+<li>将所写的日志内容先存入阻塞队列，写线程从阻塞队列中取出内容，写入日志。</li>
+</ul>
+</li>
+<li>单例模式：保证一个类只创建一个实例，同时提供全局访问的方法。</li>
+</ul>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>单例模式，简单来说就是保证一个类最多存在一个实例，并且这种保证是来自于设计者，而不是使用者。而实现这样需求的办法就是：让类的构造函数私有，在类内创建一个静态对象，并创建一个公有的静态方法访问这个对象。<br>单例模式的实现有懒汉模式和饿汉模式。下面是这两种模式的实现。</p>
+<ul>
+<li><p>饿汉模式：是线程安全的，所以在访问量比较大，或者可能访问的线程比较多时，采用饿汉实现（不用锁机制，开销小），可以实现更好的性能。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Singleton
+<span class="token punctuation">&#123;</span>
+private<span class="token operator">:</span>
+    <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"i am single"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span>instance<span class="token punctuation">;</span>
+
+public<span class="token operator">:</span>
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+Singleton <span class="token operator">*</span>Singleton<span class="token operator">::</span>instance <span class="token operator">=</span> new <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Singleton <span class="token operator">*</span>one <span class="token operator">=</span> Singleton<span class="token operator">::</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Singleton <span class="token operator">*</span>two <span class="token operator">=</span> Singleton<span class="token operator">::</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>one <span class="token operator">==</span> two<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"单例！"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/*
+结果：
+i am single
+单例！
+*/</span></code></pre>
+</li>
+<li><p>懒汉模式：第一次用才去实例化，访问量较小时，采用懒汉模式；非线程安全，当多线程访问时可能会创建多个实例。</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Singleton
+<span class="token punctuation">&#123;</span>
+private<span class="token operator">:</span>
+    <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"i am single"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span>instance<span class="token punctuation">;</span>
+
+public<span class="token operator">:</span>
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>instance <span class="token operator">==</span> nullptr<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            instance <span class="token operator">=</span> new <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">"first"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">"second"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        
+        <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+Singleton <span class="token operator">*</span>Singleton<span class="token operator">::</span>instance <span class="token operator">=</span> new <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Singleton <span class="token operator">*</span>one <span class="token operator">=</span> Singleton<span class="token operator">::</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Singleton <span class="token operator">*</span>two <span class="token operator">=</span> Singleton<span class="token operator">::</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>one <span class="token operator">==</span> two<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"单例！"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/*
+i am single
+first
+second
+单例！
+*/</span></code></pre>
+</li>
+<li><p>使用懒汉模式下加锁：仅仅在判断是否为nullptr前，加了一个锁。这样效率会低，因为不管是否instance已经实例化，每次都要加锁进入临界区后才能做判断是否为nullptr。所以就有了下面的 double checked locking</p>
+<pre class="language-c" data-language="c"><code class="language-c">class Singleton
+<span class="token punctuation">&#123;</span>
+private<span class="token operator">:</span>
+    <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"i am single"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token function">pthread_mutex_init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>mutex<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span>instance<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">pthread_mutex_t</span> mutex<span class="token punctuation">;</span>
+
+public<span class="token operator">:</span>
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">pthread_mutex_lock</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>instance <span class="token operator">==</span> nullptr<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            instance <span class="token operator">=</span> new <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">"first"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">"second"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token function">pthread_mutex_unlock</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token class-name">pthread_mutex_t</span> Singleton<span class="token operator">::</span>mutex<span class="token punctuation">;</span>
+Singleton <span class="token operator">*</span>Singleton<span class="token operator">::</span>instance <span class="token operator">=</span> nullptr<span class="token punctuation">;</span></code></pre></li>
+<li>懒汉模式下双加锁：<pre class="language-c" data-language="c"><code class="language-c">class Singleton
+<span class="token punctuation">&#123;</span>
+private<span class="token operator">:</span>
+    <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"i am single"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token function">pthread_mutex_init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>mutex<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span>instance<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">pthread_mutex_t</span> mutex<span class="token punctuation">;</span>
+
+public<span class="token operator">:</span>
+    <span class="token keyword">static</span> Singleton <span class="token operator">*</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        
+        <span class="token keyword">if</span><span class="token punctuation">(</span>instance <span class="token operator">==</span> nullptr<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token function">pthread_mutex_lock</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>instance <span class="token operator">==</span> nullptr<span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                instance <span class="token operator">=</span> new <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cout <span class="token operator">&lt;&lt;</span> <span class="token string">"first"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span>
+                cout <span class="token operator">&lt;&lt;</span> <span class="token string">"second"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+            <span class="token function">pthread_mutex_unlock</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre></li>
+<li>DCL靠不住？<br>在muduo那本书中有写道：人们一直认为double checked locking是王道，有“神牛”指出由于乱序执行的影响，DCL（double checked locking）是靠不住的。<br>对于<pre class="language-c" data-language="c"><code class="language-c">instance <span class="token operator">=</span> new <span class="token function">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+编译器会分如下几步：<br>1、Singleton对象分配空间。<br>2、在分配的空间中构造对象<br>3、使instance指向分配的空间<br>其中2、3步是有可能交换的<br>就有可能发生这样的情况：<pre class="language-c" data-language="c"><code class="language-c"><span class="token number">1</span>、线程A进入了getInstance函数，并且执行了step1和step3，然后挂起。这时的状态是：instance不为nullptr，但instance指向的内存去没有对象！
+<span class="token number">2</span>、线程B进入了getInstance函数，发现instance不为nullptr，就直接<span class="token keyword">return</span> instance。</code></pre>
+</li>
+</ul>
 <h1 id="Linux-相关"><a href="#Linux-相关" class="headerlink" title="Linux 相关"></a>Linux 相关</h1><h1 id="muduo-库相关学习"><a href="#muduo-库相关学习" class="headerlink" title="muduo 库相关学习"></a>muduo 库相关学习</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a target="_blank" rel="noopener" href="https://github.com/chenshuo/muduo">muduo</a>是chenshuo大佬开源的一个基于<a target="_blank" rel="noopener" href="https://youjiali1995.github.io/network/muduo/">reactor pattern的多线程网络库</a>，链接中有他的设计目标。</p>
 <p>网络库一般关注3个方面：</p>
 <ul>
@@ -391,7 +634,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">网络编程相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll"><span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select%E3%80%81poll%E3%80%81epoll-%E5%8C%BA%E5%88%AB"><span class="nav-text">select、poll、epoll 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E6%8E%A5%E5%8F%A3"><span class="nav-text">epoll接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ET%E3%80%81LT%E3%80%81EPOLLONESHOT"><span class="nav-text">ET、LT、EPOLLONESHOT</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%9B%B8%E5%85%B3"><span class="nav-text">Linux 相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#muduo-%E5%BA%93%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">muduo 库相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E5%88%86%E6%9E%90"><span class="nav-text">整体分析</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">网络编程相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll"><span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select%E3%80%81poll%E3%80%81epoll-%E5%8C%BA%E5%88%AB"><span class="nav-text">select、poll、epoll 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E6%8E%A5%E5%8F%A3"><span class="nav-text">epoll接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ET%E3%80%81LT%E3%80%81EPOLLONESHOT"><span class="nav-text">ET、LT、EPOLLONESHOT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E9%9D%9E%E6%B4%BB%E8%B7%83%E9%93%BE%E6%8E%A5"><span class="nav-text">处理非活跃链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E6%96%B9%E6%B3%95"><span class="nav-text">定时方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3api"><span class="nav-text">相关api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sigaction%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">sigaction结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="nav-text">相关函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3"><span class="nav-text">日志相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-text">相关概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-text">单例模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%9B%B8%E5%85%B3"><span class="nav-text">Linux 相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#muduo-%E5%BA%93%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">muduo 库相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E5%88%86%E6%9E%90"><span class="nav-text">整体分析</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -405,7 +648,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -416,7 +659,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -28,7 +28,7 @@
 <meta property="og:description" content="记录我阅读Effective C++笔记的收获">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-21T02:39:07.000Z">
-<meta property="article:modified_time" content="2022-10-03T08:07:33.082Z">
+<meta property="article:modified_time" content="2022-10-05T03:37:10.879Z">
 <meta property="article:author" content="ATT_POWER">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -181,7 +181,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-03 16:07:33" itemprop="dateModified" datetime="2022-10-03T16:07:33+08:00">2022-10-03</time>
+                <time title="修改时间：2022-10-05 11:37:10" itemprop="dateModified" datetime="2022-10-05T11:37:10+08:00">2022-10-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -927,6 +927,19 @@ Font <span class="token function">f</span><span class="token punctuation">(</spa
 <li>API通常需要使用原始资源作为参数，因此我们的RAII资源管理类要保证它所封装的资源是对外界可接触的。</li>
 <li>可以通过隐式转换或显式转换来实现对外接触。显式转换总体上更安全，隐式转换则对用户更加方便。</li>
 </ul>
+<h3 id="条款16-成对使用new和delete时需要使用对应的形式"><a href="#条款16-成对使用new和delete时需要使用对应的形式" class="headerlink" title="条款16 成对使用new和delete时需要使用对应的形式"></a>条款16 成对使用new和delete时需要使用对应的形式</h3><p>考虑如下栗子：<br><pre class="language-c" data-language="c"><code class="language-c">std<span class="token operator">::</span>string <span class="token operator">*</span>strArr <span class="token operator">=</span> new std<span class="token operator">::</span>string<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">//动态分配100元素的字符串数组</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>             <span class="token comment">//使用</span>
+delete strArr<span class="token punctuation">;</span>  <span class="token comment">//释放</span></code></pre><br>这样只会释放第一个元素。</p>
+<p>当使用new运算符的时候会发生两件事，申请的内存空间会先被分配出来，然后一个或者多个对象的构造函数被调用来填满这些空间。当使用delete的时候，则是先调用这些对象的析构函数，最后释放内存资源。</p>
+<p>delete要删除多少个对象取决于在当前内存空间中调用多少个析构函数，那么编译器就需要知道到底是删除单个对象还是一个数组，因为单个对象和一个数组的对象有不同的内存布局：数组的内存除了它所包含的对象，还包括了一个额外的数，即数组的大小，用来告诉编译器调用多少个析构函数:<br><pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> a<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>b <span class="token operator">=</span> new <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+
+<span class="token comment">//结果： 20 8</span></code></pre></p>
+<p>总结：</p>
+<ul>
+<li>如果在new语句中使用了[ ]，就必须在对应的delete语句中也使用[ ]。如果在new语句中没有使用[ ]，就不要在对应的delete语句中使用[ ]。</li>
+</ul>
 
     </div>
 
@@ -1010,7 +1023,7 @@ Font <span class="token function">f</span><span class="token punctuation">(</spa
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE1-%E5%B0%86C-%E7%9C%8B%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%AD%E8%A8%80%E8%81%94%E9%82%A6"><span class="nav-text">条款1 将C++看作一个语言联邦</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE2-%E5%B0%BD%E9%87%8F%E7%94%A8const%EF%BC%8Cenum%EF%BC%8Cinline-%E6%9B%BF%E6%8D%A2-define"><span class="nav-text">条款2 尽量用const，enum，inline 替换 #define</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE3-%E5%A4%9A%E7%94%A8const"><span class="nav-text">条款3 多用const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE4-%E7%A1%AE%E5%AE%9A%E5%AF%B9%E8%B1%A1%E8%A2%AB%E4%BD%BF%E7%94%A8%E5%89%8D%E5%B7%B2%E7%BB%8F%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">条款4 确定对象被使用前已经被初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE5-%E4%BA%86%E8%A7%A3C-%E9%BB%98%E9%BB%98%E7%BC%96%E5%86%99%E5%B9%B6%E8%B0%83%E7%94%A8%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0"><span class="nav-text">条款5 了解C++默默编写并调用哪些函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE6-%E6%98%8E%E7%A1%AE%E6%8B%92%E7%BB%9D%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="nav-text">条款6 明确拒绝不需要的自动生成函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE7-%E4%B8%BA%E5%A4%9A%E6%80%81%E5%9F%BA%E7%B1%BB%E7%94%9F%E6%88%90virtual%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-text">条款7 为多态基类生成virtual析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE8-%E5%88%AB%E5%9C%A8%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-text">条款8 别在析构函数中抛出异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE9-%E4%B8%8D%E8%A6%81%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-text">条款9 不要在构造函数和析构函数中调用虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE10-%E8%B5%8B%E5%80%BC%E6%93%8D%E4%BD%9C%E7%AC%A6%E8%BF%94%E5%9B%9E-this%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-text">条款10 赋值操作符返回*this的引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE11-%E5%9C%A8operator-%E4%B8%AD%E5%A4%84%E7%90%86%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC%EF%BC%88self-assingment%EF%BC%89"><span class="nav-text">条款11 在operator&#x3D; 中处理自我赋值（self assingment）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE12-%E5%AE%8C%E6%95%B4%E6%8B%B7%E8%B4%9D%E5%AF%B9%E8%B1%A1"><span class="nav-text">条款12 完整拷贝对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE13-%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%9D%A5%E7%AE%A1%E7%90%86%E8%B5%84%E6%BA%90"><span class="nav-text">条款13  用对象来管理资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE14-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="nav-text">条款14 资源管理类的拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE15-%E6%8F%90%E4%BE%9B%E5%AF%B9%E5%8E%9F%E5%A7%8B%E8%B5%84%E6%BA%90%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-text">条款15 提供对原始资源的访问</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE1-%E5%B0%86C-%E7%9C%8B%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%AD%E8%A8%80%E8%81%94%E9%82%A6"><span class="nav-text">条款1 将C++看作一个语言联邦</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE2-%E5%B0%BD%E9%87%8F%E7%94%A8const%EF%BC%8Cenum%EF%BC%8Cinline-%E6%9B%BF%E6%8D%A2-define"><span class="nav-text">条款2 尽量用const，enum，inline 替换 #define</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE3-%E5%A4%9A%E7%94%A8const"><span class="nav-text">条款3 多用const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE4-%E7%A1%AE%E5%AE%9A%E5%AF%B9%E8%B1%A1%E8%A2%AB%E4%BD%BF%E7%94%A8%E5%89%8D%E5%B7%B2%E7%BB%8F%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">条款4 确定对象被使用前已经被初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE5-%E4%BA%86%E8%A7%A3C-%E9%BB%98%E9%BB%98%E7%BC%96%E5%86%99%E5%B9%B6%E8%B0%83%E7%94%A8%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0"><span class="nav-text">条款5 了解C++默默编写并调用哪些函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE6-%E6%98%8E%E7%A1%AE%E6%8B%92%E7%BB%9D%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="nav-text">条款6 明确拒绝不需要的自动生成函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE7-%E4%B8%BA%E5%A4%9A%E6%80%81%E5%9F%BA%E7%B1%BB%E7%94%9F%E6%88%90virtual%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-text">条款7 为多态基类生成virtual析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE8-%E5%88%AB%E5%9C%A8%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-text">条款8 别在析构函数中抛出异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE9-%E4%B8%8D%E8%A6%81%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E8%B0%83%E7%94%A8%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-text">条款9 不要在构造函数和析构函数中调用虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE10-%E8%B5%8B%E5%80%BC%E6%93%8D%E4%BD%9C%E7%AC%A6%E8%BF%94%E5%9B%9E-this%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-text">条款10 赋值操作符返回*this的引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE11-%E5%9C%A8operator-%E4%B8%AD%E5%A4%84%E7%90%86%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC%EF%BC%88self-assingment%EF%BC%89"><span class="nav-text">条款11 在operator&#x3D; 中处理自我赋值（self assingment）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE12-%E5%AE%8C%E6%95%B4%E6%8B%B7%E8%B4%9D%E5%AF%B9%E8%B1%A1"><span class="nav-text">条款12 完整拷贝对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE13-%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%9D%A5%E7%AE%A1%E7%90%86%E8%B5%84%E6%BA%90"><span class="nav-text">条款13  用对象来管理资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE14-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="nav-text">条款14 资源管理类的拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE15-%E6%8F%90%E4%BE%9B%E5%AF%B9%E5%8E%9F%E5%A7%8B%E8%B5%84%E6%BA%90%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-text">条款15 提供对原始资源的访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E6%AC%BE16-%E6%88%90%E5%AF%B9%E4%BD%BF%E7%94%A8new%E5%92%8Cdelete%E6%97%B6%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E5%AF%B9%E5%BA%94%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="nav-text">条款16 成对使用new和delete时需要使用对应的形式</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1024,7 +1037,7 @@ Font <span class="token function">f</span><span class="token punctuation">(</spa
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1035,7 +1048,7 @@ Font <span class="token function">f</span><span class="token punctuation">(</spa
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
