@@ -28,8 +28,9 @@
 <meta property="og:description" content="学习muduo笔记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-09T02:51:42.000Z">
-<meta property="article:modified_time" content="2022-10-07T03:27:23.733Z">
+<meta property="article:modified_time" content="2022-10-10T00:59:21.103Z">
 <meta property="article:author" content="ATT_POWER">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://yglsaltfish.github.io/2021/12/09/muduo-%E5%BA%93%E5%AD%A6%E4%B9%A0/">
@@ -180,17 +181,8 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-07 11:27:23" itemprop="dateModified" datetime="2022-10-07T11:27:23+08:00">2022-10-07</time>
+                <time title="修改时间：2022-10-10 08:59:21" itemprop="dateModified" datetime="2022-10-10T08:59:21+08:00">2022-10-10</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">项目</span></a>
-                </span>
-            </span>
 
           
             <div class="post-description">学习muduo笔记</div>
@@ -566,6 +558,7 @@ public<span class="token operator">:</span>
 </ul>
 </li>
 </ul>
+<h1 id="性能相关"><a href="#性能相关" class="headerlink" title="性能相关"></a>性能相关</h1><h2 id="写入时复制，Copy-on-write"><a href="#写入时复制，Copy-on-write" class="headerlink" title="写入时复制，Copy-on-write"></a>写入时复制，Copy-on-write</h2><p>如果有多个调用者（callers）同时请求相同资源（如内存或磁盘上的数据存储），他们会共同获取相同的指针指向相同的资源，直到某个调用者试图修改资源的内容时，系统才会真正复制一份专用副本（private copy）给该调用者，而其他调用者所见到的最初的资源仍然保持不变。<br>在muduo库中使用share_ptr实现copy-on-write</p>
 <h1 id="Linux-相关"><a href="#Linux-相关" class="headerlink" title="Linux 相关"></a>Linux 相关</h1><h1 id="muduo-库相关学习"><a href="#muduo-库相关学习" class="headerlink" title="muduo 库相关学习"></a>muduo 库相关学习</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a target="_blank" rel="noopener" href="https://github.com/chenshuo/muduo">muduo</a>是chenshuo大佬开源的一个基于<a target="_blank" rel="noopener" href="https://youjiali1995.github.io/network/muduo/">reactor pattern的多线程网络库</a>，链接中有他的设计目标。</p>
 <p>网络库一般关注3个方面：</p>
 <ul>
@@ -593,6 +586,9 @@ public<span class="token operator">:</span>
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
 
         
 
@@ -665,7 +661,7 @@ public<span class="token operator">:</span>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">网络编程相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll"><span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select%E3%80%81poll%E3%80%81epoll-%E5%8C%BA%E5%88%AB"><span class="nav-text">select、poll、epoll 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E6%8E%A5%E5%8F%A3"><span class="nav-text">epoll接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ET%E3%80%81LT%E3%80%81EPOLLONESHOT"><span class="nav-text">ET、LT、EPOLLONESHOT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E9%9D%9E%E6%B4%BB%E8%B7%83%E9%93%BE%E6%8E%A5"><span class="nav-text">处理非活跃链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E6%96%B9%E6%B3%95"><span class="nav-text">定时方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3api"><span class="nav-text">相关api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sigaction%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">sigaction结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="nav-text">相关函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3"><span class="nav-text">日志相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-text">相关概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-text">单例模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%9B%B8%E5%85%B3"><span class="nav-text">Linux 相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#muduo-%E5%BA%93%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">muduo 库相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E5%88%86%E6%9E%90"><span class="nav-text">整体分析</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">网络编程相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll"><span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select%E3%80%81poll%E3%80%81epoll-%E5%8C%BA%E5%88%AB"><span class="nav-text">select、poll、epoll 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E6%8E%A5%E5%8F%A3"><span class="nav-text">epoll接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ET%E3%80%81LT%E3%80%81EPOLLONESHOT"><span class="nav-text">ET、LT、EPOLLONESHOT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E9%9D%9E%E6%B4%BB%E8%B7%83%E9%93%BE%E6%8E%A5"><span class="nav-text">处理非活跃链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E6%96%B9%E6%B3%95"><span class="nav-text">定时方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3api"><span class="nav-text">相关api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sigaction%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">sigaction结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="nav-text">相关函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3"><span class="nav-text">日志相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-text">相关概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-text">单例模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E7%9B%B8%E5%85%B3"><span class="nav-text">性能相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E6%97%B6%E5%A4%8D%E5%88%B6%EF%BC%8CCopy-on-write"><span class="nav-text">写入时复制，Copy-on-write</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%9B%B8%E5%85%B3"><span class="nav-text">Linux 相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#muduo-%E5%BA%93%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-text">muduo 库相关学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E5%88%86%E6%9E%90"><span class="nav-text">整体分析</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -679,13 +675,13 @@ public<span class="token operator">:</span>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
