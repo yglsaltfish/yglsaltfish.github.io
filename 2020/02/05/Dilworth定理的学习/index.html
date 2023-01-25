@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Dilworth定理一. 前置知识 偏序集：设R是集合A上的一个关系，如果R是自反的、反对称的和可传递的，则称R是集合A的偏序关系，简称偏序，记作“$≤$”。对于$（a，b）∈R$，就把它表示成$a≤b$。 （1）自反性：a≤a，∀a∈P； （2）反对称性：∀a，b∈P，若a≤b且b≤a，则a&#x3D;b； （3）传递性：∀a，b，c∈P，若a≤b且b≤c，则a≤c；  反链：设 A 是一个偏序集合，在A">
+  <meta name="description" content="Dilworth定理一. 前置知识 偏序集：设R是集合A上的一个关系，如果R是自反的、反对称的和可传递的，则称R是集合A的偏序关系，简称偏序，记作“$≤$”。对于$（a，b）∈R$，就把它表示成$a≤b$。 （1）自反性：$a≤a，∀a∈P$； （2）反对称性：$∀a，b∈P$，若$a≤b$且$b≤a$，则$a&#x3D;b$； （3）传递性：$∀a，b，c∈P$，若$a≤b$且$b≤c$，则$a≤c$；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dilworth定理的学习">
 <meta property="og:url" content="https://yglsaltfish.github.io/2020/02/05/Dilworth%E5%AE%9A%E7%90%86%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="ATT_POWER的博客">
-<meta property="og:description" content="Dilworth定理一. 前置知识 偏序集：设R是集合A上的一个关系，如果R是自反的、反对称的和可传递的，则称R是集合A的偏序关系，简称偏序，记作“$≤$”。对于$（a，b）∈R$，就把它表示成$a≤b$。 （1）自反性：a≤a，∀a∈P； （2）反对称性：∀a，b∈P，若a≤b且b≤a，则a&#x3D;b； （3）传递性：∀a，b，c∈P，若a≤b且b≤c，则a≤c；  反链：设 A 是一个偏序集合，在A">
+<meta property="og:description" content="Dilworth定理一. 前置知识 偏序集：设R是集合A上的一个关系，如果R是自反的、反对称的和可传递的，则称R是集合A的偏序关系，简称偏序，记作“$≤$”。对于$（a，b）∈R$，就把它表示成$a≤b$。 （1）自反性：$a≤a，∀a∈P$； （2）反对称性：$∀a，b∈P$，若$a≤b$且$b≤a$，则$a&#x3D;b$； （3）传递性：$∀a，b，c∈P$，若$a≤b$且$b≤c$，则$a≤c$；">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-05T14:44:59.000Z">
-<meta property="article:modified_time" content="2022-09-30T06:33:23.636Z">
+<meta property="article:modified_time" content="2022-12-05T14:59:44.829Z">
 <meta property="article:author" content="ATT_POWER">
 <meta property="article:tag" content="知识点">
 <meta name="twitter:card" content="summary">
@@ -181,7 +181,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-30 14:33:23" itemprop="dateModified" datetime="2022-09-30T14:33:23+08:00">2022-09-30</time>
+                <time title="修改时间：2022-12-05 22:59:44" itemprop="dateModified" datetime="2022-12-05T22:59:44+08:00">2022-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -199,7 +199,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>314</span>
+              <span>332</span>
             </span>
 
         </div>
@@ -213,9 +213,9 @@
       
         <h1 id="Dilworth定理"><a href="#Dilworth定理" class="headerlink" title="Dilworth定理"></a>Dilworth定理</h1><h2 id="一-前置知识"><a href="#一-前置知识" class="headerlink" title="一. 前置知识"></a>一. 前置知识</h2><ol>
 <li><p>偏序集：设R是集合A上的一个关系，如果R是自反的、反对称的和可传递的，则称R是集合A的偏序关系，简称偏序，记作“$≤$”。对于$（a，b）∈R$，就把它表示成$a≤b$。</p>
-<p>（1）自反性：a≤a，∀a∈P；</p>
-<p>（2）反对称性：∀a，b∈P，若a≤b且b≤a，则a=b；</p>
-<p>（3）传递性：∀a，b，c∈P，若a≤b且b≤c，则a≤c；</p>
+<p>（1）自反性：$a≤a，∀a∈P$；</p>
+<p>（2）反对称性：$∀a，b∈P$，若$a≤b$且$b≤a$，则$a=b$；</p>
+<p>（3）传递性：$∀a，b，c∈P$，若$a≤b$且$b≤c$，则$a≤c$；</p>
 </li>
 <li><p>反链：设 A 是一个偏序集合，在A的一个子集中，如果每两个元素都是有关系的，则称这个子集为链。在A的一个子集中，如果每两个元素都是无关的，则称这个子集为反链。若A的子集只有单个元素，则这个子集既是外链又是反链。</p>
 </li>
@@ -310,7 +310,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -321,7 +321,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -353,7 +353,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
