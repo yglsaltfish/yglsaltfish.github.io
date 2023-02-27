@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Mit6.824 lab 实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6.824 Lab">
+<meta property="og:url" content="https://yglsaltfish.github.io/2023/02/27/MIT6-824-Lab/index.html">
+<meta property="og:site_name" content="ATT_POWER的博客">
+<meta property="og:description" content="Mit6.824 lab 实现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db47c459abba4e82b02f5164cfd7ebbc~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2023-02-27T11:20:12.000Z">
+<meta property="article:modified_time" content="2023-02-27T11:57:33.377Z">
+<meta property="article:author" content="ATT_POWER">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db47c459abba4e82b02f5164cfd7ebbc~tplv-k3u1fbpfcp-watermark.image?">
+
+<link rel="canonical" href="https://yglsaltfish.github.io/2023/02/27/MIT6-824-Lab/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MIT6.824 Lab | ATT_POWER的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ATT_POWER的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2023/02/27/MIT6-824-Lab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ATT_POWER">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ATT_POWER的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIT6.824 Lab
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-02-27 19:20:12 / 修改时间：19:57:33" itemprop="dateCreated datePublished" datetime="2023-02-27T19:20:12+08:00">2023-02-27</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.7k</span>
+            </span>
+            <div class="post-description">Mit6.824 lab 实现</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-前言-Lab2"><a href="#1-前言-Lab2" class="headerlink" title="1 前言(Lab2)"></a>1 前言(Lab2)</h1><p>MIT6.824 实现起来可真的繁琐，分布式的bug调起来过于麻烦，看了无数个别人得实现，我还是太菜了，QAQ，所幸通过了Lab2。</p>
+<p>lab2 的内容是要实现一个除了节点变更功能外的 raft 算法。论文中的图二（如下图）是实现raft的关键。如果想要形象化得看Raft算法是如何运转得，可以看这个(<a target="_blank" rel="noopener" href="https://raft.github.io/">Raft Consensus Algorithm</a>。之前把代码开源出来收到邮件提醒叫我别这么做，我就不分享我的代码，只分享一些片段了。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db47c459abba4e82b02f5164cfd7ebbc~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
+<h1 id="2-实现"><a href="#2-实现" class="headerlink" title="2 实现"></a>2 实现</h1><h2 id="2-1-结构体"><a href="#2-1-结构体" class="headerlink" title="2.1 结构体"></a>2.1 结构体</h2><pre class="language-none"><code class="language-none">type Raft struct &#123;
+	mu        sync.Mutex          &#x2F;&#x2F; Lock to protect shared access to this peer&#39;s state
+	peers     []*labrpc.ClientEnd &#x2F;&#x2F; RPC end points of all peers
+	persister *Persister          &#x2F;&#x2F; Object to hold this peer&#39;s persisted state
+	me        int                 &#x2F;&#x2F; this peer&#39;s index into peers[]
+	dead      int32               &#x2F;&#x2F; set by Kill()
+
+	&#x2F;&#x2F; Your data here (2A, 2B, 2C).
+	&#x2F;&#x2F; Look at the paper&#39;s Figure 2 for a description of what
+	&#x2F;&#x2F; state a Raft server must maintain.
+	currentTerm		int           &#x2F;&#x2F; Server当前的term
+	voteFor			int           &#x2F;&#x2F; Server在选举阶段的投票目标
+	logs            []LogEntry
+	nextIndexs      []int         &#x2F;&#x2F; Leader在发送LogEntry时，对应每个其他Server，开始发送的index
+	matchIndexs     []int
+	commitIndex     int           &#x2F;&#x2F; Server已经commit了的Log index
+	lastApplied     int           &#x2F;&#x2F; Server已经apply了的log index
+	myStatus        Status        &#x2F;&#x2F; Server的状态
+
+	timer           *time.Ticker  &#x2F;&#x2F; timer
+	voteTimeout     time.Duration &#x2F;&#x2F; 选举超时时间，选举超时时间是会变动的，所以定义在Raft结构体中
+	applyChan       chan ApplyMsg &#x2F;&#x2F; 消息channel
+
+	&#x2F;&#x2F; 2D
+	lastIncludeIndex  int         &#x2F;&#x2F; snapshot保存的最后log的index
+	lastIncludeTerm   int         &#x2F;&#x2F; snapshot保存的最后log的term
+	snapshotCmd       []byte
+&#125;</code></pre>
+<h2 id="2-2-选主"><a href="#2-2-选主" class="headerlink" title="2.2 选主"></a>2.2 选主</h2><p>如果 follower 在 election timeout 内没有收到来自 leader 的心跳，（也许此时还没有选出 leader，大家都在等；也许 leader 挂了；也许只是 leader 与该 follower 之间网络故障），则会主动发起选举。</p>
+<p>选举过程：</p>
+<ul>
+<li><ol>
+<li>首先切换自己的状态<code>folower -&gt; canadiate</code>，增加自己的<code>current term</code>，给自己投一票</li>
+</ol>
+</li>
+<li><ol>
+<li>之后给剩余节点发送<code>RequestVote</code>，如果其他节点发现<code>canadiate</code>的<code>term</code>比自己的<code>term</code>大的话（在lab2A中是这样的，之后的实现还需要考虑<code>log replication</code>和<code>safety</code>），就会投票给那个节点</li>
+</ol>
+</li>
+<li>等待回复</li>
+</ul>
+<p>可能的结果：</p>
+<ol>
+<li>收到的结果为大多数同意，则成为<code>leader</code></li>
+<li>被告知其他的更新的<code>leader</code>存在，切换状态为<code>follower</code></li>
+<li>一段时间没有收到大多数投票也没有被告知更新<code>leader</code>，重新发出选举</li>
+</ol>
+<p>按照论文中得实现即可，我这里面把选举超时时间和心跳时间实现在同一个<code>timer</code>，我认为当一个<code>peer</code>成为<code>leader</code>之后就不再需要持续的重置选举超时时间了。在Lab2A中，可以不实现<code>AppendEntries</code>，只需要发个空包就行。</p>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>rf <span class="token operator">*</span>Raft<span class="token punctuation">)</span> <span class="token function">ticker</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">for</span> rf<span class="token punctuation">.</span><span class="token function">killed</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token boolean">false</span> <span class="token punctuation">&#123;</span>
+
+		<span class="token comment">// Your code here to check if a leader election should</span>
+		<span class="token comment">// be started and to randomize sleeping time using</span>
+		<span class="token comment">// time.Sleep().</span>
+		<span class="token keyword">select</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">case</span> <span class="token operator">&lt;-</span>rf<span class="token punctuation">.</span>timer<span class="token punctuation">.</span>C<span class="token punctuation">:</span>
+			<span class="token keyword">if</span> rf<span class="token punctuation">.</span><span class="token function">killed</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+				<span class="token keyword">return</span>
+			<span class="token punctuation">&#125;</span>
+			rf<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+			currStatus <span class="token operator">:=</span> rf<span class="token punctuation">.</span>myStatus
+			<span class="token keyword">switch</span> currStatus <span class="token punctuation">&#123;</span>
+			<span class="token keyword">case</span> Follower<span class="token punctuation">:</span>
+				rf<span class="token punctuation">.</span>myStatus <span class="token operator">=</span> Candidate
+				<span class="token keyword">fallthrough</span>
+			<span class="token keyword">case</span> Candidate<span class="token punctuation">:</span>
+				<span class="token comment">// 进行选举</span>
+				rf<span class="token punctuation">.</span>currentTerm<span class="token operator">+=</span><span class="token number">1</span>
+				rf<span class="token punctuation">.</span>voteFor <span class="token operator">=</span> rf<span class="token punctuation">.</span>me
+				<span class="token comment">// 每轮选举开始时，重新设置选举超时</span>
+				rf<span class="token punctuation">.</span>voteTimeout <span class="token operator">=</span> time<span class="token punctuation">.</span><span class="token function">Duration</span><span class="token punctuation">(</span>rand<span class="token punctuation">.</span><span class="token function">Intn</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token operator">*</span>time<span class="token punctuation">.</span>Millisecond
+				voteNum <span class="token operator">:=</span> <span class="token number">1</span>
+				rf<span class="token punctuation">.</span><span class="token function">persist</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				rf<span class="token punctuation">.</span>timer<span class="token punctuation">.</span><span class="token function">Reset</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>voteTimeout<span class="token punctuation">)</span>
+				<span class="token comment">// 构造msg</span>
+				<span class="token keyword">for</span> i<span class="token punctuation">,</span><span class="token boolean">_</span> <span class="token operator">:=</span> <span class="token keyword">range</span> rf<span class="token punctuation">.</span>peers <span class="token punctuation">&#123;</span>
+					<span class="token keyword">if</span> i <span class="token operator">==</span> rf<span class="token punctuation">.</span>me <span class="token punctuation">&#123;</span>
+						<span class="token keyword">continue</span>
+					<span class="token punctuation">&#125;</span>
+					voteArgs <span class="token operator">:=</span> <span class="token operator">&amp;</span>RequestVoteArgs<span class="token punctuation">&#123;</span>
+						Term<span class="token punctuation">:</span>         rf<span class="token punctuation">.</span>currentTerm<span class="token punctuation">,</span>
+						Candidate<span class="token punctuation">:</span>    rf<span class="token punctuation">.</span>me<span class="token punctuation">,</span>
+						LastLogIndex<span class="token punctuation">:</span> <span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>logs<span class="token punctuation">)</span><span class="token operator">+</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token punctuation">,</span>
+						LastLogTerm<span class="token punctuation">:</span>  rf<span class="token punctuation">.</span>lastIncludeTerm<span class="token punctuation">,</span>
+					<span class="token punctuation">&#125;</span>
+					<span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>logs<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">&#123;</span>
+						voteArgs<span class="token punctuation">.</span>LastLogTerm <span class="token operator">=</span> rf<span class="token punctuation">.</span>logs<span class="token punctuation">[</span><span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>logs<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Term
+					<span class="token punctuation">&#125;</span>
+					voteReply <span class="token operator">:=</span> <span class="token function">new</span><span class="token punctuation">(</span>RequestVoteReply<span class="token punctuation">)</span>
+					<span class="token comment">//DPrintf("发起选举",rf.me,i,voteArgs,rf.currentTerm, rf.lastIncludeIndex, rf.lastIncludeTerm)</span>
+					<span class="token keyword">go</span> rf<span class="token punctuation">.</span><span class="token function">sendRequestVote</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> voteArgs<span class="token punctuation">,</span> voteReply<span class="token punctuation">,</span> <span class="token operator">&amp;</span>voteNum<span class="token punctuation">)</span>
+				<span class="token punctuation">&#125;</span>
+			<span class="token keyword">case</span> Leader<span class="token punctuation">:</span>
+				<span class="token comment">// 进行心跳</span>
+				appendNum <span class="token operator">:=</span> <span class="token number">1</span>
+				rf<span class="token punctuation">.</span>timer<span class="token punctuation">.</span><span class="token function">Reset</span><span class="token punctuation">(</span>HeartBeatTimeout<span class="token punctuation">)</span>
+				<span class="token comment">// 构造msg</span>
+				<span class="token keyword">for</span> i<span class="token punctuation">,</span><span class="token boolean">_</span> <span class="token operator">:=</span> <span class="token keyword">range</span> rf<span class="token punctuation">.</span>peers <span class="token punctuation">&#123;</span>
+					<span class="token keyword">if</span> i <span class="token operator">==</span> rf<span class="token punctuation">.</span>me <span class="token punctuation">&#123;</span>
+						<span class="token keyword">continue</span>
+					<span class="token punctuation">&#125;</span>
+					appendEntriesArgs <span class="token operator">:=</span> <span class="token operator">&amp;</span>AppendEntriesArgs<span class="token punctuation">&#123;</span>
+						Term<span class="token punctuation">:</span>         rf<span class="token punctuation">.</span>currentTerm<span class="token punctuation">,</span>
+						LeaderId<span class="token punctuation">:</span>     rf<span class="token punctuation">.</span>me<span class="token punctuation">,</span>
+						PrevLogIndex<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+						PrevLogTerm<span class="token punctuation">:</span>  <span class="token number">0</span><span class="token punctuation">,</span>
+						Logs<span class="token punctuation">:</span>         <span class="token boolean">nil</span><span class="token punctuation">,</span>
+						LeaderCommit<span class="token punctuation">:</span> rf<span class="token punctuation">.</span>commitIndex<span class="token punctuation">,</span>
+						LogIndex<span class="token punctuation">:</span>     <span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>logs<span class="token punctuation">)</span><span class="token operator">+</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token punctuation">,</span>
+					<span class="token punctuation">&#125;</span>
+					<span class="token comment">//installSnapshot，如果rf.nextIndex[i]小于等lastCludeIndex,则发送snapShot</span>
+					<span class="token keyword">if</span> rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> rf<span class="token punctuation">.</span>lastIncludeIndex <span class="token punctuation">&#123;</span>
+						installSnapshotReq <span class="token operator">:=</span> <span class="token operator">&amp;</span>InstallSnapshotRequest<span class="token punctuation">&#123;</span>
+							Term<span class="token punctuation">:</span>             rf<span class="token punctuation">.</span>currentTerm<span class="token punctuation">,</span>
+							LeaderId<span class="token punctuation">:</span>         rf<span class="token punctuation">.</span>me<span class="token punctuation">,</span>
+							LastIncludeIndex<span class="token punctuation">:</span> rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token punctuation">,</span>
+							LastIncludeTerm<span class="token punctuation">:</span>  rf<span class="token punctuation">.</span>lastIncludeTerm<span class="token punctuation">,</span>
+							Data<span class="token punctuation">:</span>             rf<span class="token punctuation">.</span>snapshotCmd<span class="token punctuation">,</span>
+						<span class="token punctuation">&#125;</span>
+						installSnapshotReply <span class="token operator">:=</span> <span class="token operator">&amp;</span>InstallSnapshotResponse<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+						<span class="token comment">//DPrintf("installsnapshot", rf.me, i, rf.lastIncludeIndex, rf.lastIncludeTerm, rf.currentTerm, installSnapshotReq)</span>
+						<span class="token keyword">go</span> rf<span class="token punctuation">.</span><span class="token function">sendInstallSnapshot</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> installSnapshotReq<span class="token punctuation">,</span> installSnapshotReply<span class="token punctuation">)</span>
+						<span class="token keyword">continue</span>
+					<span class="token punctuation">&#125;</span>
+					<span class="token keyword">for</span> rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">></span> rf<span class="token punctuation">.</span>lastIncludeIndex <span class="token punctuation">&#123;</span>
+						appendEntriesArgs<span class="token punctuation">.</span>PrevLogIndex <span class="token operator">=</span> rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span>
+						<span class="token keyword">if</span> appendEntriesArgs<span class="token punctuation">.</span>PrevLogIndex <span class="token operator">>=</span> <span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>logs<span class="token punctuation">)</span><span class="token operator">+</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token operator">+</span><span class="token number">1</span> <span class="token punctuation">&#123;</span>
+							rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">--</span>
+							<span class="token keyword">continue</span>
+						<span class="token punctuation">&#125;</span>
+						<span class="token keyword">if</span> appendEntriesArgs<span class="token punctuation">.</span>PrevLogIndex <span class="token operator">==</span> rf<span class="token punctuation">.</span>lastIncludeIndex <span class="token punctuation">&#123;</span>
+							appendEntriesArgs<span class="token punctuation">.</span>PrevLogTerm <span class="token operator">=</span> rf<span class="token punctuation">.</span>lastIncludeTerm
+						<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+							appendEntriesArgs<span class="token punctuation">.</span>PrevLogTerm <span class="token operator">=</span> rf<span class="token punctuation">.</span>logs<span class="token punctuation">[</span>appendEntriesArgs<span class="token punctuation">.</span>PrevLogIndex<span class="token operator">-</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Term
+						<span class="token punctuation">&#125;</span>
+						<span class="token keyword">break</span>
+					<span class="token punctuation">&#125;</span>
+					<span class="token keyword">if</span> rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>logs<span class="token punctuation">)</span><span class="token operator">+</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token operator">+</span><span class="token number">1</span> <span class="token punctuation">&#123;</span>
+						appendEntriesArgs<span class="token punctuation">.</span>Logs <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span>LogEntry<span class="token punctuation">,</span>appendEntriesArgs<span class="token punctuation">.</span>LogIndex<span class="token operator">+</span><span class="token number">1</span><span class="token operator">-</span>rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+						<span class="token function">copy</span><span class="token punctuation">(</span>appendEntriesArgs<span class="token punctuation">.</span>Logs<span class="token punctuation">,</span> rf<span class="token punctuation">.</span>logs<span class="token punctuation">[</span>rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">:</span>appendEntriesArgs<span class="token punctuation">.</span>LogIndex<span class="token operator">-</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token punctuation">]</span><span class="token punctuation">)</span>
+					<span class="token punctuation">&#125;</span>
+
+					appendEntriesReply <span class="token operator">:=</span> <span class="token function">new</span><span class="token punctuation">(</span>AppendEntriesReply<span class="token punctuation">)</span>
+					<span class="token keyword">go</span> rf<span class="token punctuation">.</span><span class="token function">sendAppendEntries</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> appendEntriesArgs<span class="token punctuation">,</span> appendEntriesReply<span class="token punctuation">,</span> <span class="token operator">&amp;</span>appendNum<span class="token punctuation">)</span>
+				<span class="token punctuation">&#125;</span>
+			<span class="token punctuation">&#125;</span>
+			rf<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>注意点：</p>
+<ul>
+<li>在<code>guiandance</code>中有提到，对于过期请求的回复，可以直接抛弃，虽然test文件中没有相关的case来判断代码的对错，但是我还是实现了一下如何回复。</li>
+<li>对于投票统计可以在<code>raft</code>结构体中直接记录，也可以在<code>ticker()</code>函数中使用局部函数变量统计。</li>
+<li>多注意细节，如选举时间/心跳包时间的重置问题等； </li>
+</ul>
+<h2 id="2-3-日志复制"><a href="#2-3-日志复制" class="headerlink" title="2.3 日志复制"></a>2.3 日志复制</h2><p>每个节点存储自己的日志副本(<code>log[]</code>)，每条日志记录包含，有的实现也包含<code>index</code>，我把<code>index</code>放到节点本身去存储了：</p>
+<ul>
+<li>索引：该记录在日志中的位置</li>
+<li>命令</li>
+</ul>
+<h2 id="2-3-1-日志同步"><a href="#2-3-1-日志同步" class="headerlink" title="2.3.1 日志同步"></a>2.3.1 日志同步</h2><p>解决问题：</p>
+<ul>
+<li>Leader发送心跳宣示自己的主权，Follower不会发起选举。</li>
+<li>Leader将自己的日志数据同步到Follower，达到数据备份的效果。</li>
+</ul>
+<p>主要过程：<br>日志同步要解决如下两个问题：</p>
+<ul>
+<li>Leader发送心跳宣示自己的主权，Follower不会发起选举。</li>
+<li>Leader将自己的日志数据同步到Follower，达到数据备份的效果。</li>
+</ul>
+<p>运行流程</p>
+<ol>
+<li>客户端向 <code>Leader</code> 发送命令，希望该命令被所有状态机执行；</li>
+<li><code>Leader</code> 先将该命令追加到自己的日志中；</li>
+<li><code>Leader</code> 并行地向其它节点发送 <code>AppendEntries RPC</code>，等待响应；收到超过半数节点的响应，则认为新的日志记录是被提交的：</li>
+<li><code>Leader</code> 将命令传给自己的状态机，然后向客户端返回响应;此外，一旦 <code>Leader</code> 知道一条记录被提交了，将在后续的 <code>AppendEntries RPC</code> 中通知已经提交记录的 <code>Followers</code>;<code>Follower</code> 将已提交的命令传给自己的状态机</li>
+<li>如果 <code>Follower</code> 宕机/超时：<code>Leader</code> 将反复尝试发送 <code>RPC</code>；</li>
+</ol>
+<p>以下是代码实现的主要逻辑，可以不必等待所有节点的请求，超过一半即可执行。<br><pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">switch</span> reply<span class="token punctuation">.</span>AppendErr <span class="token punctuation">&#123;</span>
+	<span class="token keyword">case</span> AppendErr_Nil<span class="token punctuation">:</span>
+		<span class="token keyword">if</span> reply<span class="token punctuation">.</span>Success <span class="token operator">&amp;&amp;</span> reply<span class="token punctuation">.</span>Term <span class="token operator">==</span> rf<span class="token punctuation">.</span>currentTerm <span class="token operator">&amp;&amp;</span> <span class="token operator">*</span>appendNum <span class="token operator">&lt;=</span> <span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>peers<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span> <span class="token punctuation">&#123;</span>
+			<span class="token operator">*</span>appendNum<span class="token operator">++</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token keyword">if</span> rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>server<span class="token punctuation">]</span> <span class="token operator">></span> args<span class="token punctuation">.</span>LogIndex<span class="token operator">+</span><span class="token number">1</span> <span class="token punctuation">&#123;</span>
+			rf<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+			<span class="token keyword">return</span> ok
+		<span class="token punctuation">&#125;</span>
+		rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>server<span class="token punctuation">]</span> <span class="token operator">=</span> args<span class="token punctuation">.</span>LogIndex<span class="token operator">+</span><span class="token number">1</span>
+		<span class="token keyword">if</span> <span class="token operator">*</span>appendNum <span class="token operator">></span> <span class="token function">len</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>peers<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span> <span class="token punctuation">&#123;</span>
+			<span class="token operator">*</span>appendNum <span class="token operator">=</span> <span class="token number">0</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>LogIndex<span class="token operator">></span>rf<span class="token punctuation">.</span>lastIncludeIndex <span class="token operator">&amp;&amp;</span> rf<span class="token punctuation">.</span>logs<span class="token punctuation">[</span>args<span class="token punctuation">.</span>LogIndex<span class="token operator">-</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Term <span class="token operator">!=</span> rf<span class="token punctuation">.</span>currentTerm<span class="token punctuation">)</span> <span class="token operator">||</span>
+				<span class="token punctuation">(</span>args<span class="token punctuation">.</span>LogIndex <span class="token operator">==</span> rf<span class="token punctuation">.</span>lastIncludeIndex <span class="token operator">&amp;&amp;</span> rf<span class="token punctuation">.</span>lastIncludeTerm <span class="token operator">!=</span> rf<span class="token punctuation">.</span>currentTerm<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+				rf<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				<span class="token keyword">return</span> <span class="token boolean">false</span>
+			<span class="token punctuation">&#125;</span>
+			<span class="token keyword">for</span> rf<span class="token punctuation">.</span>lastApplied <span class="token operator">&lt;</span> args<span class="token punctuation">.</span>LogIndex <span class="token punctuation">&#123;</span>
+				rf<span class="token punctuation">.</span>lastApplied<span class="token operator">++</span>
+				applyMsg <span class="token operator">:=</span> ApplyMsg<span class="token punctuation">&#123;</span>
+					CommandValid<span class="token punctuation">:</span>  <span class="token boolean">true</span><span class="token punctuation">,</span>
+					Command<span class="token punctuation">:</span>       rf<span class="token punctuation">.</span>logs<span class="token punctuation">[</span>rf<span class="token punctuation">.</span>lastApplied<span class="token operator">-</span>rf<span class="token punctuation">.</span>lastIncludeIndex<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Cmd<span class="token punctuation">,</span>
+					CommandIndex<span class="token punctuation">:</span>  rf<span class="token punctuation">.</span>lastApplied<span class="token punctuation">,</span>
+				<span class="token punctuation">&#125;</span>
+				rf<span class="token punctuation">.</span>applyChan <span class="token operator">&lt;-</span> applyMsg
+				rf<span class="token punctuation">.</span>commitIndex <span class="token operator">=</span> rf<span class="token punctuation">.</span>lastApplied
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token keyword">case</span> AppendErr_ReqOutofDate<span class="token punctuation">:</span>
+		rf<span class="token punctuation">.</span>myStatus <span class="token operator">=</span> Follower
+		rf<span class="token punctuation">.</span>timer<span class="token punctuation">.</span><span class="token function">Reset</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>voteTimeout<span class="token punctuation">)</span>
+		<span class="token keyword">if</span> reply<span class="token punctuation">.</span>Term <span class="token operator">></span> rf<span class="token punctuation">.</span>currentTerm <span class="token punctuation">&#123;</span>
+			rf<span class="token punctuation">.</span>currentTerm <span class="token operator">=</span> reply<span class="token punctuation">.</span>Term
+			rf<span class="token punctuation">.</span>voteFor <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span>
+			rf<span class="token punctuation">.</span><span class="token function">persist</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token keyword">case</span> AppendErr_LogsNotMatch<span class="token punctuation">:</span>
+		<span class="token keyword">if</span> args<span class="token punctuation">.</span>Term <span class="token operator">!=</span> rf<span class="token punctuation">.</span>currentTerm <span class="token punctuation">&#123;</span>
+			rf<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+			<span class="token keyword">return</span> <span class="token boolean">false</span>
+		<span class="token punctuation">&#125;</span>
+		rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>server<span class="token punctuation">]</span> <span class="token operator">=</span> reply<span class="token punctuation">.</span>NotMatchIndex
+	<span class="token keyword">case</span> AppendErr_ReqRepeat<span class="token punctuation">:</span>
+		<span class="token keyword">if</span> reply<span class="token punctuation">.</span>Term <span class="token operator">></span> rf<span class="token punctuation">.</span>currentTerm <span class="token punctuation">&#123;</span>
+			rf<span class="token punctuation">.</span>myStatus <span class="token operator">=</span> Follower
+			rf<span class="token punctuation">.</span>currentTerm <span class="token operator">=</span> reply<span class="token punctuation">.</span>Term
+			rf<span class="token punctuation">.</span>voteFor <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span>
+			rf<span class="token punctuation">.</span>timer<span class="token punctuation">.</span><span class="token function">Reset</span><span class="token punctuation">(</span>rf<span class="token punctuation">.</span>voteTimeout<span class="token punctuation">)</span>
+			rf<span class="token punctuation">.</span><span class="token function">persist</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token keyword">case</span> AppendErr_Commited<span class="token punctuation">:</span>
+		<span class="token keyword">if</span> args<span class="token punctuation">.</span>Term <span class="token operator">!=</span> rf<span class="token punctuation">.</span>currentTerm <span class="token punctuation">&#123;</span>
+			rf<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+			<span class="token keyword">return</span> <span class="token boolean">false</span>
+		<span class="token punctuation">&#125;</span>
+		rf<span class="token punctuation">.</span>nextIndexs<span class="token punctuation">[</span>server<span class="token punctuation">]</span> <span class="token operator">=</span> reply<span class="token punctuation">.</span>NotMatchIndex
+	<span class="token keyword">case</span> AppendErr_RaftKilled<span class="token punctuation">:</span>
+		rf<span class="token punctuation">.</span>mu<span class="token punctuation">.</span><span class="token function">Unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		<span class="token keyword">return</span> <span class="token boolean">false</span>
+	<span class="token punctuation">&#125;</span></code></pre></p>
+<h3 id="2-3-2-日志应用"><a href="#2-3-2-日志应用" class="headerlink" title="2.3.2 日志应用"></a>2.3.2 日志应用</h3><p>一旦发现commitIndex大于lastApplied，应该立马将可应用的日志应用到状态机中。Raft节点本身是没有状态机实现的，状态机应该由Raft的上层应用来实现，因此只需将日志发送给applyCh这个通道即可。据说有更加优雅的实现(<a target="_blank" rel="noopener" href="https://cn.pingcap.com/blog//optimizing-raft-in-tikv/">TiKV 功能介绍 - Raft 的优化 | PingCAP</a>)，我就不贴我的代码了。<br>存在一个冲突优化，助教有提到：</p>
+<ul>
+<li>If a follower does not have <code>prevLogIndex</code> in its log, it should return with <code>conflictIndex = len(log)</code> and <code>conflictTerm = None</code>.  </li>
+<li>If a follower does have <code>prevLogIndex</code> in its log, but the term does not match, it should return <code>conflictTerm = log[prevLogIndex].Term</code>, and then search its log for the first index whose entry has term equal to <code>conflictTerm</code>.  </li>
+<li>Upon receiving a conflict response, the leader should first search its log for <code>conflictTerm</code>. If it finds an entry in its log with that term, it should set <code>nextIndex</code> to be the one beyond the index of the last entry in that term in its log.  </li>
+<li>If it does not find an entry with that term, it should set <code>nextIndex = conflictIndex</code>.<br>翻译一下就是添加<code>ConflictIndex</code>和<code>ConflictTerm</code>字段：</li>
+</ul>
+<ol>
+<li>若 <code>follower</code> 没有 <code>prevLogIndex</code> 处的日志，则直接置 <code>conflictIndex = len(log)，conflictTerm = None</code>；</li>
+</ol>
+<ul>
+<li><code>leader</code> 收到返回体后，肯定找不到对应的 <code>term</code>，则设置<code>nextIndex = conflictIndex</code>；</li>
+<li>其实就是 <code>leader</code> 对应的 <code>nextIndex</code> 直接回退到该 <code>follower</code> 的日志条目末尾处，因为 <code>prevLogIndex</code> 超前了</li>
+</ul>
+<ol>
+<li>若 <code>follower</code> 有 <code>prevLogIndex</code> 处的日志，但是 <code>term</code> 不匹配；则设置 <code>conlictTerm</code>为 <code>prevLogIndex</code> 处的 <code>term</code>，且肯定可以找到日志中该 <code>term</code>出现的第一个日志条目的下标，并置<code>conflictIndex = firstIndexWithTerm</code>；</li>
+</ol>
+<p><code>leader</code> 收到返回体后，有可能找不到对应的 <code>term</code>，即 <code>leader</code> 和 <code>follower</code> 在<code>conflictIndex</code>处以及之后的日志都有冲突，都不能要了，直接置<code>nextIndex = conflictIndex</code><br>若找到了对应的<code>term</code>，则找到对应<code>term</code>出现的最后一个日志条目的下一个日志条目，即置<code>nextIndex = lastIndexWithTerm + 1</code>；这里其实是默认了若 <code>leader</code> 和 <code>follower</code> 同时拥有该 <code>term</code> 的日志，则不会有冲突，直接取下一个 <code>term</code> 作为日志发起就好，是源自于 <code>safety</code> 的安全性保证<br>如果还有冲突，<code>leader</code> 和 <code>follower</code> 会一直根据以上规则回溯 <code>nextIndex</code></p>
+<h2 id="2-4-持久化"><a href="#2-4-持久化" class="headerlink" title="2.4 持久化"></a>2.4 持久化</h2><p>持久化是最简单的部分，在Raft论文中需要持久化的字段只有3个 <code>currentTerm</code>，<code>voteFor</code>，<code>log[]</code>，我是有相关变动的时候直接持久化一次。</p>
+<h2 id="2-5-日志压缩和快照"><a href="#2-5-日志压缩和快照" class="headerlink" title="2.5 日志压缩和快照"></a>2.5 日志压缩和快照</h2><p>随着时间推移，存储的日志会越来越多，不但占据很多磁盘空间，服务器重启做日志重放也需要更多的时间。如果没有办法来压缩日志，将会导致可用性问题：要么磁盘空间被耗尽，要么花费太长时间启动。所以日志压缩是必要的。<br>日志快照就是把当前状态记录下来，把该状态前的所有操作信息都丢弃。<br>对于go语言来说，这篇bolg很好的讲了如何让内存不泄露<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ithubb/p/14184982.html">go 避免切片内存泄露 - hubb - 博客园 (cnblogs.com)</a><br>快照时间：</p>
+<ul>
+<li><ol>
+<li>服务端触发日志压缩</li>
+</ol>
+</li>
+<li><ol>
+<li>leader发来的InstallSnapshot请求：当收到其他节点的压缩请求后，先上报上层应用，然后再决定是否安装快照。<ul>
+<li>对于 <code>leader</code> 发过来的 <code>InstallSnapshot</code>，只需要判断 <code>term</code> 是否正确，如果无误则 <code>follower</code> 只能无条件接受。</li>
+<li>对于服务上层触发的 CondInstallSnapshot，与上面类似，如果 snapshot 没有更新的话就没有必要去换，否则就接受对应的 snapshot 并处理对应状态的变更。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="3-基于Raft的分布式KV服务"><a href="#3-基于Raft的分布式KV服务" class="headerlink" title="3 基于Raft的分布式KV服务"></a>3 基于Raft的分布式KV服务</h1><p>这个是在lab2的Raft函数库之上，搭建一个能够容错的key/value存储服务，需要提供强一致性保证。</p>
+<ul>
+<li>强一致性：对于单个请求，整个服务需要表现得像个单机服务，并且对状态机的修改基于之前所有的请求。对于并发的请求，返回的值和最终的状态必须相同，就好像所有请求都是串行的一样。即使有些请求发生在了同一时间，那么也应当一个一个响应。此外，在一个请求被执行之前，这之前的请求都必须已经被完成</li>
+</ul>
+<p>该服务支持三种操作：Put、Append、Get。在内存中维护一个KV数据库。只实现了一般的KV服务，没有实现日志压缩。</p>
+<h1 id="3-1-客户端实现"><a href="#3-1-客户端实现" class="headerlink" title="3.1 客户端实现"></a>3.1 客户端实现</h1><p>需求：客户端发送请求，服务端同步成功并且提交，接着apply后返回给客户端执行结果，但返回客户端时候rpc丢失，客户端只能进行重试直到明确地写入成功或失败为止，但该操作可能已经在服务端应用过了，违背了线性一致性。<br>为了解决上述问题，通过使用<code>clientId</code>和<code>commandId</code>来唯一的标识一个客户端</p>
+<h1 id="3-2-服务端实现"><a href="#3-2-服务端实现" class="headerlink" title="3.2 服务端实现"></a>3.2 服务端实现</h1><p>server结构体与初始化代码实现：</p>
+<ul>
+<li>一个存储kv的map，即状态机，但这里实现一个基于内存版本KV；但实际生产环境下必然不可能把数据全部存在内存当中，系统往往采用的是 LSM 的架构，例如 RocksDB 等，抽象成KVStateMachine 的接口。</li>
+<li>一个能记录某一个客户端最后一次操作序号和应用结果的map</li>
+<li>一个能记录每个raft同步操作结果的map</li>
+</ul>
+<p>kv.applier协程：单独开一个go routine来远程监视apply channel，一旦底层的Raft commit一个到apply channel，状态机就立马执行且通过commandIndex通知到该客户端的NotifyChan,Command函数取消阻塞返回给客户端。<br>主要实现：</p>
+<ol>
+<li>raft同步完成后，也需要判断请求是否为重复请求。因为同一请求可能由于重试会被同步多次。</li>
+<li>当要通过channel返回操作结果时，需判断当前节点为主才返回操作结果，否则返回WrongLeader。</li>
+<li>为了保证强一致性，仅对当前 term 日志的 notifyChan 进行通知，让之前 term 的客户端协程都超时重试。避免leader 降级为 follower 后又迅速重新当选了 leader，而此时依然有客户端协程未超时在阻塞等待，那么此时 apply 日志后，根据 index 获得 channel 并向其中 push 执行结果就可能出错，因为可能并不对应。</li>
+<li>在目前的实现中，读（Get）请求也会生成一条 raft 日志去同步，最简单粗暴的方式保证线性一致性，即LogRead方法。</li>
+</ol>
+<h1 id="5-结语"><a href="#5-结语" class="headerlink" title="5 结语"></a>5 结语</h1><p>做Lab的时候真的痛苦，感觉人都要麻了，到处报错。不过写完之后感觉自己对分布式了解了不少，感谢大佬们留下的文档，没有前人的文章和实现的片段代码我是做不完这个lab的。感谢！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/27/WebServer%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/" rel="prev" title="WebServer项目相关">
+      <i class="fa fa-chevron-left"></i> WebServer项目相关
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80-Lab2"><span class="nav-text">1 前言(Lab2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%AE%9E%E7%8E%B0"><span class="nav-text">2 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">2.1 结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%80%89%E4%B8%BB"><span class="nav-text">2.2 选主</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6"><span class="nav-text">2.3 日志复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-1-%E6%97%A5%E5%BF%97%E5%90%8C%E6%AD%A5"><span class="nav-text">2.3.1 日志同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E6%97%A5%E5%BF%97%E5%BA%94%E7%94%A8"><span class="nav-text">2.3.2 日志应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">2.4 持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E6%97%A5%E5%BF%97%E5%8E%8B%E7%BC%A9%E5%92%8C%E5%BF%AB%E7%85%A7"><span class="nav-text">2.5 日志压缩和快照</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%9F%BA%E4%BA%8ERaft%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FKV%E6%9C%8D%E5%8A%A1"><span class="nav-text">3 基于Raft的分布式KV服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-1-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.1 客户端实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.2 服务端实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E7%BB%93%E8%AF%AD"><span class="nav-text">5 结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ATT_POWER</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yglsaltfish" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yglsaltfish" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ATT_POWER</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">340k</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>

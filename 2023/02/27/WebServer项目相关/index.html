@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="项目实现相关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebServer项目相关">
+<meta property="og:url" content="https://yglsaltfish.github.io/2023/02/27/WebServer%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="ATT_POWER的博客">
+<meta property="og:description" content="项目实现相关">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-27T03:37:53.000Z">
+<meta property="article:modified_time" content="2023-02-27T03:39:55.342Z">
+<meta property="article:author" content="ATT_POWER">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yglsaltfish.github.io/2023/02/27/WebServer%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WebServer项目相关 | ATT_POWER的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ATT_POWER的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2023/02/27/WebServer%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ATT_POWER">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ATT_POWER的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WebServer项目相关
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-02-27 11:37:53 / 修改时间：11:39:55" itemprop="dateCreated datePublished" datetime="2023-02-27T11:37:53+08:00">2023-02-27</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.4k</span>
+            </span>
+            <div class="post-description">项目实现相关</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-记录我实现WebServer"><a href="#1-记录我实现WebServer" class="headerlink" title="1. 记录我实现WebServer"></a>1. 记录我实现WebServer</h1><p>reactor/procatar模式均有。<br>我是一步一步实现的，按照<code>lock -&gt; threadpool -&gt; webserver -&gt; http 信息处理 -&gt; 日志处理 -&gt; 数据库池连接-&gt; 处理非活跃连接</code> 这个顺序一步一步实现的</p>
+<h1 id="2-实现"><a href="#2-实现" class="headerlink" title="2 实现"></a>2 实现</h1><h2 id="2-1-I-O-模型"><a href="#2-1-I-O-模型" class="headerlink" title="2.1 I/O 模型"></a>2.1 I/O 模型</h2><ul>
+<li>同步IO：内核向应用程序通知的是就绪事件<ul>
+<li>阻塞IO：调用者调用了某个函数，等待这个函数返回，期间什么也不做，不停的去检查这个函数有没有返回，必须等这个函数返回才能进行下一步动作</li>
+<li>非阻塞IO：非阻塞等待，每隔一段时间就去检测IO事件是否就绪。没有就绪就可以做其他事。非阻塞I/O执行系统调用总是立即返回，不管事件是否已经发生，若事件没有发生，则返回-1，此时可以根据errno区分这两种情况，对于accept，recv和send，事件未发生时，errno通常被设置成eagain</li>
+<li>信号驱动IO：linux用套接口进行信号驱动IO，安装一个信号处理函数，进程继续运行并不阻塞，当IO时间就绪，进程收到SIGIO信号。然后处理IO事件。</li>
+<li>IO复用：linux用select/poll函数实现IO复用模型，这两个函数也会使进程阻塞，但是和阻塞IO所不同的是这两个函数可以同时阻塞多个IO操作。而且可以同时对多个读操作、写操作的IO函数进行检测。知道有数据可读或可写时，才真正调用IO操作函数</li>
+</ul>
+</li>
+<li>异步IO：linux中，可以调用aio_read函数告诉内核描述字缓冲区指针和缓冲区的大小、文件偏移及通知的方式，然后立即返回，当内核将数据拷贝到缓冲区后，再通知应用程序。</li>
+</ul>
+<h2 id="2-1-reactor-模式如下实现："><a href="#2-1-reactor-模式如下实现：" class="headerlink" title="2.1 reactor 模式如下实现："></a>2.1 reactor 模式如下实现：</h2><ul>
+<li>主线程：<ol>
+<li>监听和建立客户端的连接；</li>
+<li>接收客户端的请求，创建一个任务，并把该任务放入任务队列；</li>
+<li>通知分发线程。</li>
+</ol>
+</li>
+<li>分发线程<ol>
+<li>查看任务队列，看是否有请求任务？没有任务则继续睡觉，否则把任务取出来，然后分发给线程池；</li>
+<li>线程池有空闲的线程，则把该任务交给空闲的线程处理，否则等待。</li>
+</ol>
+</li>
+<li>工作线程<ol>
+<li>执行任务</li>
+<li>销毁任务</li>
+</ol>
+</li>
+</ul>
+<p>1、主线程往epoll 内核事件表中注册socket上的读就绪事件。</p>
+<p>2、主线程调用epoll_wait等待socket上有数据可读。</p>
+<p>3、当socket 上有数据可读时，epoll_wait通知主线程。主线程则将socket可读事件放入请求队列。</p>
+<p>4、睡眠在请求队列上的某个工作线程被唤醒，它从socket读取数据，并处理客户请求，然后往epoll内核事件表中注册该socket上的写就绪事件。</p>
+<p>5、主线程调用epoll_wait等待socket可写。</p>
+<p>6、当socket可写时，epoll_wait通知主线程。主线程将socket可写事件放入请求队列。</p>
+<p>7、睡眠在请求队列上的某个工作线程被唤醒，它往socket上写入服务器处理客户请求的结果。</p>
+<h2 id="2-2-procator"><a href="#2-2-procator" class="headerlink" title="2.2 procator"></a>2.2 procator</h2><p>使用异步I/O模型（以aio_read和 aio_write为例）实现的Proactor模式的工作流程是:</p>
+<p>1、主线程调用aio_read函数向内核注册socket上的读完成事件，并告诉内核用户读缓冲区的位置，以及读操作完成时如何通知应用程序（这里以信号为例，详情请参考sigevent的man手册)。</p>
+<p>2、主线程继续处理其他逻辑。</p>
+<p>3、当socket 上的数据被读入用户缓冲区后，内核将向应用程序发送一个信号，以通知应用程序数据已经可用。</p>
+<p>4、应用程序预先定义好的信号处理函数选择一个工作线程来处理客户请求。工作线程处理完客户请求之后，调用aio_write函数向内核注册socket 上的写完成事件，并告诉内核用户写缓冲区的位置，以及写操作完成时如何通知应用程序（仍然以信号为例)。</p>
+<p>5、主线程继续处理其他逻辑。</p>
+<p>6、当用户缓冲区的数据被写人socket之后，内核将向应用程序发送一个信号，以通知应用程序数据已经发送完毕。</p>
+<p>7、应用程序预先定义好的信号处理函数选择一-个工作线程来做善后处理，比如决定是否关闭socket。</p>
+<p>procatar 模式可以使用reactor模式模拟的：</p>
+<p>1、主线程往epoll内核事件表中注册socket 上的读就绪事件。</p>
+<p>2、主线程调用epoll_wait等待socket上有数据可读。</p>
+<p>3、当socket 上有数据可读时，epoll_wait通知主线程。主线程从socket循环读取数据，直到没有更多数据可读，然后将读取到的数据封装成一个请求对象并插人请求队列。</p>
+<p>4、睡眠在请求队列上的某个工作线程被唤醒，它获得请求对象并处理客户请求，然后往epoll 内核事件表中注册socket上的写就绪事件</p>
+<p>5、主线程调用epoll_wait等待socket可写。</p>
+<p>6）当socket可写时，epoll_wait通知主线程。主线程往socket上写人服务器处理客户请求的结果。</p>
+<p>总的来说：</p>
+<ul>
+<li>reactor模式中，主线程(I/O处理单元)只负责监听文件描述符上是否有事件发生，有的话立即通知工作线程(逻辑单元)，读写数据、接受新连接及处理客户请求均在工作线程中完成。通常由同步I/O实现。</li>
+<li>proactor模式中，主线程和内核负责处理读写数据、接受新连接等I/O操作，工作线程仅负责业务逻辑，如处理客户请求。通常由异步I/O实现。</li>
+</ul>
+<h2 id="2-3-多线程相关实现"><a href="#2-3-多线程相关实现" class="headerlink" title="2.3 多线程相关实现"></a>2.3 多线程相关实现</h2><p>如果要用多线程，需要使用一些使得线程同步的机制</p>
+<h2 id="2-3-1-信号量"><a href="#2-3-1-信号量" class="headerlink" title="2.3.1 信号量"></a>2.3.1 信号量</h2><p>信号量：信号量是一种特殊的变量，它只能取自然数值并且只支持两种操作：等待(P)和信号(V).假设有信号量SV，对其的P、V操作如下：</p>
+<ul>
+<li>P：如果SV的值大于0，则将其减一；若SV的值为0，则挂起执行</li>
+<li>V：如果有其他进行因为等待SV而挂起，则唤醒；若没有，则将SV值加一</li>
+</ul>
+<p>如下就是信号量的一些api:</p>
+<ul>
+<li>sem_init函数用于初始化一个未命名的信号量</li>
+<li>sem_destory函数用于销毁信号量</li>
+<li>sem_wait函数将以原子操作方式将信号量减一,信号量为0时,sem_wait阻塞</li>
+<li>sem_post函数以原子操作方式将信号量加一,信号量大于0时,唤醒调用sem_post的线程</li>
+</ul>
+<h2 id="2-3-2-互斥量"><a href="#2-3-2-互斥量" class="headerlink" title="2.3.2 互斥量"></a>2.3.2 互斥量</h2><p>互斥锁：可以保护关键代码段，以确保独占式访问.当进入关键代码段，获得互斥锁将其加锁；离开关键代码段，唤醒等待该互斥锁的线程。</p>
+<p>以下就是相关api</p>
+<ul>
+<li>pthread_mutex_init函数用于初始化互斥锁</li>
+<li>pthread_mutex_destory函数用于销毁互斥锁</li>
+<li>pthread_mutex_lock函数以原子操作方式给互斥锁加锁</li>
+<li>pthread_mutex_unlock函数以原子操作方式给互斥锁解锁</li>
+</ul>
+<h2 id="2-3-3-条件变量"><a href="#2-3-3-条件变量" class="headerlink" title="2.3.3 条件变量"></a>2.3.3 条件变量</h2><p>条件变量：条件变量提供了一种线程间的通知机制,当某个共享数据达到某个值时,唤醒等待这个共享数据的线程.</p>
+<p>以下就是相关api：</p>
+<ul>
+<li>pthread_cond_init函数用于初始化条件变量</li>
+<li>pthread_cond_destory函数销毁条件变量</li>
+<li>pthread_cond_broadcast函数以广播的方式唤醒所有等待目标条件变量的线程</li>
+<li>pthread_cond_wait函数用于等待目标条件变量。该函数调用时需要传入 mutex参数(加锁的互斥锁) ,函数执行时，先把调用线程放入条件变量的请求队列，然后将互斥锁mutex解锁，当函数成功返回为0时，互斥锁会再次被锁上. 也就是说函数内部会有一次解锁和加锁操作。</li>
+</ul>
+<h2 id="2-4-WebServer实现"><a href="#2-4-WebServer实现" class="headerlink" title="2.4 WebServer实现"></a>2.4 WebServer实现</h2><p>主要使用套接字，套接字有一些使用的比较多的api和参数，在这里写一下：</p>
+<h3 id="2-4-1-epoll相关"><a href="#2-4-1-epoll相关" class="headerlink" title="2.4.1 epoll相关"></a>2.4.1 epoll相关</h3><h4 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h4><ul>
+<li><p><code>epoll_create() -&gt; int</code>：创建一个epoll句柄，该函数返回一个非负整数作为epoll句柄，如果返回-1则表示创建失败。</p>
+</li>
+<li><p><code>epoll_ctl(int epfd, int op, int fd, struct epoll_event *event) -&gt; int</code>:</p>
+<ul>
+<li><code>epfd</code>：为epoll_creat的句柄</li>
+<li><code>op</code>：表示动作，用3个宏来表示：<ul>
+<li><code>EPOLL_CTL_ADD</code> (注册新的fd到epfd)，</li>
+<li><code>EPOLL_CTL_MOD</code> (修改已经注册的fd的监听事件)，</li>
+<li><code>EPOLL_CTL_DEL</code> (从epfd删除一个fd)；</li>
+</ul>
+</li>
+<li><code>event</code>：告诉内核需要监听的事件<ul>
+<li>EPOLLIN：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）</li>
+<li><code>EPOLLOUT</code>：表示对应的文件描述符可以写</li>
+<li><code>EPOLLPRI</code>：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）</li>
+<li><code>EPOLLERR</code>：表示对应的文件描述符发生错误</li>
+<li><code>EPOLLHUP</code>：表示对应的文件描述符被挂断；</li>
+<li><code>EPOLLET</code>：将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)而言的</li>
+<li><code>EPOLLONESHOT</code>：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout) -&gt; int</code>:<ul>
+<li><code>maxevents</code>: 表示events事件大小</li>
+<li><code>timeout</code>：超时时间，<code>-1：阻塞； 0：立即返回，非阻塞；&gt;0 : 指定时间</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="相关重要参数"><a href="#相关重要参数" class="headerlink" title="相关重要参数"></a>相关重要参数</h4><p>ET、LT、EPOLLONESHOT</p>
+<ul>
+<li>LT水平触发模式<ul>
+<li>epoll_wait检测到文件描述符有事件发生，则将其通知给应用程序，应用程序可以不立即处理该事件。</li>
+<li>当下一次调用epoll_wait时，epoll_wait还会再次向应用程序报告此事件，直至被处理</li>
+</ul>
+</li>
+<li>ET边缘触发模式<ul>
+<li>epoll_wait检测到文件描述符有事件发生，则将其通知给应用程序，应用程序必须立即处理该事件</li>
+<li>必须要一次性将数据读取完，使用非阻塞I/O，读取到出现eagain</li>
+</ul>
+</li>
+<li>EPOLLONESHOT<ul>
+<li>解决问题：一个线程读取某个socket上的数据后开始处理数据，在处理过程中该socket上又有新数据可读，此时另一个线程被唤醒读取，此时出现两个线程处理同一个socket</li>
+<li>通过epoll_ctl对该文件描述符注册epolloneshot事件，一个线程处理socket时，其他线程将无法处理，当该线程处理完后，需要通过epoll_ctl重置epolloneshot事件</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-2-管道相关"><a href="#2-4-2-管道相关" class="headerlink" title="2.4.2 管道相关"></a>2.4.2 管道相关</h3><p>在这部分实现中，我还用到了管道。</p>
+<ul>
+<li><code>int socketpair(int domain, int type, int protocol, int sv[2]);</code> <ul>
+<li>domain 表示套接字的域（地址族），通常是 AF_UNIX 或 AF_LOCAL。</li>
+<li>type 表示套接字的类型，通常是 SOCK_STREAM 或 SOCK_DGRAM。</li>
+<li>protocol 表示套接字使用的协议，通常为 0（默认）。</li>
+<li>sv 是一个长度为 2 的整型数组，用于存放创建的一对套接字的文件描述符。</li>
+</ul>
+</li>
+</ul>
+<p>在这里管道主要用来接受信号，由于之后要使用定时器来关闭不常使用的连接，定时器发送的信号就用管道来接受。</p>
+<h2 id="2-5-HTTP信息处理相关"><a href="#2-5-HTTP信息处理相关" class="headerlink" title="2.5 HTTP信息处理相关"></a>2.5 HTTP信息处理相关</h2><h3 id="2-5-1-报文格式"><a href="#2-5-1-报文格式" class="headerlink" title="2.5.1 报文格式"></a>2.5.1 报文格式</h3><ul>
+<li><p>请求报文 ：请求行（request line）、请求头部（header）、空行和请求数据四个部分组成。</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup">GET /562f25980001b1b106000338.jpg HTTP/1.1
+Host:xxxx.com
+User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64)
+AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36
+Accept:image/webp,image/*,*/*;q=0.8
+Referer:http://www.imooc.com/
+Accept-Encoding:gzip, deflate, sdch
+Accept-Language:zh-CN,zh;q=0.8
+空行
+请求数据为空
+
+
+POST / HTTP1.1
+Host:www.xxxxxxxx.com
+User-Agent:Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022)
+Content-Length:40
+Connection: Keep-Alive
+空行
+name=Professional%20Ajax&amp;publisher=Wiley</code></pre>
+</li>
+<li><p>响应报文：HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。</p>
+</li>
+</ul>
+<h3 id="2-5-2-状态码"><a href="#2-5-2-状态码" class="headerlink" title="2.5.2 状态码"></a>2.5.2 状态码</h3><p>HTTP有5种类型的状态码，具体的：</p>
+<ul>
+<li>1xx：指示信息—表示请求已接收，继续处理。</li>
+<li>2xx：成功—表示请求正常处理完毕。<ul>
+<li>200 OK：客户端请求被正常处理。</li>
+<li>206 Partial content：客户端进行了范围请求。</li>
+</ul>
+</li>
+<li>3xx：重定向—要完成请求必须进行更进一步的操作<ul>
+<li>301 Moved Permanently：永久重定向，该资源已被永久移动到新位置，将来任何对该资源的访问都要使用本响应返回的若干个URI之一。</li>
+<li>302 Found：临时重定向，请求的资源现在临时从不同的URI中获得</li>
+</ul>
+</li>
+<li>4xx：客户端错误—请求有语法错误，服务器无法处理请求。<ul>
+<li>400 Bad Request：请求报文存在语法错误。</li>
+<li>403 Forbidden：请求被服务器拒绝。</li>
+<li>404 Not Found：请求不存在，服务器上找不到请求的资源</li>
+</ul>
+</li>
+<li>5xx：服务器端错误—服务器处理请求出错。<ul>
+<li>500 Internal Server Error：服务器在执行请求时出现错误。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-5-3-有限状态机-DFA"><a href="#2-5-3-有限状态机-DFA" class="headerlink" title="2.5.3 有限状态机(DFA)"></a>2.5.3 有限状态机(DFA)</h3><p>有限状态机，是一种抽象的理论模型，它能够把有限个变量描述的状态变化过程，以可构造可验证的方式呈现出来。<br>在这里使用有限状态机是因为分类讨论代码会写的比较复杂，并且极容易丢失细节和处理错误。<br>处理HTTP请求过程分为主状态机和从状态机：<br>主状态机有三种状态，表示要解析的东西：</p>
+<ul>
+<li>CHECK_STATE_REQUESTLINE，解析请求行</li>
+<li>CHECK_STATE_HEADER，解析请求头</li>
+<li>CHECK_STATE_CONTENT，解析消息体，仅用于解析POST请求</li>
+</ul>
+<p>主状态机的逻辑：<br>主状态机初始状态是CHECK_STATE_REQUESTLINE，通过调用从状态机来驱动主状态机，在主状态机进行解析前，从状态机已经将每一行的末尾\r\n符号改为\0\0，以便于主状态机直接取出对应字符串进行处理。</p>
+<ul>
+<li>CHECK_STATE_REQUESTLINE<ul>
+<li>主状态机的初始状态，调用parse_request_line函数解析请求行</li>
+<li>解析函数从m_read_buf中解析HTTP请求行，获得请求方法、目标URL及HTTP版本号</li>
+<li>解析完成后主状态机的状态变为CHECK_STATE_HEADER</li>
+</ul>
+</li>
+</ul>
+<p>解析完请求行后，主状态机继续分析请求头。</p>
+<ul>
+<li>CHECK_STATE_HEADER<ul>
+<li>调用parse_headers函数解析请求头部信息</li>
+<li>判断是空行还是请求头，若是空行，进而判断content-length是否为0，如果不是0，表明是POST请求，则状态转移到CHECK_STATE_CONTENT，否则说明是GET请求，则报文解析结束。</li>
+<li>若解析的是请求头部字段，则主要分析connection字段，content-length字段，其他字段可以直接跳过。</li>
+<li>connection字段判断是keep-alive还是close，决定是长连接还是短连接</li>
+<li>content-length字段，这里用于读取post请求的消息体长度</li>
+</ul>
+</li>
+</ul>
+<p>从状态机有三种状态，表示解析的状态：</p>
+<ul>
+<li>LINE_OK，完整读取一行</li>
+<li>LINE_BAD，报文语法有误</li>
+<li>LINE_OPEN，读取的行不完整</li>
+</ul>
+<h3 id="2-5-4-munmap-、mmap"><a href="#2-5-4-munmap-、mmap" class="headerlink" title="2.5.4 munmap()、mmap()"></a>2.5.4 <code>munmap()</code>、<code>mmap()</code></h3><p> mmap()系统调用使得进程之间通过映射同一个普通文件实现共享内存。普通文件被映射到进程地址空间后，进程可以向访问普通内存一样对文件进行访问，不必再调用read()，write（）等操作。<br>在这里是为了提高访问速度，于是就把普通文件映射到逻辑地址。</p>
+<h2 id="2-6-日志处理"><a href="#2-6-日志处理" class="headerlink" title="2.6 日志处理"></a>2.6 日志处理</h2><p>使用单例模式，这里我使用的单例模式做的日志系统。参考的《Effective C++》中的单例模式实现，这种方式不需要加锁和解锁。<br><pre class="language-c++" data-language="c++"><code class="language-c++">class Singleton &#123;
+public:
+    static Singleton&amp; getInstance() &#123;
+        static Singleton instance;
+        return instance;
+    &#125;
+private:
+    Singleton() &#123;&#125; &#x2F;&#x2F; 禁止通过构造函数创建实例
+    Singleton(const Singleton&amp; other) &#x3D; delete; &#x2F;&#x2F; 禁止拷贝构造函数
+    Singleton&amp; operator&#x3D;(const Singleton&amp; other) &#x3D; delete; &#x2F;&#x2F; 禁止赋值运算符
+&#125;;</code></pre></p>
+<p>由于使用的生产者-消费者模型，使用的前文提到的条件变量做支撑。</p>
+<h2 id="2-7-数据库池"><a href="#2-7-数据库池" class="headerlink" title="2.7 数据库池"></a>2.7 数据库池</h2><p>在一个高并发的应用程序中，如果每次请求都建立一次数据库连接，会带来很大的性能问题，因为每次连接都需要系统创建数据库连接，完成数据库操作，然后系统断开数据库连接等操作，这些都需要占用系统资源和时间。而且频繁地建立和关闭连接还会对数据库服务器造成额外的压力。</p>
+<p>在程序初始化的时候，集中创建多个数据库连接，并把他们集中管理，供程序使用，可以保证较快的数据库读写速度，更加安全可靠。</p>
+<p>使用RAII技巧管理创建、销毁连接池；通过信号量来处理多线程争夺数据库连接的同步机制。</p>
+<h3 id="2-7-1-获取、释放连接"><a href="#2-7-1-获取、释放连接" class="headerlink" title="2.7.1 获取、释放连接"></a>2.7.1 获取、释放连接</h3><ul>
+<li>获取：当线程数量大于数据库连接数量时，使用信号量进行同步，每次取出连接，信号量原子减1，释放连接原子加1，若连接池内没有连接了，则阻塞等待。</li>
+<li>销毁：通过迭代器遍历连接池链表，关闭对应数据库连接，清空链表并重置空闲连接和现有连接数量。</li>
+</ul>
+<h2 id="2-8-用定时器处理不活跃的连接"><a href="#2-8-用定时器处理不活跃的连接" class="headerlink" title="2.8 用定时器处理不活跃的连接"></a>2.8 用定时器处理不活跃的连接</h2><p>LINUX下有三种定时方式：</p>
+<ul>
+<li>socket选项SO_RECVTIMEO和SO_SNDTIMEO</li>
+<li>SIGALRM信号</li>
+<li>I/O复用系统调用的超时参数<br>我使用的<code>SIGALRM</code>信号方式，利用<code>alarm</code>函数周期性地触发<code>SIGALRM</code>信号，信号处理函数利用管道通知主循环，主循环接收到该信号后对升序链表上所有定时器进行处理，若该段时间内没有交换数据，则将该连接关闭，释放所占用的资源。<br>具体用到</li>
+<li><h1 id="define-SIGALRM-14-由alarm系统调用产生timer时钟信号"><a href="#define-SIGALRM-14-由alarm系统调用产生timer时钟信号" class="headerlink" title="define SIGALRM  14     //由alarm系统调用产生timer时钟信号"></a>define SIGALRM  14     //由alarm系统调用产生timer时钟信号</h1></li>
+<li><h1 id="define-SIGTERM-15-终端发送的终止信号"><a href="#define-SIGTERM-15-终端发送的终止信号" class="headerlink" title="define SIGTERM  15     //终端发送的终止信号"></a>define SIGTERM  15     //终端发送的终止信号</h1></li>
+</ul>
+<h3 id="2-8-1-信号处理机制"><a href="#2-8-1-信号处理机制" class="headerlink" title="2.8.1 信号处理机制"></a>2.8.1 信号处理机制</h3><ul>
+<li><p>信号的接收</p>
+<ul>
+<li>接收信号的任务是由内核代理的，当内核接收到信号后，会将其放到对应进程的信号队列中，同时向进程发送一个中断，使其陷入内核态。注意，此时信号还只是在队列中，对进程来说暂时是不知道有信号到来的。</li>
+</ul>
+</li>
+<li><p>信号的检测</p>
+<ul>
+<li>进程从内核态返回到用户态前进行信号检测</li>
+<li>进程在内核态中，从睡眠状态被唤醒的时候进行信号检测</li>
+<li>进程陷入内核态后，有两种场景会对信号进行检测：</li>
+<li>当发现有新信号时，便会进入下一步，信号的处理。</li>
+</ul>
+</li>
+<li><p>信号的处理</p>
+<ul>
+<li>( 内核 )信号处理函数是运行在用户态的，调用处理函数前，内核会将当前内核栈的内容备份拷贝到用户栈上，并且修改指令寄存器（eip）将其指向信号处理函数。</li>
+<li>( 用户 )接下来进程返回到用户态中，执行相应的信号处理函数。</li>
+<li>( 内核 )信号处理函数执行完成后，还需要返回内核态，检查是否还有其它信号未处理。</li>
+<li>( 用户 )如果所有信号都处理完成，就会将内核栈恢复（从用户栈的备份拷贝回来），同时恢复指令寄存器（eip）将其指向中断前的运行位置，最后回到用户态继续执行进程。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-8-2-超时设置"><a href="#2-8-2-超时设置" class="headerlink" title="2.8.2 超时设置"></a>2.8.2 超时设置</h3><p>使用升序链表来处理超时连接</p>
+<ul>
+<li>浏览器与服务器连接时，创建该连接对应的定时器，并将该定时器添加到链表上</li>
+<li>处理异常事件时，执行定时事件，服务器关闭连接，从链表上移除对应定时器</li>
+<li>处理定时信号时，将定时标志设置为true</li>
+<li>处理读事件时，若某连接上发生读事件，将对应定时器向后移动，否则，执行定时事件</li>
+<li>处理写事件时，若服务器通过某连接给浏览器发送数据，将对应定时器向后移动，否则，执行定时事件</li>
+</ul>
+<h1 id="3-调试"><a href="#3-调试" class="headerlink" title="3 调试"></a>3 调试</h1><p>我是在ubuntu上用vscode进行开发的，在调试过程中发现了一些问题。可以在命令行中使用以下代码开启管理员模式进而调试。</p>
+<ul>
+<li>OS VERSION : Ubuntu 20.04.2 LTS</li>
+<li>VScode Version : 1.73.1<pre class="language-none"><code class="language-none">sudo code --no-sandbox --disable-gpu-sandbox --user-data-dir&#x3D;&#x2F;root&#x2F;.vscode&#x2F;</code></pre>
+</li>
+</ul>
+<h1 id="4-参考文献"><a href="#4-参考文献" class="headerlink" title="4 参考文献"></a>4 参考文献</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/qinguoyi/TinyWebServer">https://github.com/qinguoyi/TinyWebServer</a></li>
+<li>Linux高性能服务器编程，游双著.</li>
+<li>chatGpt带给我的帮助</li>
+</ol>
+<h1 id="5-实现过程中出现的相关问题"><a href="#5-实现过程中出现的相关问题" class="headerlink" title="5 实现过程中出现的相关问题"></a>5 实现过程中出现的相关问题</h1><h2 id="5-1-线程池相关"><a href="#5-1-线程池相关" class="headerlink" title="5.1 线程池相关"></a>5.1 线程池相关</h2><h3 id="5-1-2-简易线程池实现"><a href="#5-1-2-简易线程池实现" class="headerlink" title="5.1.2 简易线程池实现"></a>5.1.2 简易线程池实现</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/" rel="prev" title="数据库相关">
+      <i class="fa fa-chevron-left"></i> 数据库相关
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/02/27/MIT6-824-Lab/" rel="next" title="MIT6.824 Lab">
+      MIT6.824 Lab <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%AE%B0%E5%BD%95%E6%88%91%E5%AE%9E%E7%8E%B0WebServer"><span class="nav-text">1. 记录我实现WebServer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%AE%9E%E7%8E%B0"><span class="nav-text">2 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-I-O-%E6%A8%A1%E5%9E%8B"><span class="nav-text">2.1 I&#x2F;O 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-reactor-%E6%A8%A1%E5%BC%8F%E5%A6%82%E4%B8%8B%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="nav-text">2.1 reactor 模式如下实现：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-procator"><span class="nav-text">2.2 procator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%AE%9E%E7%8E%B0"><span class="nav-text">2.3 多线程相关实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-1-%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="nav-text">2.3.1 信号量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-2-%E4%BA%92%E6%96%A5%E9%87%8F"><span class="nav-text">2.3.2 互斥量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-3-%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F"><span class="nav-text">2.3.3 条件变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-WebServer%E5%AE%9E%E7%8E%B0"><span class="nav-text">2.4 WebServer实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-epoll%E7%9B%B8%E5%85%B3"><span class="nav-text">2.4.1 epoll相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="nav-text">相关函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E9%87%8D%E8%A6%81%E5%8F%82%E6%95%B0"><span class="nav-text">相关重要参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-%E7%AE%A1%E9%81%93%E7%9B%B8%E5%85%B3"><span class="nav-text">2.4.2 管道相关</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-HTTP%E4%BF%A1%E6%81%AF%E5%A4%84%E7%90%86%E7%9B%B8%E5%85%B3"><span class="nav-text">2.5 HTTP信息处理相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-1-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-text">2.5.1 报文格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-2-%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-text">2.5.2 状态码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-3-%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA-DFA"><span class="nav-text">2.5.3 有限状态机(DFA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-4-munmap-%E3%80%81mmap"><span class="nav-text">2.5.4 munmap()、mmap()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86"><span class="nav-text">2.6 日志处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B1%A0"><span class="nav-text">2.7 数据库池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-1-%E8%8E%B7%E5%8F%96%E3%80%81%E9%87%8A%E6%94%BE%E8%BF%9E%E6%8E%A5"><span class="nav-text">2.7.1 获取、释放连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8%E5%A4%84%E7%90%86%E4%B8%8D%E6%B4%BB%E8%B7%83%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="nav-text">2.8 用定时器处理不活跃的连接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define-SIGALRM-14-%E7%94%B1alarm%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%BA%A7%E7%94%9Ftimer%E6%97%B6%E9%92%9F%E4%BF%A1%E5%8F%B7"><span class="nav-text">define SIGALRM  14     &#x2F;&#x2F;由alarm系统调用产生timer时钟信号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define-SIGTERM-15-%E7%BB%88%E7%AB%AF%E5%8F%91%E9%80%81%E7%9A%84%E7%BB%88%E6%AD%A2%E4%BF%A1%E5%8F%B7"><span class="nav-text">define SIGTERM  15     &#x2F;&#x2F;终端发送的终止信号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-1-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6"><span class="nav-text">2.8.1 信号处理机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-2-%E8%B6%85%E6%97%B6%E8%AE%BE%E7%BD%AE"><span class="nav-text">2.8.2 超时设置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%B0%83%E8%AF%95"><span class="nav-text">3 调试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-text">4 参考文献</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-text">5 实现过程中出现的相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9B%B8%E5%85%B3"><span class="nav-text">5.1 线程池相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-2-%E7%AE%80%E6%98%93%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0"><span class="nav-text">5.1.2 简易线程池实现</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ATT_POWER</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yglsaltfish" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yglsaltfish" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ATT_POWER</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">340k</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>

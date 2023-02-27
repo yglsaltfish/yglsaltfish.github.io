@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://yglsaltfish.github.io/2023/02/27/MIT6-824-Lab/</loc>
+    <lastmod>2023-02-27</lastmod>
+  </url>
+  <url>
+    <loc>https://yglsaltfish.github.io/2022/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2023-02-27</lastmod>
+  </url>
+  <url>
+    <loc>https://yglsaltfish.github.io/2023/02/27/WebServer%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/</loc>
+    <lastmod>2023-02-27</lastmod>
+  </url>
+  <url>
+    <loc>https://yglsaltfish.github.io/2023/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/</loc>
+    <lastmod>2023-02-22</lastmod>
+  </url>
+  <url>
     <loc>https://yglsaltfish.github.io/2023/01/25/Linux%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</loc>
-    <lastmod>2023-01-25</lastmod>
+    <lastmod>2023-02-11</lastmod>
   </url>
   <url>
     <loc>https://yglsaltfish.github.io/2022/12/05/2022-12-05/</loc>
@@ -23,10 +39,6 @@
   <url>
     <loc>https://yglsaltfish.github.io/2022/11/22/MySql-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2022-11-22</lastmod>
-  </url>
-  <url>
-    <loc>https://yglsaltfish.github.io/2022/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2022-11-18</lastmod>
   </url>
   <url>
     <loc>https://yglsaltfish.github.io/2022/09/21/Effective-C-%E7%AC%94%E8%AE%B0/</loc>

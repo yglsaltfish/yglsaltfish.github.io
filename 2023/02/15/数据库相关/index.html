@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yglsaltfish.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="0. 存储 缓存很重要，贯穿整个存储体系 拷贝很昂贵，应该尽量减少  0.1 RAID技术 RAID0 ： 多块磁盘简单组合，数据条带化存储，提高磁盘带宽 RAID1 ： 多块磁盘组合，一块磁盘对应一块额外镜像盘，真是空间利用率为50%，容错能力强 RAID0 + RAID1  1. Mysql2. Redis2.1 为什么需要redis 数据从单表，演进出了分库页表 Mysql从单机演进出了集群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库相关">
+<meta property="og:url" content="https://yglsaltfish.github.io/2023/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="ATT_POWER的博客">
+<meta property="og:description" content="0. 存储 缓存很重要，贯穿整个存储体系 拷贝很昂贵，应该尽量减少  0.1 RAID技术 RAID0 ： 多块磁盘简单组合，数据条带化存储，提高磁盘带宽 RAID1 ： 多块磁盘组合，一块磁盘对应一块额外镜像盘，真是空间利用率为50%，容错能力强 RAID0 + RAID1  1. Mysql2. Redis2.1 为什么需要redis 数据从单表，演进出了分库页表 Mysql从单机演进出了集群">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-15T03:03:31.000Z">
+<meta property="article:modified_time" content="2023-02-22T10:26:58.532Z">
+<meta property="article:author" content="ATT_POWER">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yglsaltfish.github.io/2023/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据库相关 | ATT_POWER的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ATT_POWER的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yglsaltfish.github.io/2023/02/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ATT_POWER">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ATT_POWER的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库相关
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-15 11:03:31" itemprop="dateCreated datePublished" datetime="2023-02-15T11:03:31+08:00">2023-02-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-22 18:26:58" itemprop="dateModified" datetime="2023-02-22T18:26:58+08:00">2023-02-22</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="0-存储"><a href="#0-存储" class="headerlink" title="0. 存储"></a>0. 存储</h1><ul>
+<li>缓存很重要，贯穿整个存储体系</li>
+<li>拷贝很昂贵，应该尽量减少</li>
+</ul>
+<h2 id="0-1-RAID技术"><a href="#0-1-RAID技术" class="headerlink" title="0.1 RAID技术"></a>0.1 RAID技术</h2><ul>
+<li>RAID0 ： 多块磁盘简单组合，数据条带化存储，提高磁盘带宽</li>
+<li>RAID1 ： 多块磁盘组合，一块磁盘对应一块额外镜像盘，真是空间利用率为50%，容错能力强</li>
+<li>RAID0 + RAID1</li>
+</ul>
+<h1 id="1-Mysql"><a href="#1-Mysql" class="headerlink" title="1. Mysql"></a>1. Mysql</h1><h1 id="2-Redis"><a href="#2-Redis" class="headerlink" title="2. Redis"></a>2. Redis</h1><h2 id="2-1-为什么需要redis"><a href="#2-1-为什么需要redis" class="headerlink" title="2.1 为什么需要redis"></a>2.1 为什么需要redis</h2><ul>
+<li>数据从单表，演进出了分库页表</li>
+<li>Mysql从单机演进出了集群<ul>
+<li>数据量增加</li>
+<li>读写数据压力不断增大</li>
+</ul>
+</li>
+<li>数据分冷热 ：将热数据存储到内存</li>
+</ul>
+<h2 id="2-2-基本工作原理"><a href="#2-2-基本工作原理" class="headerlink" title="2.2 基本工作原理"></a>2.2 基本工作原理</h2><ul>
+<li>数据从内存中读写</li>
+<li>数据保存到硬盘上防止重启数据丢失<ul>
+<li>增量数据保存到AOF文件（append only file）</li>
+<li>全量数据RDB文，重启redis先读RDB，在读AOF文件</li>
+</ul>
+</li>
+<li>单线程处理所有操作命令</li>
+</ul>
+<h3 id="2-2-1-string数据结构"><a href="#2-2-1-string数据结构" class="headerlink" title="2.2.1 string数据结构"></a>2.2.1 string数据结构</h3><ul>
+<li>可以存储字符串、数字、二进制文件</li>
+<li>通常和expire配合使用</li>
+<li>场景：存储计数、Session<br>存在<code>len</code>, <code>alloc</code> , <code>flags</code> , <code>buf</code>字段。</li>
+</ul>
+<h3 id="2-2-2-list-数据结构"><a href="#2-2-2-list-数据结构" class="headerlink" title="2.2.2 list 数据结构"></a>2.2.2 list 数据结构</h3><ul>
+<li>使用场景：消息通知，如当文章更新时，将更新后的文章推送到ES，用户就能搜索到最新的文章数据</li>
+<li>Quicklist : 比普通list多一个listpack<ul>
+<li>listpack: 开辟了一个比较大的内存空间，存在<code>tot-bytes</code>,<code>num-element</code>,<code>element-1</code>,<code>element-2</code>,…,<code>element-N</code>,<code>listpack-end-byte</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-3-哈希"><a href="#2-2-3-哈希" class="headerlink" title="2.2.3 哈希"></a>2.2.3 哈希</h3><ul>
+<li>使用场景：计数</li>
+<li>rehash：数据量大得时候，迁移过程会明显阻塞用户请求</li>
+<li>渐进式rehash：每次用户访问迁移少量数据，整个迁移过程会平摊到所有得访问用不请求过程。</li>
+</ul>
+<h3 id="2-2-4-zset"><a href="#2-2-4-zset" class="headerlink" title="2.2.4 zset"></a>2.2.4 zset</h3><ul>
+<li>使用场景：积分榜排名</li>
+<li>使用的跳表+哈希数据结构：</li>
+</ul>
+<h3 id="2-2-5-setnx"><a href="#2-2-5-setnx" class="headerlink" title="2.2.5 setnx"></a>2.2.5 setnx</h3><ul>
+<li>使用场景：分布式锁</li>
+<li>使用redis的setnx实现，利用了两个特性<ul>
+<li>redis是单线程执行命令</li>
+<li>setnx只有未设置过才能执行成功<br>不能保证高可用分布式锁：</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-3-Redis应用案例"><a href="#2-3-Redis应用案例" class="headerlink" title="2.3 Redis应用案例"></a>2.3 Redis应用案例</h2><p>限流（string）</p>
+<h2 id="2-4-使用注意事项"><a href="#2-4-使用注意事项" class="headerlink" title="2.4 使用注意事项"></a>2.4 使用注意事项</h2><h4 id="2-4-1-大key"><a href="#2-4-1-大key" class="headerlink" title="2.4.1 大key"></a>2.4.1 大key</h4><ul>
+<li>大key: <code>string</code>类型：value的字节数大于10KB；<code>Hash</code>/<code>set</code>/<code>Zset</code>/<code>list</code>等复杂数据结构类型：元素个数大于5000个或总value字节数大于10Mb</li>
+</ul>
+<p>危害：</p>
+<ul>
+<li>读取成本高</li>
+<li>慢查询（过期、删除）</li>
+<li>主从复制异常，服务阻塞，无法正常响应请求</li>
+<li></li>
+</ul>
+<p>业务侧使用大key的表现</p>
+<ul>
+<li>请求Redis超时报错</li>
+</ul>
+<p>消除方法：</p>
+<ul>
+<li>压缩：<ul>
+<li>压缩算法：gzip、snappy、lz4（选择合适的算法）</li>
+<li>重点考虑解压缩时间（写少读多）</li>
+<li>Json字符串可以考虑<code>MessagePack</code>算法（核心就是低于一个字节的就用一个字节存，如(int)250需要4个字节，可以压缩成为8位）序列化</li>
+</ul>
+</li>
+<li>拆分：将大Key拆分成小key</li>
+<li>集合类结构（hash、list、set、set）<ul>
+<li>拆分：用hash取余、位掩码方式决定放的key</li>
+<li>区分冷热：榜单列表场景使用zset，只缓存前10页数据，后续数据走db</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-2-热key"><a href="#2-4-2-热key" class="headerlink" title="2.4.2 热key"></a>2.4.2 热key</h3><ul>
+<li>热<code>key</code>: 用户访问一个Key的QPS特别高，导致<code>Server</code>实例出现突增或者不均的情况 </li>
+<li>场景：分片机器，但是热<code>key</code>在一个机器，导致网站请求阻塞</li>
+</ul>
+<p>消除方法：</p>
+<ul>
+<li>使用Localcache：<ul>
+<li>LocalCache：缓存过期管理，缓存分片，本机内存</li>
+<li>在访问Redis前，在业务服务侧设置Localcache，降低访问Redis的QPS。LocalCache中缓存过期或未命中，则从Redis中将数据更新到LocalCache。</li>
+</ul>
+</li>
+<li>拆分：将<code>Key:Value</code>这一个热<code>key</code>复制写入多份，但是可能存在数据不一致风险</li>
+<li>Redis代理的热Key承载能力：使用代理统计，然后设置LLocalcache</li>
+<li><h3 id="2-4-3-慢查询操作"><a href="#2-4-3-慢查询操作" class="headerlink" title="2.4.3 慢查询操作"></a>2.4.3 慢查询操作</h3></li>
+<li><p>容易导致Redis慢查询操作</p>
+<ul>
+<li>(1)批量操作一次性传入过多的key/value，如mset/hmset/sadd/zadd等o(n)操作建议单批次不要超过100，超过100之后性能下降明显。</li>
+<li>(2)zset大部分命令都是o(log(n))，当大小超过5k以上时，简单的zadd/zrem也可能导致慢查询</li>
+<li>(3)操作的单个value过大,超过10KB。也即，避免使用大Key</li>
+<li>(4)对大key的delete/ expire操作也可能导致慢查询，Redis4.0之前不支持异步删除unlink，大key删除会阻塞Redis</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-4-缓存穿透、缓存雪崩"><a href="#2-4-4-缓存穿透、缓存雪崩" class="headerlink" title="2.4.4 缓存穿透、缓存雪崩"></a>2.4.4 缓存穿透、缓存雪崩</h3><p>缓存穿透:热点数据查询绕过缓存.直接查询数据库</p>
+<ul>
+<li>危害：<ul>
+<li>(1)查询一个一定不存在的数据：通常不会缓存不存在的数据，这类查询请求都会直接打到db，如果有系统bug或人为攻击，ot那么容易导致db响应慢甚至宕机</li>
+<li>(2)在高并发场景下，一个热key如果过期，会有大量请求同时击穿至db，容易影响db性能和稳定。同一时间有大量key集中过期时，也会导致大量请求落到db上，导致查询变慢，甚至出现db无法响应新的查询</li>
+</ul>
+</li>
+</ul>
+<p>如何减少缓存穿透</p>
+<ul>
+<li>缓存空值：如一个不存在的userID。这个id在缓存和数据库中都不存在。则可以缓存一个空值，下次再查缓存直接反空值。</li>
+<li>布隆过滤器：通过bloom filter算法来存储合法Key,得益于该算法超高的压缩率，只需占用极小的空间就能存储大量key值</li>
+</ul>
+<p>缓存雪崩:大量缓存同时过期</p>
+<p>如何避免缓存雪崩：</p>
+<ul>
+<li>将缓存失效时间分散开．比如在原有的失效时间基础上增加一个随机值﹐例加不同Ka讨期时间. 9573可以设置为10分1秒过期，10分23秒过期，10分8秒过期。单位秒部分就是随机时间．这样过期时间就分散了对于热点数据．过期时间尽量设置得长一些，冷门的数据可以相对设置过期时间短一些。</li>
+<li>使用缓存集群,避免单机宕机造成的缓存雪崩。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/25/Linux%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" rel="prev" title="Linux踩坑记录">
+      <i class="fa fa-chevron-left"></i> Linux踩坑记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/02/27/WebServer%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/" rel="next" title="WebServer项目相关">
+      WebServer项目相关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-%E5%AD%98%E5%82%A8"><span class="nav-text">0. 存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-1-RAID%E6%8A%80%E6%9C%AF"><span class="nav-text">0.1 RAID技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Mysql"><span class="nav-text">1. Mysql</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Redis"><span class="nav-text">2. Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81redis"><span class="nav-text">2.1 为什么需要redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">2.2 基本工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-string%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">2.2.1 string数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-list-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">2.2.2 list 数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-%E5%93%88%E5%B8%8C"><span class="nav-text">2.2.3 哈希</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-zset"><span class="nav-text">2.2.4 zset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-5-setnx"><span class="nav-text">2.2.5 setnx</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Redis%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-text">2.3 Redis应用案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">2.4 使用注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-%E5%A4%A7key"><span class="nav-text">2.4.1 大key</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-%E7%83%ADkey"><span class="nav-text">2.4.2 热key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C"><span class="nav-text">2.4.3 慢查询操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-4-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-text">2.4.4 缓存穿透、缓存雪崩</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ATT_POWER</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yglsaltfish" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yglsaltfish" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ATT_POWER</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">340k</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
