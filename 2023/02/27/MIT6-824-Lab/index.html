@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db47c459abba4e82b02f5164cfd7ebbc~tplv-k3u1fbpfcp-watermark.image?">
 <meta property="article:published_time" content="2023-02-27T11:20:12.000Z">
-<meta property="article:modified_time" content="2023-02-27T11:57:33.377Z">
+<meta property="article:modified_time" content="2023-02-28T02:22:46.714Z">
 <meta property="article:author" content="ATT_POWER">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db47c459abba4e82b02f5164cfd7ebbc~tplv-k3u1fbpfcp-watermark.image?">
@@ -174,10 +174,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-02-27 19:20:12 / 修改时间：19:57:33" itemprop="dateCreated datePublished" datetime="2023-02-27T19:20:12+08:00">2023-02-27</time>
+              <time title="创建时间：2023-02-27 19:20:12" itemprop="dateCreated datePublished" datetime="2023-02-27T19:20:12+08:00">2023-02-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-28 10:22:46" itemprop="dateModified" datetime="2023-02-28T10:22:46+08:00">2023-02-28</time>
+              </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -479,8 +485,8 @@
 <li>强一致性：对于单个请求，整个服务需要表现得像个单机服务，并且对状态机的修改基于之前所有的请求。对于并发的请求，返回的值和最终的状态必须相同，就好像所有请求都是串行的一样。即使有些请求发生在了同一时间，那么也应当一个一个响应。此外，在一个请求被执行之前，这之前的请求都必须已经被完成</li>
 </ul>
 <p>该服务支持三种操作：Put、Append、Get。在内存中维护一个KV数据库。只实现了一般的KV服务，没有实现日志压缩。</p>
-<h1 id="3-1-客户端实现"><a href="#3-1-客户端实现" class="headerlink" title="3.1 客户端实现"></a>3.1 客户端实现</h1><p>需求：客户端发送请求，服务端同步成功并且提交，接着apply后返回给客户端执行结果，但返回客户端时候rpc丢失，客户端只能进行重试直到明确地写入成功或失败为止，但该操作可能已经在服务端应用过了，违背了线性一致性。<br>为了解决上述问题，通过使用<code>clientId</code>和<code>commandId</code>来唯一的标识一个客户端</p>
-<h1 id="3-2-服务端实现"><a href="#3-2-服务端实现" class="headerlink" title="3.2 服务端实现"></a>3.2 服务端实现</h1><p>server结构体与初始化代码实现：</p>
+<h2 id="3-1-客户端实现"><a href="#3-1-客户端实现" class="headerlink" title="3.1 客户端实现"></a>3.1 客户端实现</h2><p>需求：客户端发送请求，服务端同步成功并且提交，接着apply后返回给客户端执行结果，但返回客户端时候rpc丢失，客户端只能进行重试直到明确地写入成功或失败为止，但该操作可能已经在服务端应用过了，违背了线性一致性。<br>为了解决上述问题，通过使用<code>clientId</code>和<code>commandId</code>来唯一的标识一个客户端</p>
+<h2 id="3-2-服务端实现"><a href="#3-2-服务端实现" class="headerlink" title="3.2 服务端实现"></a>3.2 服务端实现</h2><p>server结构体与初始化代码实现：</p>
 <ul>
 <li>一个存储kv的map，即状态机，但这里实现一个基于内存版本KV；但实际生产环境下必然不可能把数据全部存在内存当中，系统往往采用的是 LSM 的架构，例如 RocksDB 等，抽象成KVStateMachine 的接口。</li>
 <li>一个能记录某一个客户端最后一次操作序号和应用结果的map</li>
@@ -571,7 +577,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80-Lab2"><span class="nav-text">1 前言(Lab2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%AE%9E%E7%8E%B0"><span class="nav-text">2 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">2.1 结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%80%89%E4%B8%BB"><span class="nav-text">2.2 选主</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6"><span class="nav-text">2.3 日志复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-1-%E6%97%A5%E5%BF%97%E5%90%8C%E6%AD%A5"><span class="nav-text">2.3.1 日志同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E6%97%A5%E5%BF%97%E5%BA%94%E7%94%A8"><span class="nav-text">2.3.2 日志应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">2.4 持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E6%97%A5%E5%BF%97%E5%8E%8B%E7%BC%A9%E5%92%8C%E5%BF%AB%E7%85%A7"><span class="nav-text">2.5 日志压缩和快照</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%9F%BA%E4%BA%8ERaft%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FKV%E6%9C%8D%E5%8A%A1"><span class="nav-text">3 基于Raft的分布式KV服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-1-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.1 客户端实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.2 服务端实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E7%BB%93%E8%AF%AD"><span class="nav-text">5 结语</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80-Lab2"><span class="nav-text">1 前言(Lab2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%AE%9E%E7%8E%B0"><span class="nav-text">2 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-text">2.1 结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%80%89%E4%B8%BB"><span class="nav-text">2.2 选主</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6"><span class="nav-text">2.3 日志复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-1-%E6%97%A5%E5%BF%97%E5%90%8C%E6%AD%A5"><span class="nav-text">2.3.1 日志同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E6%97%A5%E5%BF%97%E5%BA%94%E7%94%A8"><span class="nav-text">2.3.2 日志应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">2.4 持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E6%97%A5%E5%BF%97%E5%8E%8B%E7%BC%A9%E5%92%8C%E5%BF%AB%E7%85%A7"><span class="nav-text">2.5 日志压缩和快照</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%9F%BA%E4%BA%8ERaft%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8FKV%E6%9C%8D%E5%8A%A1"><span class="nav-text">3 基于Raft的分布式KV服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.1 客户端实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.2 服务端实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E7%BB%93%E8%AF%AD"><span class="nav-text">5 结语</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
