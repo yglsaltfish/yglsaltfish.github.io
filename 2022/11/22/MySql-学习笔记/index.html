@@ -28,7 +28,7 @@
 <meta property="og:description" content="MySql相关笔记(TODO)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-22T08:56:11.000Z">
-<meta property="article:modified_time" content="2023-02-17T09:59:55.386Z">
+<meta property="article:modified_time" content="2023-03-28T05:46:29.297Z">
 <meta property="article:author" content="ATT_POWER">
 <meta name="twitter:card" content="summary">
 
@@ -180,8 +180,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-17 17:59:55" itemprop="dateModified" datetime="2023-02-17T17:59:55+08:00">2023-02-17</time>
+                <time title="修改时间：2023-03-28 13:46:29" itemprop="dateModified" datetime="2023-03-28T13:46:29+08:00">2023-03-28</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mysql/" itemprop="url" rel="index"><span itemprop="name">Mysql</span></a>
+                </span>
+            </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -189,7 +198,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>514</span>
+              <span>1.8k</span>
             </span>
             <div class="post-description">MySql相关笔记(TODO)</div>
 
@@ -202,7 +211,113 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
+        <h1 id="1-基本语句操作"><a href="#1-基本语句操作" class="headerlink" title="1. 基本语句操作"></a>1. 基本语句操作</h1><h2 id="1-1-数据库操作"><a href="#1-1-数据库操作" class="headerlink" title="1.1 数据库操作"></a>1.1 数据库操作</h2><ul>
+<li><p>创建数据库</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">database</span> 数据库名<span class="token punctuation">;</span>
+<span class="token keyword">create</span> <span class="token keyword">database</span> stu_a<span class="token punctuation">;</span>
+<span class="token comment">-- 在建库时指定字符集，避免中文数据乱码的问题</span>
+<span class="token keyword">create</span> <span class="token keyword">database</span> stu_b <span class="token keyword">default</span> <span class="token keyword">charset</span><span class="token operator">=</span><span class="token string">'utf8'</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>显示数据库结构</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">show</span> <span class="token keyword">create</span> <span class="token keyword">database</span> 数据库名<span class="token punctuation">;</span></code></pre>
+<p>查看数据库的相关信息（例如默认字符集等信息）</p>
+</li>
+<li><p>删除数据库</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">database</span> 数据库名<span class="token punctuation">;</span></code></pre>
+</li>
+</ul>
+<h2 id="1-2-表操作"><a href="#1-2-表操作" class="headerlink" title="1.2 表操作"></a>1.2 表操作</h2><ul>
+<li>创建数据库表</li>
+</ul>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">Use</span> 数据库名；
+
+<span class="token keyword">use</span> student<span class="token punctuation">;</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> stu<span class="token punctuation">(</span>id <span class="token keyword">int</span><span class="token punctuation">,</span>name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+<span class="token keyword">create</span> <span class="token keyword">table</span> stuinfo<span class="token punctuation">(</span>
+    id <span class="token keyword">int</span><span class="token punctuation">,</span>
+    name <span class="token keyword">char</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    address <span class="token keyword">char</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    city <span class="token keyword">char</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    age <span class="token keyword">int</span><span class="token punctuation">,</span>
+    love <span class="token keyword">char</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token keyword">default</span> <span class="token keyword">charset</span><span class="token operator">=</span><span class="token string">'utf8'</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li>显示表结构</li>
+</ul>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">desc</span> 表名<span class="token punctuation">;</span> <span class="token comment">-- 即可查看指定表的结构</span>
+
+<span class="token keyword">show</span> <span class="token keyword">create</span> <span class="token keyword">table</span> 表名<span class="token punctuation">;</span> <span class="token comment">-- 查看指定表的详细信息</span></code></pre>
+<ul>
+<li><p>删除表</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">table</span> 表名<span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>删除字段</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> 表名 <span class="token keyword">drop</span> 字段名</code></pre>
+</li>
+<li><p>添加新字段</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> 表名 <span class="token keyword">add</span> 新字段名 新数据类型 <span class="token punctuation">[</span>新约束条件<span class="token punctuation">]</span></code></pre>
+</li>
+<li><p>修改字段名</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> 表名 change 旧字段名 新字段名 新数据类型</code></pre>
+</li>
+<li><p>修改数据类型</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> 表名 <span class="token keyword">modify</span> 字段名 新数据类型</code></pre>
+</li>
+<li><p>修改表名</p>
+</li>
+</ul>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">rename</span> <span class="token keyword">table</span> 旧表名 <span class="token keyword">to</span> 新表名</code></pre>
+<h2 id="1-3-数据的增、删、改、查"><a href="#1-3-数据的增、删、改、查" class="headerlink" title="1.3 数据的增、删、改、查"></a>1.3 数据的增、删、改、查</h2><ul>
+<li><p>表记录插入</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> 表名<span class="token punctuation">(</span>字段列表<span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span>值列表<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">insert</span> stu<span class="token punctuation">(</span>id<span class="token punctuation">,</span>name<span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'newdream'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">insert</span> stu <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token string">'newdream1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>一次插入多条记录</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> 表名<span class="token punctuation">(</span>字段列表<span class="token punctuation">)</span> <span class="token keyword">values</span> <span class="token punctuation">(</span>值列表<span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span>值列表<span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>（值列表n）<span class="token punctuation">;</span>
+ 
+<span class="token keyword">insert</span> <span class="token keyword">into</span> stu <span class="token keyword">values</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token string">'new1'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token string">'new2'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token string">'new3'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>使用insert.. select 插入结果</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> 目标表名<span class="token punctuation">(</span>字段列表<span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">select</span><span class="token punctuation">(</span>字段列表<span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">from</span> 源表 <span class="token keyword">where</span> 条件表达式
+ 
+<span class="token keyword">insert</span> <span class="token keyword">into</span> stu_bak<span class="token punctuation">(</span>id<span class="token punctuation">,</span>name<span class="token punctuation">)</span>
+<span class="token keyword">select</span> id<span class="token punctuation">,</span>newname <span class="token keyword">from</span> stu <span class="token keyword">where</span> id<span class="token operator">></span><span class="token number">2</span><span class="token punctuation">;</span></code></pre>
+<p>注意：字段列表1与字段列表2的字段个数必须相同，且对应字段的数据类型尽量保持一致。</p>
+</li>
+<li><p>复制表结构及数据到新表</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> 新表 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> 旧表<span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>只复制表结构到新表</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> 新表 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> 旧表 <span class="token keyword">where</span> <span class="token number">1</span><span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>修改表记录</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">update</span> 表名 <span class="token keyword">set</span> 字段名<span class="token number">1</span><span class="token operator">=</span>值<span class="token number">1</span><span class="token punctuation">,</span>字段名<span class="token number">2</span><span class="token operator">=</span>值<span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>字段名n<span class="token operator">=</span>值n
+<span class="token punctuation">[</span><span class="token keyword">where</span> 条件表达式<span class="token punctuation">]</span>
+ 
+<span class="token keyword">update</span> stu <span class="token keyword">set</span> newname<span class="token operator">=</span><span class="token string">'new5'</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>使用delete 删除表记录</p>
+</li>
+</ul>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">delete</span> <span class="token keyword">from</span> 表名 <span class="token keyword">where</span> 条件表达式<span class="token punctuation">;</span></code></pre>
+<ul>
+<li>使用truncate清空表记录<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">truncate</span> <span class="token keyword">table</span> 表名<span class="token punctuation">;</span></code></pre>
+</li>
+</ul>
+<h2 id="1-4-基础查询"><a href="#1-4-基础查询" class="headerlink" title="1.4 基础查询"></a>1.4 基础查询</h2><ul>
+<li>查询语句<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">select</span> 字段列表
+<span class="token keyword">from</span> 数据源
+<span class="token punctuation">[</span> <span class="token keyword">where</span> 条件表达式 <span class="token punctuation">]</span>
+<span class="token punctuation">[</span> <span class="token keyword">group</span> <span class="token keyword">by</span> 分组字段<span class="token punctuation">]</span>
+<span class="token punctuation">[</span> <span class="token keyword">having</span>条件表达式 <span class="token punctuation">]</span>
+<span class="token punctuation">[</span> <span class="token keyword">order</span> <span class="token keyword">by</span> 排序字段 <span class="token punctuation">[</span> <span class="token keyword">asc</span> <span class="token operator">|</span> <span class="token keyword">desc</span> <span class="token punctuation">]</span> <span class="token punctuation">]</span></code></pre>
+</li>
+</ul>
+<h1 id="2-事务相关"><a href="#2-事务相关" class="headerlink" title="2 事务相关"></a>2 事务相关</h1><ul>
 <li>脏读：读取未提交数据</li>
 <li>不可重复读：前后多次读取，数据内容不一致</li>
 <li><p>幻读：前后多次读取，数据总量不一致</p>
@@ -303,7 +418,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E5%BD%B1%E5%93%8D"><span class="nav-text">减少行锁对性能影响</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB"><span class="nav-text">事务隔离</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E5%8F%A5%E6%93%8D%E4%BD%9C"><span class="nav-text">1. 基本语句操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="nav-text">1.1 数据库操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%A1%A8%E6%93%8D%E4%BD%9C"><span class="nav-text">1.2 表操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A2%9E%E3%80%81%E5%88%A0%E3%80%81%E6%94%B9%E3%80%81%E6%9F%A5"><span class="nav-text">1.3 数据的增、删、改、查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E5%9F%BA%E7%A1%80%E6%9F%A5%E8%AF%A2"><span class="nav-text">1.4 基础查询</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3"><span class="nav-text">2 事务相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E5%BD%B1%E5%93%8D"><span class="nav-text">减少行锁对性能影响</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB"><span class="nav-text">事务隔离</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -317,13 +432,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -369,7 +484,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">177k</span>
+    <span title="站点总字数">178k</span>
 </div>
 
         
