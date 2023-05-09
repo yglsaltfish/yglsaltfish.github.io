@@ -28,7 +28,7 @@
 <meta property="og:description" content="有关内存管理的量">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-26T06:51:59.000Z">
-<meta property="article:modified_time" content="2023-03-26T06:56:46.921Z">
+<meta property="article:modified_time" content="2023-05-09T04:43:59.105Z">
 <meta property="article:author" content="ATT_POWER">
 <meta name="twitter:card" content="summary">
 
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>C++ 内存管理 | ATT_POWER的博客</title>
+  <title>C++ 内存管理 | ATT_POWER的博客</title><meta name="robots" content="noindex">
   
 
 
@@ -172,10 +172,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-03-26 14:51:59 / 修改时间：14:56:46" itemprop="dateCreated datePublished" datetime="2023-03-26T14:51:59+08:00">2023-03-26</time>
+              <time title="创建时间：2023-03-26 14:51:59" itemprop="dateCreated datePublished" datetime="2023-03-26T14:51:59+08:00">2023-03-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-09 12:43:59" itemprop="dateModified" datetime="2023-05-09T12:43:59+08:00">2023-05-09</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -192,7 +198,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>302</span>
+              <span>321</span>
             </span>
             <div class="post-description">有关内存管理的量</div>
 
@@ -208,10 +214,11 @@
         <h1 id="1-内存管理"><a href="#1-内存管理" class="headerlink" title="1 内存管理"></a>1 内存管理</h1><h2 id="1-1-内存分配方式"><a href="#1-1-内存分配方式" class="headerlink" title="1.1 内存分配方式"></a>1.1 内存分配方式</h2><p>在C++中，内存分成5个区，他们分别是堆、栈、自由存储区、全局/静态存储区和常量存储区。</p>
 <p>栈：在执行函数时，函数内局部变量的存储单元都可以在栈上创建，函数执行结束时这些存储单元自动被释放。</p>
 <p>堆：由new分配的内存块，他们的释放编译器不去管，由我们的应用程序去控制，一般一个new就要对应一个delete（也是Effective C++中提到的）。</p>
-<p>自由存储区：由malloc等分配的内存块，他和堆是十分相似的，不过它是用free来结束自己的生命的。</p>
 <p>全局/静态存储区：全局变量和静态变量被分配到同一块内存中。</p>
 <p>常量存储区，这是一块比较特殊的存储区，他们里面存放的是常量，不允许修改。</p>
-<h2 id="1-2"><a href="#1-2" class="headerlink" title="1.2"></a>1.2</h2>
+<h2 id="1-2-虚函数表相关"><a href="#1-2-虚函数表相关" class="headerlink" title="1.2 虚函数表相关"></a>1.2 虚函数表相关</h2><p><a target="_blank" rel="noopener" href="https://jacktang816.github.io/post/virtualfunction/">基本实现原理（涉及内存分布）</a></p>
+<h2 id="1-3-new-delete-malloc-free"><a href="#1-3-new-delete-malloc-free" class="headerlink" title="1.3 new/delete malloc/free"></a>1.3 new/delete malloc/free</h2><p><a target="_blank" rel="noopener" href="https://jacktang816.github.io/post/mallocandfree/">malloc / free </a><br><a target="_blank" rel="noopener" href="https://jacktang816.github.io/post/cppnewdelete/">new / delete</a><br><a target="_blank" rel="noopener" href="https://jacktang816.github.io/post/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a></p>
+<!-- flag of hidden posts -->
     </div>
 
     
@@ -224,13 +231,6 @@
 
 
         
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2023/02/27/MIT6-824-Lab/" rel="prev" title="MIT6.824 Lab">
-      <i class="fa fa-chevron-left"></i> MIT6.824 Lab
-    </a></div>
-      <div class="post-nav-item"></div>
-    </div>
       </footer>
     
   </article>
@@ -288,7 +288,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">1 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F"><span class="nav-text">1.1 内存分配方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2"><span class="nav-text">1.2</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">1 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F"><span class="nav-text">1.1 内存分配方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%E7%9B%B8%E5%85%B3"><span class="nav-text">1.2 虚函数表相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-new-delete-malloc-free"><span class="nav-text">1.3 new&#x2F;delete malloc&#x2F;free</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -302,7 +302,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
